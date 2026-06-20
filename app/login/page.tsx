@@ -601,10 +601,11 @@ function Content() {
     >
       <div className="relative h-213 min-w-px flex-[1_0_0] rounded-[20px]">
         <Image
+          width={740}
+          height={852}
           alt="Rectangle"
-          className="pointer-events-none absolute inset-0 size-full max-w-none rounded-[20px] object-cover"
+          className="pointer-events-none absolute inset-0 rounded-[20px]"
           src={imgRectangle2241}
-          fill
           priority
         />
       </div>
@@ -617,7 +618,7 @@ export default function FirstLogin() {
   return (
     <div className="relative size-full bg-[#f2f3f0]" data-name="First Login">
       <div
-        className="absolute top-136.75 left-160.75 h-277.5 w-214.5"
+        className="absolute top-136.75 right-0 h-fit w-fit"
         data-name="5fffd7078eb03eb3cd59da7cd85c3da3 1"
       />
       <Content />
