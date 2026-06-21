@@ -510,13 +510,13 @@ export default function Sidebar() {
             }}
           />
 
-          {/* Onsite Data */}
+          {/* Onset Data */}
           <NavItem
             icon={MapPinned}
-            label="Onsite Data"
-            active={activeItem === "Onsite Data"}
+            label="Onset Data"
+            active={activeItem === "Onset Data"}
             onClick={() => {
-              setActiveItem("Onsite Data")
+              setActiveItem("Onset Data")
               setActiveState(null)
               window.open("https://risik-johor.pages.dev", "_blank")
             }}
