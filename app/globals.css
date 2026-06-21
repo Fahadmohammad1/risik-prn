@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -48,6 +50,7 @@
 
 
 :root {
+  --font-creato: "Creato Display", sans-serif;
   --font-size: 16px;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
@@ -86,6 +89,14 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+}
+
+@font-face {
+  font-family: "Creato Display";
+  src: url("/fonts/CreatoDisplay-Bold.otf") format("otf");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 .dark {
@@ -184,4 +195,29 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+}
+
+
+
+
+/* authentication */
+
+/* ===== INPUT ICON ANIMATION ===== */
+.input-icon {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.input-icon.hidden-icon {
+  opacity: 0;
+  transform: translateX(-10px);
+  pointer-events: none;
+}
+
+/* smooth padding change */
+.input-field {
+  transition: padding-left 0.25s ease;
+}
+
+.input-field.focused {
+  padding-left: 12px !important;
 }

@@ -1,33 +1,41 @@
+"use client"
+
+import { useState } from "react"
+
 export default function LoginPage() {
+    const [showPassword, setShowPassword] = useState(false)
+    const [emailFocused, setEmailFocused] = useState(false)
+    const [passwordFocused, setPasswordFocused] = useState(false)
+
     return (
         <div className="flex gap-[46px] flex-col w-full pt-[32px]">
+
+
             <div>
-                <h1 className="text-[48px] font-bold text-[#1B1B21]">
+                <h1 className="text-[48px] leading-[52px] font-creato font-bold text-[#1B1B21]">
                     Welcome Back
                 </h1>
-
                 <p className="text-[#5C5C5F]">
                     Sign in to continue
                 </p>
             </div>
+
             <form className="mt-6 space-y-5 w-full">
 
                 {/* EMAIL */}
                 <div>
-                    <label className="block  text-sm text-[#1B1B21] font-medium mb-1">
+                    <label className="block text-sm text-[#1B1B21] font-medium mb-1">
                         Email
                     </label>
                     <div className="relative w-full">
-
-                        {/* INPUT */}
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            className="w-full pl-10 pr-3 py-2 border bg-[#FFFFFF] border-[#DDDDDB] rounded-[4px] outline-none focus:ring-2 focus:ring-[#22493e]"
+                            onFocus={() => setEmailFocused(true)}
+                            onBlur={() => setEmailFocused(false)}
+                            className={`input-field w-full pl-10 pr-3 py-2 border bg-[#FFFFFF] border-[#DDDDDB] rounded-[4px] outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
                         />
-
-                        {/* ICON */}
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <div className={`input-icon absolute left-3 top-1/2 -translate-y-1/2 ${emailFocused ? "hidden-icon" : ""}`}>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path
                                     d="M1.66669 5L7.42754 8.26414C9.55135 9.46751 10.4487 9.46751 12.5725 8.26414L18.3334 5"
@@ -41,7 +49,6 @@ export default function LoginPage() {
                                 />
                             </svg>
                         </div>
-
                     </div>
                 </div>
 
@@ -51,68 +58,67 @@ export default function LoginPage() {
                         Password
                     </label>
                     <div className="relative w-full">
-
-                        {/* INPUT */}
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Enter Password"
-                            className="w-full pl-10 pr-3 py-2 border bg-[#FFFFFF] border-[#DDDDDB] rounded-[4px] outline-none focus:ring-2 focus:ring-[#22493e]"
+                            onFocus={() => setPasswordFocused(true)}
+                            onBlur={() => setPasswordFocused(false)}
+                            className={`input-field w-full pl-10 pr-10 py-2 border bg-[#FFFFFF] border-[#DDDDDB] rounded-[4px] outline-none focus:ring-2 focus:ring-[#22493e] ${passwordFocused ? "focused" : ""}`}
                         />
 
-                        {/* ICON */}
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* LOCK ICON */}
+                        <div className={`input-icon absolute left-3 top-1/2 -translate-y-1/2 ${passwordFocused ? "hidden-icon" : ""}`}>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path d="M3.55649 15.704C3.74389 17.0958 4.89675 18.1863 6.29969 18.2508C7.48021 18.305 8.6794 18.3333 9.99998 18.3333C11.3206 18.3333 12.5198 18.305 13.7003 18.2508C15.1032 18.1863 16.2561 17.0958 16.4435 15.704C16.5658 14.7956 16.6666 13.8647 16.6666 12.9167C16.6666 11.9686 16.5658 11.0378 16.4435 10.1294C16.2561 8.73752 15.1032 7.64707 13.7003 7.58258C12.5198 7.52831 11.3206 7.5 9.99998 7.5C8.6794 7.5 7.48021 7.52831 6.29969 7.58258C4.89675 7.64707 3.74389 8.73752 3.55649 10.1294C3.43418 11.0378 3.33331 11.9686 3.33331 12.9167C3.33331 13.8647 3.43418 14.7956 3.55649 15.704Z" stroke="#5C5C5F" />
-                                <path d="M6.25 7.49996V5.41663C6.25 3.34556 7.92893 1.66663 10 1.66663C12.0711 1.66663 13.75 3.34556 13.75 5.41663V7.49996" stroke="#5C5C5F" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M9.99677 12.9166H10.0043" stroke="#5C5C5F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M6.25 7.49996V5.41663C6.25 3.34556 7.92893 1.66663 10 1.66663C12.0711 1.66663 13.75 3.34556 13.75 5.41663V7.49996" stroke="#5C5C5F" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-
                         </div>
 
+                        {/* EYE BUTTON */}
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(prev => !prev)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5C5C5F] hover:text-[#22493e]"
+                        >
+                            {showPassword ? (
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 3L17 17" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M8.33337 10C8.33337 10.4421 8.50897 10.866 8.82153 11.1786C9.13409 11.4911 9.55801 11.6667 10 11.6667C10.4421 11.6667 10.866 11.4911 11.1786 11.1786C11.4911 10.866 11.6667 10.4421 11.6667 10C11.6667 9.55801 11.4911 9.13409 11.1786 8.82153C10.866 8.50897 10.4421 8.33337 10 8.33337C9.55801 8.33337 9.13409 8.50897 8.82153 8.82153C8.50897 9.13409 8.33337 9.55801 8.33337 10Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M17.5 10C15.5 13.3333 13 15 10 15C7 15 4.5 13.3333 2.5 10C4.5 6.66667 7 5 10 5C13 5 15.5 6.66667 17.5 10Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            ) : (
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.33337 10C8.33337 10.4421 8.50897 10.866 8.82153 11.1786C9.13409 11.4911 9.55801 11.6667 10 11.6667C10.4421 11.6667 10.866 11.4911 11.1786 11.1786C11.4911 10.866 11.6667 10.4421 11.6667 10C11.6667 9.55801 11.4911 9.13409 11.1786 8.82153C10.866 8.50897 10.4421 8.33337 10 8.33337C9.55801 8.33337 9.13409 8.50897 8.82153 8.82153C8.50897 9.13409 8.33337 9.55801 8.33337 10Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M17.5 10C15.5 13.3333 13 15 10 15C7 15 4.5 13.3333 2.5 10C4.5 6.66667 7 5 10 5C13 5 15.5 6.66667 17.5 10Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            )}
+                        </button>
                     </div>
                 </div>
 
-                {/* REMEMBER + FORGOT */}
+                {/* REMEMBER */}
                 <div className="flex items-center justify-between">
-
-                    {/* Remember me */}
                     <label className="flex items-center gap-2 text-sm text-[#5C5C5F]">
-                        <input type="checkbox" className="w-[18px] h-[18px] border border-[#DDDDDB] bg-[transparent] cursor-pointer" />
+                        <input
+                            type="checkbox"
+                            className="w-[18px] h-[18px] accent-[#22493e] border border-[#DDDDDB]"
+                        />
                         Remember me
                     </label>
-
-                    {/* Forgot password */}
-                    <button
-                        type="button"
-                        className="text-sm text-[#22493e] hover:underline cursor-pointer"
-                    >
+                    <button type="button" className="text-sm text-[#22493e] hover:underline">
                         Forgot password?
                     </button>
-
                 </div>
 
-                {/* LOGIN BUTTON */}
+                {/* BUTTON */}
                 <button
                     type="submit"
-                    className="hover:bg-[#fff] hover:text-[#22493e] hover:border-[#DDDDDB] border w-full bg-[#22493e] text-white py-3 rounded-[4px] font-medium hover:opacity-90 cursor-pointer"
+                    className="border hover:border-[#DDDDDB] hover:text-[#22493e] hover:bg-[#ffffff] cursor-pointer w-full bg-[#22493e] text-white py-3 rounded-[4px] font-medium hover:opacity-90"
                 >
                     Sign In to Your Account
                 </button>
 
-                {/* HELP TEXT */}
-                <p className="text-sm text-center text-[#5C5C5F] cursor-pointer">
-                    Need help?{" "}
-                    <button
-                        type="button"
-                        className="text-[#22493e] font-medium hover:underline cursor-pointer"
-                    >
-                        Contact Administrator
-                    </button>
-                </p>
-
             </form>
         </div>
-
-
     )
 }
