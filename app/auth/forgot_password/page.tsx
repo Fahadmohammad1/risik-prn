@@ -1,15 +1,23 @@
-export default function ResetPassPage() {
+"use client"
+
+import { useState } from "react"
+
+export default function ForgotPassPage() {
+    const [emailFocused, setEmailFocused] = useState(false)
+
     return (
         <div className="flex gap-[46px] flex-col w-full pt-[32px]">
+
+
             <div>
-                <h1 className="text-[48px] font-bold text-[#1B1B21]">
+                <h1 className="text-[48px] leading-[52px] font-bold text-[#1B1B21]">
                     Forgot Password
                 </h1>
-
                 <p className="text-[#5C5C5F]">
                     Enter your email address and we will send you a password reset link
                 </p>
             </div>
+
             {/* FORM */}
             <form className="flex flex-col gap-5">
 
@@ -19,16 +27,14 @@ export default function ResetPassPage() {
                         Email
                     </label>
                     <div className="relative w-full">
-
-                        {/* INPUT */}
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            className="w-full pl-10 pr-3 py-2 border bg-[#FFFFFF] border-[#DDDDDB] rounded-[4px] outline-none focus:ring-2 focus:ring-[#22493e]"
+                            onFocus={() => setEmailFocused(true)}
+                            onBlur={() => setEmailFocused(false)}
+                            className={`input-field w-full pl-10 pr-3 py-2 border bg-[#FFFFFF] border-[#DDDDDB] rounded-[4px] outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
                         />
-
-                        {/* ICON */}
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <div className={`input-icon absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none ${emailFocused ? "hidden-icon" : ""}`}>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path
                                     d="M1.66669 5L7.42754 8.26414C9.55135 9.46751 10.4487 9.46751 12.5725 8.26414L18.3334 5"
@@ -42,33 +48,27 @@ export default function ResetPassPage() {
                                 />
                             </svg>
                         </div>
-
                     </div>
                 </div>
 
-
-                {/* buttons */}
+                {/* BUTTONS */}
                 <div className="flex gap-3">
                     <button
                         type="submit"
                         className="border hover:border-[#DDDDDB] hover:text-[#22493e] hover:bg-[#ffffff] cursor-pointer w-full bg-[#22493e] text-white py-3 rounded-[4px] font-medium hover:opacity-90"
                     >
-                        Active Account
+                        Send Reset Link
                     </button>
 
                     <button
-                        type="submit"
-                        className="cursor-pointer w-full bg-[#FFFFFF] py-3 hover:text-[#ffffff] hover:bg-[#22493e] border border-[#DDDDDB] rounded-[4px] font-medium hover:opacity-90 text-[#5C5C5F] "
+                        type="button"
+                        className="cursor-pointer w-full bg-[#FFFFFF] py-3 hover:text-[#ffffff] hover:bg-[#22493e] border border-[#DDDDDB] rounded-[4px] font-medium hover:opacity-90 text-[#5C5C5F]"
                     >
                         Back to Login
                     </button>
                 </div>
 
-
             </form>
-
         </div>
-
-
     )
 }
