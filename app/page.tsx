@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 
 const FEATURES = [
   {
-    id: "onsite-data",
+    id: "onset-data",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
@@ -14,7 +14,7 @@ const FEATURES = [
         />
       </svg>
     ),
-    label: "Onsite Data",
+    label: "Onset Data",
     description:
       "Real-time ground intelligence from field officers across all constituencies.",
     highlight: true,

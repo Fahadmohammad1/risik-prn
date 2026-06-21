@@ -97,21 +97,25 @@ function NavItem({
   active,
   onClick,
   badge,
+  href,
 }: {
   icon: React.ElementType
   label: string
   active: boolean
   onClick?: () => void
   badge?: string
+  href?: string
 }) {
   const [hovered, setHovered] = useState(false)
 
   return (
     <SidebarTooltip label={label}>
       <a
-        href="#"
+        href={href ?? "#"}
+        target={href ? "_blank" : undefined}
+        rel={href ? "noopener noreferrer" : undefined}
         onClick={(e) => {
-          e.preventDefault()
+          if (!href) e.preventDefault()
           onClick?.()
         }}
         onMouseEnter={() => setHovered(true)}
@@ -514,11 +518,11 @@ export default function Sidebar() {
           <NavItem
             icon={MapPinned}
             label="Onset Data"
+            href="https://risik-johor.pages.dev"
             active={activeItem === "Onset Data"}
             onClick={() => {
               setActiveItem("Onset Data")
               setActiveState(null)
-              window.open("https://risik-johor.pages.dev", "_blank")
             }}
           />
 
