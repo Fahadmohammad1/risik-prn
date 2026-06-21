@@ -11,6 +11,7 @@ import {
   LogOut,
   Map,
   MapPin,
+  MapPinned,
   Search,
   Settings,
   SidebarClose,
@@ -506,6 +507,18 @@ export default function Sidebar() {
             onClick={() => {
               setActiveItem("Reports")
               setActiveState(null)
+            }}
+          />
+
+          {/* Onsite Data */}
+          <NavItem
+            icon={MapPinned}
+            label="Onsite Data"
+            active={activeItem === "Onsite Data"}
+            onClick={() => {
+              setActiveItem("Onsite Data")
+              setActiveState(null)
+              window.open("https://risik-johor.pages.dev", "_blank")
             }}
           />
 
