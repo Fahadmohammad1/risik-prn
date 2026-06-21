@@ -1,41 +1,43 @@
-"use client";
+"use client"
 
-import React, { useState, useRef } from "react";
+import { signOut } from "@/app/lib/auth-client"
 import {
-  LayoutDashboard,
-  Map,
-  LineChart,
-  MapPin,
-  Users,
-  FileText,
-  Sliders,
-  FileSpreadsheet,
-  UserCheck,
-  Settings,
-  LogOut,
   ChevronDown,
   ChevronUp,
+  FileSpreadsheet,
+  FileText,
+  LayoutDashboard,
+  LineChart,
+  LogOut,
+  Map,
+  MapPin,
   Search,
+  Settings,
   SidebarClose,
-} from "lucide-react";
+  Sliders,
+  UserCheck,
+  Users,
+} from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useRef, useState } from "react"
 
 // ─── TOOLTIP ────────────────────────────────────────────────────────────────
 
 function SidebarTooltip({ label, children, disabled }) {
-  const [visible, setVisible] = useState(false);
-  const [pos, setPos] = useState(0);
-  const ref = useRef(null);
+  const [visible, setVisible] = useState(false)
+  const [pos, setPos] = useState(0)
+  const ref = useRef(null)
 
-  if (disabled) return children;
+  if (disabled) return children
 
   return (
     <div
       ref={ref}
       style={{ position: "relative" }}
       onMouseEnter={(e) => {
-        const rect = ref.current?.getBoundingClientRect();
-        setPos(rect ? rect.top + rect.height / 2 : 0);
-        setVisible(true);
+        const rect = ref.current?.getBoundingClientRect()
+        setPos(rect ? rect.top + rect.height / 2 : 0)
+        setVisible(true)
       }}
       onMouseLeave={() => setVisible(false)}
     >
@@ -75,19 +77,22 @@ function SidebarTooltip({ label, children, disabled }) {
         </div>
       )}
     </div>
-  );
+  )
 }
 
 // ─── NAV ITEM ───────────────────────────────────────────────────────────────
 
 function NavItem({ icon: Icon, label, active, onClick, badge }) {
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false)
 
   return (
     <SidebarTooltip label={label}>
       <a
         href="#"
-        onClick={(e) => { e.preventDefault(); onClick?.(); }}
+        onClick={(e) => {
+          e.preventDefault()
+          onClick?.()
+        }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
@@ -111,7 +116,10 @@ function NavItem({ icon: Icon, label, active, onClick, badge }) {
           <Icon
             size={15}
             strokeWidth={active ? 2.2 : 1.6}
-            style={{ flexShrink: 0, color: active ? "#1E463C" : hovered ? "#1E463C" : "#888" }}
+            style={{
+              flexShrink: 0,
+              color: active ? "#1E463C" : hovered ? "#1E463C" : "#888",
+            }}
           />
           <span>{label}</span>
         </div>
@@ -132,18 +140,19 @@ function NavItem({ icon: Icon, label, active, onClick, badge }) {
         )}
       </a>
     </SidebarTooltip>
-  );
+  )
 }
 
 // ─── MAIN SIDEBAR ────────────────────────────────────────────────────────────
 
 export default function Sidebar() {
-  const [activeItem, setActiveItem] = useState("Analytics");
-  const [isStatesOpen, setIsStatesOpen] = useState(true);
-  const [activeState, setActiveState] = useState(null);
-  const [statesHovered, setStatesHovered] = useState(false);
-  const [logoutHovered, setLogoutHovered] = useState(false);
-  const [searchFocused, setSearchFocused] = useState(false);
+  const router = useRouter()
+  const [activeItem, setActiveItem] = useState("Analytics")
+  const [isStatesOpen, setIsStatesOpen] = useState(true)
+  const [activeState, setActiveState] = useState(null)
+  const [statesHovered, setStatesHovered] = useState(false)
+  const [logoutHovered, setLogoutHovered] = useState(false)
+  const [searchFocused, setSearchFocused] = useState(false)
 
   const navItems = [
     { label: "Dashboard", icon: LayoutDashboard },
@@ -156,9 +165,9 @@ export default function Sidebar() {
     { label: "Users", icon: Users },
     { label: "Roles & Permissions", icon: UserCheck },
     { label: "System Settings", icon: Settings },
-  ];
+  ]
 
-  const stateItems = ["Malacca", "Johor Bahru"];
+  const stateItems = ["Malacca", "Johor Bahru"]
 
   return (
     <aside
@@ -175,8 +184,14 @@ export default function Sidebar() {
         flexShrink: 0,
       }}
     >
-      <div style={{ overflow: "hidden", display: "flex", flexDirection: "column", height: "100%" }}>
-
+      <div
+        style={{
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+        }}
+      >
         {/* ── Logo Header ── */}
         <div
           style={{
@@ -207,7 +222,14 @@ export default function Sidebar() {
             >
               RP
             </div>
-            <span style={{ fontWeight: 600, fontSize: 13, color: "#1E463C", letterSpacing: "0.03em" }}>
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: 13,
+                color: "#1E463C",
+                letterSpacing: "0.03em",
+              }}
+            >
               RISIK PRN
             </span>
           </div>
@@ -231,10 +253,21 @@ export default function Sidebar() {
 
         {/* ── Search ── */}
         <div style={{ padding: "10px 12px 6px" }}>
-          <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <Search
               size={13}
-              style={{ position: "absolute", left: 10, color: "#aaa", pointerEvents: "none" }}
+              style={{
+                position: "absolute",
+                left: 10,
+                color: "#aaa",
+                pointerEvents: "none",
+              }}
             />
             <input
               type="text"
@@ -321,22 +354,40 @@ export default function Sidebar() {
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <MapPin size={15} strokeWidth={1.6} style={{ color: statesHovered ? "#1E463C" : "#888" }} />
+                  <MapPin
+                    size={15}
+                    strokeWidth={1.6}
+                    style={{ color: statesHovered ? "#1E463C" : "#888" }}
+                  />
                   <span>States</span>
                 </div>
-                {isStatesOpen
-                  ? <ChevronUp size={13} style={{ color: "#aaa" }} />
-                  : <ChevronDown size={13} style={{ color: "#aaa" }} />}
+                {isStatesOpen ? (
+                  <ChevronUp size={13} style={{ color: "#aaa" }} />
+                ) : (
+                  <ChevronDown size={13} style={{ color: "#aaa" }} />
+                )}
               </button>
             </SidebarTooltip>
 
             {isStatesOpen && (
-              <div style={{ marginTop: 2, marginLeft: 34, display: "flex", flexDirection: "column", gap: 1 }}>
+              <div
+                style={{
+                  marginTop: 2,
+                  marginLeft: 34,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                }}
+              >
                 {stateItems.map((state) => (
                   <SidebarTooltip key={state} label={`View ${state} data`}>
                     <a
                       href="#"
-                      onClick={(e) => { e.preventDefault(); setActiveState(state); setActiveItem(null); }}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setActiveState(state)
+                        setActiveItem(null)
+                      }}
                       style={{
                         display: "block",
                         padding: "6px 10px",
@@ -344,13 +395,24 @@ export default function Sidebar() {
                         fontSize: 12,
                         fontWeight: activeState === state ? 600 : 400,
                         color: activeState === state ? "#1E463C" : "#666",
-                        background: activeState === state ? "#E8F4EE" : "transparent",
+                        background:
+                          activeState === state ? "#E8F4EE" : "transparent",
                         textDecoration: "none",
                         transition: "background 0.12s, color 0.12s",
                         cursor: "pointer",
                       }}
-                      onMouseEnter={(e) => { if (activeState !== state) { e.currentTarget.style.background = "#EFEFED"; e.currentTarget.style.color = "#1E463C"; } }}
-                      onMouseLeave={(e) => { if (activeState !== state) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#666"; } }}
+                      onMouseEnter={(e) => {
+                        if (activeState !== state) {
+                          e.currentTarget.style.background = "#EFEFED"
+                          e.currentTarget.style.color = "#1E463C"
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (activeState !== state) {
+                          e.currentTarget.style.background = "transparent"
+                          e.currentTarget.style.color = "#666"
+                        }
+                      }}
                     >
                       {state}
                     </a>
@@ -365,7 +427,10 @@ export default function Sidebar() {
             icon={LineChart}
             label="Analytics"
             active={activeItem === "Analytics"}
-            onClick={() => { setActiveItem("Analytics"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("Analytics")
+              setActiveState(null)
+            }}
           />
 
           {/* GIS Political Map */}
@@ -373,7 +438,10 @@ export default function Sidebar() {
             icon={Map}
             label="GIS Political Map"
             active={activeItem === "GIS Political Map"}
-            onClick={() => { setActiveItem("GIS Political Map"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("GIS Political Map")
+              setActiveState(null)
+            }}
           />
 
           {/* Candidates */}
@@ -381,7 +449,10 @@ export default function Sidebar() {
             icon={Users}
             label="Candidates"
             active={activeItem === "Candidates"}
-            onClick={() => { setActiveItem("Candidates"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("Candidates")
+              setActiveState(null)
+            }}
           />
 
           {/* Documents */}
@@ -390,7 +461,10 @@ export default function Sidebar() {
             label="Documents"
             active={activeItem === "Documents"}
             badge="3"
-            onClick={() => { setActiveItem("Documents"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("Documents")
+              setActiveState(null)
+            }}
           />
 
           {/* Scenario Simulator */}
@@ -398,7 +472,10 @@ export default function Sidebar() {
             icon={Sliders}
             label="Scenario Simulator"
             active={activeItem === "Scenario Simulator"}
-            onClick={() => { setActiveItem("Scenario Simulator"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("Scenario Simulator")
+              setActiveState(null)
+            }}
           />
 
           {/* Reports */}
@@ -406,7 +483,10 @@ export default function Sidebar() {
             icon={FileSpreadsheet}
             label="Reports"
             active={activeItem === "Reports"}
-            onClick={() => { setActiveItem("Reports"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("Reports")
+              setActiveState(null)
+            }}
           />
 
           {/* Divider */}
@@ -417,7 +497,10 @@ export default function Sidebar() {
             icon={Users}
             label="Users"
             active={activeItem === "Users"}
-            onClick={() => { setActiveItem("Users"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("Users")
+              setActiveState(null)
+            }}
           />
 
           {/* Roles & Permissions */}
@@ -425,7 +508,10 @@ export default function Sidebar() {
             icon={UserCheck}
             label="Roles & Permissions"
             active={activeItem === "Roles & Permissions"}
-            onClick={() => { setActiveItem("Roles & Permissions"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("Roles & Permissions")
+              setActiveState(null)
+            }}
           />
 
           {/* System Settings */}
@@ -433,7 +519,10 @@ export default function Sidebar() {
             icon={Settings}
             label="System Settings"
             active={activeItem === "System Settings"}
-            onClick={() => { setActiveItem("System Settings"); setActiveState(null); }}
+            onClick={() => {
+              setActiveItem("System Settings")
+              setActiveState(null)
+            }}
           />
         </nav>
       </div>
@@ -444,9 +533,17 @@ export default function Sidebar() {
           <SidebarTooltip label="Sign out of RISIK PRN">
             <a
               href="#"
-              onClick={(e) => e.preventDefault()}
-              onMouseEnter={(e) => { setLogoutHovered(true); }}
-              onMouseLeave={(e) => { setLogoutHovered(false); }}
+              onClick={async (e) => {
+                e.preventDefault()
+                await signOut()
+                router.push("/auth/login")
+              }}
+              onMouseEnter={(e) => {
+                setLogoutHovered(true)
+              }}
+              onMouseLeave={(e) => {
+                setLogoutHovered(false)
+              }}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -462,12 +559,16 @@ export default function Sidebar() {
                 cursor: "pointer",
               }}
             >
-              <LogOut size={15} strokeWidth={1.6} style={{ color: logoutHovered ? "#dc2626" : "#aaa" }} />
+              <LogOut
+                size={15}
+                strokeWidth={1.6}
+                style={{ color: logoutHovered ? "#dc2626" : "#aaa" }}
+              />
               <span>Logout</span>
             </a>
           </SidebarTooltip>
         </div>
       </div>
     </aside>
-  );
+  )
 }

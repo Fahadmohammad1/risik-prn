@@ -35,7 +35,7 @@ export default function RootLayout({
         inter.variable
       )}
     >
-      <body className="bg-[#F2F3F0]" >
+      <body>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
