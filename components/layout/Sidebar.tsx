@@ -23,10 +23,18 @@ import { useRef, useState } from "react"
 
 // ─── TOOLTIP ────────────────────────────────────────────────────────────────
 
-function SidebarTooltip({ label, children, disabled }) {
+function SidebarTooltip({
+  label,
+  children,
+  disabled,
+}: {
+  label: string
+  children: React.ReactNode
+  disabled?: boolean
+}) {
   const [visible, setVisible] = useState(false)
   const [pos, setPos] = useState(0)
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
 
   if (disabled) return children
 
@@ -82,7 +90,19 @@ function SidebarTooltip({ label, children, disabled }) {
 
 // ─── NAV ITEM ───────────────────────────────────────────────────────────────
 
-function NavItem({ icon: Icon, label, active, onClick, badge }) {
+function NavItem({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+  badge,
+}: {
+  icon: React.ElementType
+  label: string
+  active: boolean
+  onClick?: () => void
+  badge?: string
+}) {
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -147,9 +167,9 @@ function NavItem({ icon: Icon, label, active, onClick, badge }) {
 
 export default function Sidebar() {
   const router = useRouter()
-  const [activeItem, setActiveItem] = useState("Analytics")
+  const [activeItem, setActiveItem] = useState<string | null>("Analytics")
   const [isStatesOpen, setIsStatesOpen] = useState(true)
-  const [activeState, setActiveState] = useState(null)
+  const [activeState, setActiveState] = useState<string | null>(null)
   const [statesHovered, setStatesHovered] = useState(false)
   const [logoutHovered, setLogoutHovered] = useState(false)
   const [searchFocused, setSearchFocused] = useState(false)

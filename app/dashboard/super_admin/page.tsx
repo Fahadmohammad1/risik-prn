@@ -2,6 +2,12 @@
 
 import { useEffect, useRef, useState } from "react"
 
+declare global {
+  interface Window {
+    Chart: unknown
+  }
+}
+
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
 const DATA = {
@@ -214,18 +220,31 @@ const DATA = {
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
 function useChartJs(
-  callback: (ctx: CanvasRenderingContext2D, Chart: unknown) => unknown
+  callback: (
+    ctx: CanvasRenderingContext2D,
+    Chart: new (
+      ctx: CanvasRenderingContext2D,
+      config: object
+    ) => { destroy: () => void }
+  ) => { destroy: () => void }
 ) {
-  const ref = useRef(null)
-  const chartRef = useRef(null)
+  const ref = useRef<HTMLCanvasElement>(null)
+  const chartRef = useRef<{ destroy: () => void } | null>(null)
 
   useEffect(() => {
     if (!ref.current) return
     const ctx = ref.current.getContext("2d")
+    if (!ctx) return
     if (chartRef.current) chartRef.current.destroy()
 
     const build = () => {
-      chartRef.current = callback(ctx, window.Chart)
+      chartRef.current = callback(
+        ctx,
+        window.Chart as new (
+          ctx: CanvasRenderingContext2D,
+          config: object
+        ) => { destroy: () => void }
+      )
     }
 
     if (window.Chart) {
@@ -246,7 +265,13 @@ function useChartJs(
   return ref
 }
 
-function Tooltip({ text, children }) {
+function Tooltip({
+  text,
+  children,
+}: {
+  text: string
+  children: React.ReactNode
+}) {
   const [show, setShow] = useState(false)
   return (
     <div
@@ -293,7 +318,19 @@ function Tooltip({ text, children }) {
 
 // ─── SUB-COMPONENTS ──────────────────────────────────────────────────────────
 
-function MetricCard({ card }) {
+function MetricCard({
+  card,
+}: {
+  card: {
+    label: string
+    value: string | number
+    unit?: string
+    trend?: string
+    tooltip: string
+    bg: string
+    stroke: string
+  }
+}) {
   const [hovered, setHovered] = useState(false)
   return (
     <div
@@ -444,9 +481,14 @@ function DonutChart() {
         circumference: 180,
         plugins: {
           legend: { display: false },
-          tooltip: { callbacks: { label: (c) => ` ${c.label}: ${c.parsed}%` } },
+          tooltip: {
+            callbacks: {
+              label: (c: { label: string; parsed: number }) =>
+                ` ${c.label}: ${c.parsed}%`,
+            },
+          },
         },
-        onHover: (e, els) => {
+        onHover: (e: unknown, els: { index: number }[]) => {
           if (els.length) {
             const i = els[0].index
             setCenterVal(DATA.partyDist[i].pct + "%")
@@ -572,14 +614,19 @@ function TrendChart() {
         plugins: {
           legend: { display: false },
           tooltip: {
-            callbacks: { label: (c) => ` ${c.dataset.label}: ${c.parsed.y}%` },
+            callbacks: {
+              label: (c: {
+                dataset: { label: string }
+                parsed: { y: number }
+              }) => ` ${c.dataset.label}: ${c.parsed.y}%`,
+            },
           },
         },
         scales: {
           x: { grid: { display: false }, ticks: { font: { size: 10 } } },
           y: {
             grid: { color: "rgba(0,0,0,0.04)" },
-            ticks: { font: { size: 10 }, callback: (v) => v + "%" },
+            ticks: { font: { size: 10 }, callback: (v: unknown) => v + "%" },
             min: 25,
             max: 70,
           },
@@ -654,7 +701,7 @@ function TrendChart() {
 function RiskBars() {
   const [animated, setAnimated] = useState(false)
   const [liveWidths, setLiveWidths] = useState(DATA.risk.map((r) => r.pct))
-  const [hoveredIdx, setHoveredIdx] = useState(null)
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
 
   useEffect(() => {
     const t = setTimeout(() => setAnimated(true), 200)
@@ -870,7 +917,7 @@ function TopPerforming() {
 }
 
 function StateTable() {
-  const [hoveredRow, setHoveredRow] = useState(null)
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null)
   return (
     <div
       style={{
@@ -927,8 +974,8 @@ function StateTable() {
         </thead>
         <tbody>
           {DATA.stateRows.map((r, i) => {
-            const n1 = parseFloat(r.v1),
-              n2 = parseFloat(r.v2)
+            const n1 = parseFloat(String(r.v1)),
+              n2 = parseFloat(String(r.v2))
             const diff =
               !isNaN(n1) && !isNaN(n2)
                 ? n2 > n1
@@ -980,8 +1027,8 @@ function StateTable() {
 }
 
 function CandidateTable() {
-  const [hoveredRow, setHoveredRow] = useState(null)
-  const statusStyle = (s) => {
+  const [hoveredRow, setHoveredRow] = useState<number | null>(null)
+  const statusStyle = (s: string) => {
     if (s === "Strong") return { background: "#dcfce7", color: "#15803d" }
     if (s === "Risk") return { background: "#fee2e2", color: "#dc2626" }
     return { background: "#fef9c3", color: "#a16207" }
@@ -1174,7 +1221,7 @@ function KeyFindings() {
 }
 
 function ReportCards() {
-  const [hovered, setHovered] = useState(null)
+  const [hovered, setHovered] = useState<number | null>(null)
   return (
     <div
       style={{
