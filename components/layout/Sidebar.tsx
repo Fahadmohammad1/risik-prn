@@ -556,7 +556,7 @@ export default function Sidebar() {
               onClick={async (e) => {
                 e.preventDefault()
                 await signOut()
-                router.push("/auth/login")
+                router.push("/")
               }}
               onMouseEnter={(e) => {
                 setLogoutHovered(true)

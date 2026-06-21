@@ -175,7 +175,7 @@ export default function HomePage() {
       {/* ── HERO ── */}
       <section className="mx-auto max-w-[1200px] px-6 pt-20 pb-16 text-center">
         <span className="mb-4 inline-block rounded-full bg-[#D1E99E] px-3 py-1 text-xs font-semibold tracking-wide text-[#1E463C] uppercase">
-          Malaysia's Political Intelligence Platform
+          Malaysia&apos;s Political Intelligence Platform
         </span>
         <h1 className="mx-auto max-w-3xl text-[52px] leading-[1.12] font-bold text-[#1B1B21]">
           Win Elections with <span className="text-[#1E463C]">Data-Driven</span>{" "}
