@@ -40,14 +40,14 @@ export default function FirstLoginPage() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-[24px] pt-[32px]">
+    <div className="flex w-full flex-col gap-[46px] pt-[32px]">
       {/* HEADER */}
       <div>
-        <h1 className="text-[48px] leading-[52px] font-bold text-[#1B1B21]">
+        <h1 className="font-creato tracking-[0.02em] lg:text-[48px] text-[32px] md:text-[32px] leading-[52px] font-bold text-[#1B1B21]">
           Welcome to Political Analysis CRM
         </h1>
-        <p className="mt-2 text-[18px] leading-6 text-[#5C5C5F]">
-          Your account has been created by the administrator. <br />
+        <p className="font-creato text-[18px] text-[#5C5C5F] tracking-[0.02em]">
+          Your account has been created by the administrator.
           Please create a password to activate your account.
         </p>
       </div>
@@ -63,7 +63,7 @@ export default function FirstLoginPage() {
 
         {/* EMAIL */}
         <div>
-          <label className="mb-1 block text-sm text-[#1B1B21]">Email</label>
+          <label className="font-creato tracking-[0.02em] font-semibold mb-1 block text-md font-medium text-[#1B1B21]">Email</label>
           <div className="relative w-full">
             <input
               type="email"
@@ -73,7 +73,7 @@ export default function FirstLoginPage() {
               required
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
-              className={`input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
+              className={`font-creato tracking-[0.02em] text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
             />
             <div
               className={`input-icon pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 ${emailFocused ? "hidden-icon" : ""}`}
@@ -96,7 +96,7 @@ export default function FirstLoginPage() {
 
         {/* CREATE PASSWORD */}
         <div>
-          <label className="mb-1 block text-sm text-[#1B1B21]">
+          <label className="font-creato tracking-[0.02em] font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
             Create Password
           </label>
           <div className="relative w-full">
@@ -112,7 +112,7 @@ export default function FirstLoginPage() {
             />
             {/* LOCK ICON */}
             <div
-              className={`input-icon pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 ${createFocused ? "hidden-icon" : ""}`}
+              className={`font-creato tracking-[0.02em] text-[#5C5C5F] text-[14px] input-icon pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 ${createFocused ? "hidden-icon" : ""}`}
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path
@@ -147,7 +147,7 @@ export default function FirstLoginPage() {
 
         {/* CONFIRM PASSWORD */}
         <div>
-          <label className="mb-1 block text-sm text-[#1B1B21]">
+          <label className="font-creato tracking-[0.02em] font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
             Confirm Password
           </label>
           <div className="relative w-full">
@@ -159,7 +159,7 @@ export default function FirstLoginPage() {
               required
               onFocus={() => setConfirmFocused(true)}
               onBlur={() => setConfirmFocused(false)}
-              className={`input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${confirmFocused ? "focused" : ""}`}
+              className={`font-creato tracking-[0.02em] text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${confirmFocused ? "focused" : ""}`}
             />
             {/* LOCK ICON */}
             <div
@@ -200,19 +200,19 @@ export default function FirstLoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full cursor-pointer rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full font-creato tracking-[0.02em] duration-200 font-md cursor-pointer text-[16px] rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoading ? "Activating..." : "Active Account"}
         </button>
       </form>
 
       {/* LOGIN LINK */}
-      <p className="mt-4 text-center text-sm text-[#5C5C5F]">
+      <p className="text-center text-sm text-[#5C5C5F]">
         Already have an account?{" "}
         <button
           type="button"
           onClick={() => router.push("/auth/login")}
-          className="font-medium text-[#22493e] hover:underline"
+          className="font-creato font-medium text-[#3549E5B3] cursor-pointer hover:underline"
         >
           Sign in
         </button>
