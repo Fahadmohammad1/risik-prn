@@ -31,13 +31,13 @@ export default function LoginPage() {
   return (
     <div className="flex w-full flex-col gap-[46px] pt-[32px]">
       <div>
-        <h1 className="font-creato text-[48px] leading-[52px] font-bold text-[#1B1B21]">
+        <h1 className="font-creato tracking-[0.02em] lg:text-[48px] text-[32px] md:text-[32px] leading-[52px] font-bold text-[#1B1B21]">
           Welcome Back
         </h1>
-        <p className="text-[#5C5C5F]">Sign in to continue</p>
+        <p className="font-creato text-[18px] text-[#5C5C5F]">Sign in to continue</p>
       </div>
 
-      <form className="mt-6 w-full space-y-5" onSubmit={handleSubmit}>
+      <form className="w-full space-y-5" onSubmit={handleSubmit}>
         {/* ERROR */}
         {error && (
           <p className="rounded-[4px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
@@ -47,7 +47,7 @@ export default function LoginPage() {
 
         {/* EMAIL */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-[#1B1B21]">
+          <label className="font-creato font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
             Email
           </label>
           <div className="relative w-full">
@@ -59,7 +59,7 @@ export default function LoginPage() {
               required
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
-              className={`input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
+              className={`font-creato text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
             />
             <div
               className={`input-icon absolute top-1/2 left-3 -translate-y-1/2 ${emailFocused ? "hidden-icon" : ""}`}
@@ -82,7 +82,7 @@ export default function LoginPage() {
 
         {/* PASSWORD */}
         <div>
-          <label className="mb-1 block text-sm font-medium text-[#1B1B21]">
+          <label className="font-creato font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
             Password
           </label>
           <div className="relative w-full">
@@ -94,7 +94,7 @@ export default function LoginPage() {
               required
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
-              className={`input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${passwordFocused ? "focused" : ""}`}
+              className={`font-creato text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${passwordFocused ? "focused" : ""}`}
             />
 
             {/* LOCK ICON */}
@@ -127,20 +127,20 @@ export default function LoginPage() {
         </div>
 
         {/* REMEMBER */}
-        <div className="flex items-center justify-between">
-          <label className="flex items-center gap-2 text-sm text-[#5C5C5F]">
+        <div className="flex mb-12 items-center justify-between">
+          <label className="flex font-creato tracking-[0.02em] items-center gap-2 text-sm text-[#5C5C5FB3]">
             <input
               type="checkbox"
-              className="h-[18px] w-[18px] border border-[#DDDDDB] accent-[#22493e]"
+              className="h-[18px]  w-[18px] border border-[#DDDDDB] accent-[#22493e]"
             />
             Remember me
           </label>
           <button
             type="button"
             onClick={() => router.push("/auth/forgot_password")}
-            className="text-sm text-[#22493e] hover:underline"
+            className="font-creato tracking-[0.02em] cursor-pointer text-sm text-[#3549E5] hover:underline"
           >
-            Forgot password?
+            Forgot Password?
           </button>
         </div>
 
@@ -148,23 +148,25 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full cursor-pointer rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full font-creato tracking-[0.02em] font-md cursor-pointer text-[16px] rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoading ? "Signing in..." : "Sign In to Your Account"}
         </button>
+
+        <p className="text-center font-creato cursor-pointer font-bold text-sm text-[#3549E5B3]">
+          Need help?{" "}
+          <button
+            type="button"
+            onClick={() => router.push("/auth/first_login")}
+            className="text-sm font-creato cursor-pointer text-[#1B1B21B3] hover:underline"
+          >
+            Contact Administrator
+          </button>
+        </p>
       </form>
 
       {/* SIGN UP LINK */}
-      <p className="mt-4 text-center text-sm text-[#5C5C5F]">
-        First time here?{" "}
-        <button
-          type="button"
-          onClick={() => router.push("/auth/first_login")}
-          className="font-medium text-[#22493e] hover:underline"
-        >
-          Activate your account
-        </button>
-      </p>
+
     </div>
   )
 }

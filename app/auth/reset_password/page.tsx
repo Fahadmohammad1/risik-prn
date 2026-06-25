@@ -14,10 +14,10 @@ export default function ResetPassPage() {
   return (
     <div className="flex w-full flex-col gap-[46px] pt-[32px]">
       <div>
-        <h1 className="text-[48px] leading-[52px] font-bold text-[#1B1B21]">
+        <h1 className="font-creato tracking-[0.02em] lg:text-[48px] text-[32px] md:text-[32px] leading-[52px] font-bold text-[#1B1B21]">
           Reset Password
         </h1>
-        <p className="text-[#5C5C5F]">
+        <p className="font-creato text-[18px] text-[#5C5C5F] tracking-[0.02em]">
           Create a new password for your account.
         </p>
       </div>
@@ -26,7 +26,7 @@ export default function ResetPassPage() {
       <form className="flex flex-col gap-5">
         {/* NEW PASSWORD */}
         <div>
-          <label className="mb-1 block text-sm text-[#1B1B21]">
+          <label className="font-creato tracking-[0.02em] font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
             New Password
           </label>
           <div className="relative w-full">
@@ -37,7 +37,7 @@ export default function ResetPassPage() {
               onChange={(e) => setNewPassword(e.target.value)}
               onFocus={() => setNewFocused(true)}
               onBlur={() => setNewFocused(false)}
-              className={`input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${newFocused ? "focused" : ""}`}
+              className={`font-creato tracking-[0.02em] text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${newFocused ? "focused" : ""}`}
             />
             {/* LOCK ICON */}
             <div
@@ -76,7 +76,7 @@ export default function ResetPassPage() {
 
         {/* CONFIRM PASSWORD */}
         <div>
-          <label className="mb-1 block text-sm text-[#1B1B21]">
+          <label className="font-creato tracking-[0.02em] font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
             Confirm Password
           </label>
           <div className="relative w-full">
@@ -87,7 +87,7 @@ export default function ResetPassPage() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               onFocus={() => setConfirmFocused(true)}
               onBlur={() => setConfirmFocused(false)}
-              className={`input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${confirmFocused ? "focused" : ""}`}
+              className={`font-creato tracking-[0.02em] text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${confirmFocused ? "focused" : ""}`}
             />
             {/* LOCK ICON */}
             <div
@@ -125,12 +125,17 @@ export default function ResetPassPage() {
         </div>
 
         {/* SUBMIT BUTTON */}
-        <button
-          type="submit"
-          className="w-full cursor-pointer rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90"
-        >
-          Active Account
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="submit"
+            className="font-creato tracking-[0.02em] font-md cursor-pointer text-[16px] w-full cursor-pointer rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90"
+          >
+            Reset Password
+          </button>
+          <button className=" w-full cursor-pointer bg-transparent rounded border border-[#DDDDDB] font-creato px-[20px] py-[10px] hover:bg-[#22493E] hover:text-white transition-all duration-300 ease-in-out">
+            Back to Login
+          </button>
+        </div>
       </form>
     </div>
   )

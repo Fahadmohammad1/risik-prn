@@ -11,10 +11,10 @@ export default function ForgotPassPage() {
   return (
     <div className="flex w-full flex-col gap-[46px] pt-[32px]">
       <div>
-        <h1 className="text-[48px] leading-[52px] font-bold text-[#1B1B21]">
+        <h1 className="font-creato tracking-[0.02em] lg:text-[48px] text-[32px] md:text-[32px] leading-[52px] font-bold text-[#1B1B21]">
           Forgot Password
         </h1>
-        <p className="text-[#5C5C5F]">
+        <p className="font-creato text-[18px] text-[#5C5C5F] tracking-[0.02em]">
           Enter your email address and we will send you a password reset link
         </p>
       </div>
@@ -23,7 +23,7 @@ export default function ForgotPassPage() {
       <form className="flex flex-col gap-5">
         {/* EMAIL */}
         <div>
-          <label className="mb-1 block text-sm text-[#1B1B21]">Email</label>
+          <label className="font-creato tracking-[0.02em] font-semibold mb-1 block text-md font-medium text-[#1B1B21]">Email</label>
           <div className="relative w-full">
             <input
               type="email"
@@ -32,7 +32,7 @@ export default function ForgotPassPage() {
               onChange={(e) => setEmail(e.target.value)}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
-              className={`input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
+              className={`font-creato tracking-[0.02em] text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
             />
             <div
               className={`input-icon pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 ${emailFocused ? "hidden-icon" : ""}`}
@@ -57,7 +57,7 @@ export default function ForgotPassPage() {
         <div className="flex gap-3">
           <button
             type="submit"
-            className="w-full cursor-pointer rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90"
+            className="w-full font-creato tracking-[0.02em] font-md cursor-pointer text-[16px] rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90"
           >
             Send Reset Link
           </button>
@@ -65,7 +65,7 @@ export default function ForgotPassPage() {
           <button
             type="button"
             onClick={() => router.push("/auth/login")}
-            className="w-full cursor-pointer rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-3 font-medium text-[#5C5C5F] hover:bg-[#22493e] hover:text-[#ffffff] hover:opacity-90"
+            className="font-creato tracking-[0.02em] duration-200 font-md cursor-pointer text-[16px] w-full cursor-pointer rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-3 font-medium text-[#5C5C5F] hover:bg-[#22493e] hover:text-[#ffffff] hover:opacity-90"
           >
             Back to Login
           </button>
