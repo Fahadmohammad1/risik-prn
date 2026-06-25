@@ -225,11 +225,11 @@ function useChartJs(
     Chart: new (
       ctx: CanvasRenderingContext2D,
       config: object
-    ) => { destroy: () => void }
-  ) => { destroy: () => void }
+    ) => { destroy: () => void; resize: () => void } // added resize to typing
+  ) => { destroy: () => void; resize: () => void } // added resize to typing
 ) {
   const ref = useRef<HTMLCanvasElement>(null)
-  const chartRef = useRef<{ destroy: () => void } | null>(null)
+  const chartRef = useRef<{ destroy: () => void; resize: () => void } | null>(null)
 
   useEffect(() => {
     if (!ref.current) return
@@ -243,7 +243,7 @@ function useChartJs(
         window.Chart as new (
           ctx: CanvasRenderingContext2D,
           config: object
-        ) => { destroy: () => void }
+        ) => { destroy: () => void; resize: () => void }
       )
     }
 
@@ -257,8 +257,22 @@ function useChartJs(
       document.head.appendChild(script)
     }
 
+    // ─── THE FIX: Observe layout changes ──────────────────────────────────
+    const parentElement = ref.current.parentElement
+    const resizeObserver = new ResizeObserver(() => {
+      if (chartRef.current) {
+        // Forces Chart.js to check container size and adjust smoothly
+        chartRef.current.resize() 
+      }
+    })
+
+    if (parentElement) {
+      resizeObserver.observe(parentElement)
+    }
+
     return () => {
       if (chartRef.current) chartRef.current.destroy()
+      resizeObserver.disconnect() // Clean up observer
     }
   }, [])
 

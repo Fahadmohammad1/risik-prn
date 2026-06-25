@@ -29,9 +29,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-[46px] pt-[32px]">
+    <div className="flex w-full flex-col gap-11.5 pt-8">
       <div>
-        <h1 className="font-creato tracking-[0.02em] lg:text-[48px] text-[32px] md:text-[32px] leading-[52px] font-bold text-[#1B1B21]">
+        <h1 className="font-creato tracking-[0.02em] lg:text-[48px] text-[32px] md:text-[32px] leading-13 font-bold text-[#1B1B21]">
           Welcome Back
         </h1>
         <p className="font-creato text-[18px] text-[#5C5C5F]">Sign in to continue</p>
@@ -40,14 +40,14 @@ export default function LoginPage() {
       <form className="w-full space-y-5" onSubmit={handleSubmit}>
         {/* ERROR */}
         {error && (
-          <p className="rounded-[4px] border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+          <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
             {error}
           </p>
         )}
 
         {/* EMAIL */}
         <div>
-          <label className="font-creato font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
+          <label className="font-creato font-semibold mb-1 block text-md text-[#1B1B21]">
             Email
           </label>
           <div className="relative w-full">
@@ -59,7 +59,7 @@ export default function LoginPage() {
               required
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
-              className={`font-creato text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
+              className={`font-creato text-[#5C5C5F] text-[14px] input-field w-full rounded-lg border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-3 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${emailFocused ? "focused" : ""}`}
             />
             <div
               className={`input-icon absolute top-1/2 left-3 -translate-y-1/2 ${emailFocused ? "hidden-icon" : ""}`}
@@ -82,7 +82,7 @@ export default function LoginPage() {
 
         {/* PASSWORD */}
         <div>
-          <label className="font-creato font-semibold mb-1 block text-md font-medium text-[#1B1B21]">
+          <label className="font-creato font-semibold mb-1 block text-md  text-[#1B1B21]">
             Password
           </label>
           <div className="relative w-full">
@@ -94,7 +94,7 @@ export default function LoginPage() {
               required
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
-              className={`font-creato text-[#5C5C5F] text-[14px] input-field w-full rounded-[4px] border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${passwordFocused ? "focused" : ""}`}
+              className={`font-creato text-[#5C5C5F] text-[14px] input-field w-full rounded-lg border border-[#DDDDDB] bg-[#FFFFFF] py-2 pr-10 pl-10 outline-none focus:ring-2 focus:ring-[#22493e] ${passwordFocused ? "focused" : ""}`}
             />
 
             {/* LOCK ICON */}
@@ -131,7 +131,7 @@ export default function LoginPage() {
           <label className="flex font-creato tracking-[0.02em] items-center gap-2 text-sm text-[#5C5C5FB3]">
             <input
               type="checkbox"
-              className="h-[18px]  w-[18px] border border-[#DDDDDB] accent-[#22493e]"
+              className="h-4.5  w-4.5 border border-[#DDDDDB] accent-[#22493e]"
             />
             Remember me
           </label>
@@ -148,7 +148,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full font-creato tracking-[0.02em] font-md cursor-pointer text-[16px] rounded-[4px] border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full font-creato tracking-[0.02em] font-md cursor-pointer text-[16px] rounded-lg border bg-[#22493e] py-3 font-medium text-white hover:border-[#DDDDDB] hover:bg-[#ffffff] hover:text-[#22493e] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoading ? "Signing in..." : "Sign In to Your Account"}
         </button>

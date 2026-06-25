@@ -8,7 +8,7 @@ export default function DashboardLayout({
 }) {
   return (
     
-    <div className="flex h-screen w-full max-w-[1440px] mx-auto overflow-hidden bg-[#F8F9FA]">
+    <div className="flex h-screen w-full max-w-360 mx-auto overflow-hidden bg-[#F8F9FA]">
       
       <Sidebar />
 
