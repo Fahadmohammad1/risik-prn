@@ -46,7 +46,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
           <Menu size={20} />
         </button>
         
-        <h4 className="font-creato font-bold text-2xl tracking-[var(--tracking-body)]">
+        <h4 className="font-creato font-bold text-2xl tracking-(--tracking-body)">
           Analytics
         </h4>
       </div>

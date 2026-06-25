@@ -65,7 +65,7 @@ export default function DocumentOverview() {
       {/* --- HEADER SECTION --- */}
       <div className="flex flex-col lg:flex-col lg:items-start md:flex-col md:items-start justify-items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-creato font-medium text-4xl text-[var(--b1)] leading-9 mb-2">Documents Overview</h1>
+          <h1 className="font-creato font-medium text-4xl text-(--b1) leading-9 mb-2">Documents Overview</h1>
         </div>
 
         {/* Dynamic wrapping Action Row */}
@@ -74,7 +74,7 @@ export default function DocumentOverview() {
 
             {/* Johor Bahru */}
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-[131px]">
+              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>Johor Bahru</option>
                 <option>Kuala Lumpur</option>
                 <option>Penang</option>
@@ -98,7 +98,7 @@ export default function DocumentOverview() {
 
             {/* District */}
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-[131px]">
+              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>District</option>
                 <option>District 1</option>
                 <option>District 2</option>
@@ -122,7 +122,7 @@ export default function DocumentOverview() {
 
             {/* Party */}
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-[131px]">
+              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>Party</option>
                 <option>Party A</option>
                 <option>Party B</option>
@@ -146,7 +146,7 @@ export default function DocumentOverview() {
 
             {/* Status */}
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-[131px]">
+              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>Status</option>
                 <option>Active</option>
                 <option>Pending</option>
@@ -171,7 +171,7 @@ export default function DocumentOverview() {
 
           </div>
 
-          <button className="w-full font-creato text-base sm:w-auto flex items-center justify-center gap-2 bg-[var(--light-green)] hover:bg-lime-300 text-[var(--b1)] font-normal px-4 py-2.5 rounded-lg sm:text-sm transition-all shadow-sm active:scale-95">
+          <button className="w-full font-creato text-base sm:w-auto flex items-center justify-center gap-2 bg-(--light-green) hover:bg-lime-300 text-(--b1) font-normal px-4 py-2.5 rounded-lg sm:text-sm transition-all shadow-sm active:scale-95">
             <svg
               width="20"
               height="20"
@@ -202,12 +202,12 @@ export default function DocumentOverview() {
       {/* --- RESPONSIVE METRIC HOVER GRID --- */}
       <div className="mt-2 flex flex-col lg:flex-row md:flex-col gap-4">
 
-        <div className="lg:flex-[3]">
+        <div className="lg:flex-3">
           {/* Total & Analyzed Column Stack */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mb-4 gap-4">
 
             <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-[var(--b1)]">
+              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span className="">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#EBEDFC" />
@@ -221,12 +221,12 @@ export default function DocumentOverview() {
               </p>
               <div className="flex items-end">
                 <p className="font-creato text-5xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
-                <span className="font-creato text-sm text-[var(--b1)]">{DASHBOARD_DATA.metrics.totalDocs.label}</span>
+                <span className="font-creato text-sm text-(--b1)">{DASHBOARD_DATA.metrics.totalDocs.label}</span>
               </div>
             </div>
 
             <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-[var(--b1)]">
+              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span className="">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#FAEECF" />
@@ -239,7 +239,7 @@ export default function DocumentOverview() {
               </p>
               <div className="flex items-end">
                 <p className="font-creato text-5xl font-normal">2,120</p>
-                <span className="font-creato text-sm text-[var(--b1)]">86.5% Analyzed</span>
+                <span className="font-creato text-sm text-(--b1)">86.5% Analyzed</span>
               </div>
             </div>
 
@@ -249,7 +249,7 @@ export default function DocumentOverview() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 col-span-1">
 
             <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-[var(--b1)]">
+              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span className="">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#EBF2F0" />
@@ -262,12 +262,12 @@ export default function DocumentOverview() {
               </p>
               <div className="flex items-end">
                 <p className="font-creato text-5xl font-normal">320</p>
-                <span className="font-creato text-sm text-[var(--b1)]">41.0%</span>
+                <span className="font-creato text-sm text-(--b1)">41.0%</span>
               </div>
             </div>
 
             <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-[var(--b1)]">
+              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span className="">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#FFE5DF" />
@@ -284,7 +284,7 @@ export default function DocumentOverview() {
 
             {/* Responsive layout fix for third item to maintain grid integrity */}
             <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group md:col-span-2 lg:col-span-1">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-[var(--b1)]">
+              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span className="">
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#E7F1F8" />
@@ -298,16 +298,16 @@ export default function DocumentOverview() {
               </p>
               <div className="flex flex-col">
                 <p className="font-creato text-5xl font-normal">320</p>
-                <span className="font-creato text-sm text-[var(--green)]">41.0%</span>
+                <span className="font-creato text-sm text-(--green)">41.0%</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Live Key Findings List */}
-        <div className="lg:flex-[2] bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+        <div className="lg:flex-2 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
           <h3 className="font-creato text-xl font-medium leading-5 mb-4">Key Findings</h3>
-          <ul className="space-y-4 text-[11px] sm:text-xs text-gray-600 max-h-[175px] overflow-y-auto pr-1">
+          <ul className="space-y-4 text-[11px] sm:text-xs text-gray-600 max-h-43.75 overflow-y-auto pr-1">
             {DASHBOARD_DATA.keyFindings.map((finding) => (
               <li key={finding.id} className="flex items-center gap-2 mb-1 border-b border-gray-50 pb-2 last:border-0 last:pb-0">
                 <span className="">
@@ -325,7 +325,7 @@ export default function DocumentOverview() {
                 </span>
                 <p className="font-creato text-sm font-medium leading-5">
                   {finding.text}
-                  {finding.highlight && <span className="font-creato text-sm text-[var(--green)]">{finding.highlight}</span>}
+                  {finding.highlight && <span className="font-creato text-sm text-(--green)">{finding.highlight}</span>}
                 </p>
               </li>
             ))}
@@ -346,7 +346,7 @@ export default function DocumentOverview() {
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
 
         {/* Expanded Document Types Half Pie */}
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm xl:col-span-2 flex flex-col items-center justify-between min-h-[460px]">
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm xl:col-span-2 flex flex-col items-center justify-between min-h-115">
           <div className="w-full text-left">
             <h3 className="font-creato text-xl font-medium leading-5">Document Types</h3>
           </div>
@@ -380,8 +380,8 @@ export default function DocumentOverview() {
 
             {/* Inner Absolute Label Stack locked tightly to base line */}
             <div className="absolute bottom-2 text-center">
-              <span className="font-creato text-5xl text-[var(--b1)]">2,450</span>
-              <p className="font-creato text-[var(--b1)] text-xl  tracking-widest mt-0.5">Total Documents</p>
+              <span className="font-creato text-5xl text-(--b1)">2,450</span>
+              <p className="font-creato text-(--b1) text-xl  tracking-widest mt-0.5">Total Documents</p>
             </div>
           </div>
 
@@ -389,23 +389,23 @@ export default function DocumentOverview() {
           <div className="flex flex-wrap items-center justify-center gap-4 mt-6 w-full">
             {DASHBOARD_DATA.documentTypes.map((type) => (
               <div key={type.name} className="flex items-center gap-2 text-[11px] font-semibold text-gray-500 hover:text-gray-900 transition-colors cursor-pointer">
-                <span className="w-2.5 h-2.5 rounded-full block flex-shrink-0" style={{ backgroundColor: type.color }}></span>
-                <span className='font-creato text-xs text-[var(--b1)]'>{type.name} ({type.value}%)</span>
+                <span className="w-2.5 h-2.5 rounded-full block shrink-0" style={{ backgroundColor: type.color }}></span>
+                <span className='font-creato text-xs text-(--b1)'>{type.name} ({type.value}%)</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Trend Area / Multi-Line Chart (Height scaled up to coordinate perfectly) */}
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm xl:col-span-2 flex flex-col justify-between min-h-[460px]">
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm xl:col-span-2 flex flex-col justify-between min-h-115">
           <div className="flex items-center justify-between mb-8">
             <h3 className="font-creato text-xl font-medium leading-5 ">Document Upload Trend</h3>
-            <span className="font-creato font-medium text-sm leading-3 text-[var(--b1)] px-2.5 py-1 cursor-pointer flex items-center gap-4 transition-colors">
+            <span className="font-creato font-medium text-sm leading-3 text-(--b1) px-2.5 py-1 cursor-pointer flex items-center gap-4 transition-colors">
               Last 30 Days <ChevronDown className="w-3 h-3" />
             </span>
           </div>
 
-          <div className="w-full h-80 sm:h-96 flex-grow flex items-center">
+          <div className="w-full h-80 sm:h-96 grow flex items-center">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={DASHBOARD_DATA.uploadTrend} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -428,22 +428,22 @@ export default function DocumentOverview() {
         {/* Recent Section */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
           <h3 className="font-creato text-xl font-medium leading-5 mb-5">Recent Documents</h3>
-          <div className="space-y-4 max-h-[270px] overflow-y-auto pr-1">
+          <div className="space-y-4 max-h-67.5 overflow-y-auto pr-1">
             {DASHBOARD_DATA.recentDocs.map((doc, idx) => (
               <div key={idx} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 pl-0 pt-0 rounded-xl mb-4   transition-colors gap-4">
                 <div className="flex items-center gap-4">
 
                   <div className='flex gap-4'>
                     <div className="min-w-0">
-                      <h4 className="font-creato font-medium text-sm leading-3 text-[var(--b1)]">{doc.name}</h4>
-                      <p className="font-creato font-medium text-xs mt-1 leading-3 text-[var(--c5)]">{doc.date} • {doc.size}</p>
+                      <h4 className="font-creato font-medium text-sm leading-3 text-(--b1)">{doc.name}</h4>
+                      <p className="font-creato font-medium text-xs mt-1 leading-3 text-(--c5)">{doc.date} • {doc.size}</p>
                     </div>
-                    <span className="h-full font-medium  font-creato text-xs px-2 py-0.5 bg-[var(--eb)] rounded text-[var(--green)]">{doc.type}</span>
+                    <span className="h-full font-medium  font-creato text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span>
                   </div>
 
                 </div>
                 <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-0 pt-2 sm:pt-0 border-gray-100">
-                  <button className="font-creato font-normal text-sm leading-3 text-[var(--b1)] px-4 py-2 bg-white border border-gray-200 hover:border-gray-400 rounded shadow-sm text-gray-700 active:scale-95 transition-all">Analyze</button>
+                  <button className="font-creato font-normal text-sm leading-3 text-(--b1) px-4 py-2 bg-white border border-gray-200 hover:border-gray-400 rounded shadow-sm  active:scale-95 transition-all">Analyze</button>
                   <button className='p-1.5 cursor-pointer border border-gray-200 rounded-lg '>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9.9966 10H10.0041" stroke="#1B1B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -463,24 +463,24 @@ export default function DocumentOverview() {
           <h3 className="font-creato text-xl font-medium leading-5 mb-5">OCR Processing Queue</h3>
           <p className="text-[10px] text-gray-400 mb-3 lg:hidden">Swipe left/right to view full queue data</p>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs min-w-[500px]">
+            <table className="w-full text-left text-xs min-w-125">
               <thead >
                 <tr className="h-8 text-gray-400 border-b border-gray-100">
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-[var(--c5)]">Document</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">File Type</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Progress</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Status</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Time Left</th>
+                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5)">Document</th>
+                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">File Type</th>
+                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">Progress</th>
+                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">Status</th>
+                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">Time Left</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {DASHBOARD_DATA.ocrQueue.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/60 transition-colors">
-                    <td className="py-3 font-creato font-medium text-sm leading-3 text-[var(--b1)] max-w-[110px] truncate">{item.name}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-[var(--b1)]">{item.type}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-[var(--b1)]">{item.progress}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-[var(--b1)]">{item.progress}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-[var(--b1)]">{item.time}</td>
+                    <td className="py-3 font-creato font-medium text-sm leading-3 text-(--b1) max-w-27.5 truncate">{item.name}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.type}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.progress}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.progress}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.time}</td>
                   </tr>
                 ))}
               </tbody>
@@ -503,10 +503,10 @@ export default function DocumentOverview() {
                 placeholder="Search library..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full text-[var(--c5)] pl-9 pr-4 py-2 border border-gray-200 focus:outline-none focus:border-gray-400 focus:bg-white rounded-lg bg-slate-50/60 transition-all"
+                className="w-full text-(--c5) pl-9 pr-4 py-2 border border-gray-200 focus:outline-none focus:border-gray-400 focus:bg-white rounded-lg bg-slate-50/60 transition-all"
               />
             </div>
-            <button className='font-creato text-sm leading-3.5 text-[var(--c5)]'>View All</button>
+            <button className='font-creato text-sm leading-3.5 text-(--c5)'>View All</button>
           </div>
         </div>
 
@@ -514,18 +514,18 @@ export default function DocumentOverview() {
         <div className="relative flex flex-col gap-4">
           <p className="text-[10px] text-gray-400 lg:hidden">Swipe table horizontally to explore database columns</p>
           <div className="overflow-x-auto  border border-gray-50">
-            <table className="w-full text-left text-xs min-w-[960px]">
+            <table className="w-full text-left text-xs min-w-240">
               <thead className='h-8'>
-                <tr className="text-gray-400 bg-transparent border-b pb-2 border-b ">
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)]">Document Name</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Type</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">State</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Category</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Uploaded By</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Upload Date</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Size</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-[var(--c5)] text-center">Status</th>
-                  <th className="font-creato text-center font-medium text-sm leading-3 text-[var(--c5)] text-center">Action</th>
+                <tr className="text-gray-400 bg-transparent border-b pb-2 ">
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5)">Document Name</th>
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Type</th>
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">State</th>
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Category</th>
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Uploaded By</th>
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Upload Date</th>
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Size</th>
+                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Status</th>
+                  <th className="font-creato  font-medium text-sm leading-3 text-(--c5) text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -533,20 +533,20 @@ export default function DocumentOverview() {
                   .filter(doc => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
                   .map((doc) => (
                     <tr key={doc.id} className="hover:bg-slate-50/50 transition-colors group">
-                      <td className="font-creato font-medium text-sm leading-3 text-[var(--b1)] py-5 pl-0 pr-3 flex items-center gap-4 max-w-[230px] truncate">
-                        <span className="p-1.5 bg-red-50 text-red-600 rounded-lg group-hover:bg-red-100 transition-colors flex-shrink-0">
+                      <td className="font-creato font-medium text-sm leading-3 text-(--b1) py-5 pl-0 pr-3 flex items-center gap-4 max-w-57.5 truncate">
+                        <span className="p-1.5 bg-red-50 text-red-600 rounded-lg group-hover:bg-red-100 transition-colors fshrink-0">
                           <FileText className="w-4 h-4" />
                         </span>
                         {doc.name}
                       </td>
-                      <td className="py-3.5"><span className="font-creato text-xs px-2 py-0.5 bg-[var(--eb)] rounded text-[var(--green)]">{doc.type}</span></td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-[var(--b1)]">{doc.state}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-[var(--b1)]">{doc.category}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-[var(--b1)]">{doc.user}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-[var(--b1)]">{doc.date}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-[var(--b1)]">{doc.size}</td>
+                      <td className="py-3.5"><span className="font-creato text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span></td>
+                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.state}</td>
+                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.category}</td>
+                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.user}</td>
+                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.date}</td>
+                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.size}</td>
                       <td className="px-2 py-3.5">
-                        <span className={`font-creato font-medium text-sm leading-3.5 text-[var(--b1)] ${doc.status === 'Strong' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                        <span className={`font-creato font-medium text-sm leading-3.5 text-(--b1) ${doc.status === 'Strong' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                           }`}>
                           {doc.status}
                         </span>

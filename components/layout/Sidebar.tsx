@@ -63,7 +63,7 @@ function SidebarTooltip({
             left: isCollapsed ? "70px" : "252px",
             top: `${pos}px`,
           }}
-          className="fixed -translate-y-1/2 bg-[#1e2024] text-white text-[11px] font-medium px-2.5 py-1.5 rounded-md whitespace-nowrap z-[9999] pointer-events-none shadow-[0_2px_10px_rgba(0,0,0,0.18)] transition-[left] duration-150 ease-in-out hidden md:block"
+          className="fixed -translate-y-1/2 bg-[#1e2024] text-white text-[11px] font-medium px-2.5 py-1.5 rounded-md whitespace-nowrap z-9999 pointer-events-none shadow-[0_2px_10px_rgba(0,0,0,0.18)] transition-[left] duration-150 ease-in-out hidden md:block"
         >
           {label}
           <div className="absolute right-full top-1/2 -translate-y-1/2 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-r-[5px] border-r-[#1e2024]" />
@@ -112,8 +112,8 @@ function NavItem({
           active
             ? "bg-[#CCE88E] text-[#1E463C] font-semibold rounded-lg" // <-- Updated to #CCE88E and 8px
             : hovered
-              ? "bg-[var(--f2)] text-[var(--c5)] font-medium rounded-lg" // <-- 8px
-              : "bg-transparent text-[var(--c5)] font-medium rounded-lg" // <-- 8px
+              ? "bg-(--f2) text-(--c5) font-medium rounded-lg" // <-- 8px
+              : "bg-transparent text-(--c5) font-medium rounded-lg" // <-- 8px
         }`}
       >
         <div className={`flex items-center ${isCollapsed ? "md:justify-center md:gap-0" : "gap-2.5"}`}>
@@ -173,8 +173,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
 
       <aside
         className={`h-screen border-r border-[#E4E4E2] bg-f2 flex flex-col justify-between font-sans text-[#4A4A4A] shrink-0 transition-all duration-200 ease-in-out 
-          fixed inset-y-0 left-0 z-50 transform ${isMobileOpen ? "translate-x-0 w-[240px]" : "-translate-x-full w-[240px]"}
-          md:relative md:translate-x-0 ${isCollapsed ? "md:w-[60px]" : "md:w-[227px]"}
+          fixed inset-y-0 left-0 z-50 transform ${isMobileOpen ? "translate-x-0 w-60" : "-translate-x-full w-60"}
+          md:relative md:translate-x-0 ${isCollapsed ? "md:w-15" : "md:w-56.75"}
         `}
       >
         <div className="overflow-hidden flex flex-col h-full">
@@ -225,7 +225,7 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                   placeholder="Search"
                   onFocus={() => setSearchFocused(true)}
                   onBlur={() => setSearchFocused(false)}
-                  className={`w-full bg-background text-c5 rounded-sm font-normal border rounded-lg pl-7 pr-11 py-1.5 text-[11px] text-[#333] outline-none transition-colors duration-150 ${
+                  className={`w-full bg-background text-c5 rounded-sm font-normal border pl-7 pr-11 py-1.5 text-[11px] text-[#333] outline-none transition-colors duration-150 ${
                     searchFocused ? "border-[#a8c07a]" : "border-[#E4E4E2]"
                   }`}
                 />
@@ -421,14 +421,14 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                   isCollapsed ? "md:justify-center md:gap-0 md:px-0 justify-start gap-2.5 px-2.5" : "justify-start gap-2.5 px-2.5"
                 } ${
                   logoutHovered 
-                    ? "bg-[#FEF2F2] text-[var(--c5)]" 
-                    : "bg-transparent text-[var(--c5)]"
+                    ? "bg-[#FEF2F2] text-(--c5)" 
+                    : "bg-transparent text-(--c5)"
                 }`}
               >
                 <LogOut
                   size={15}
                   strokeWidth={1.6}
-                  className={logoutHovered ? "text-[var(--c5)]" : "text-[var(--c5)]"}
+                  className={logoutHovered ? "text-(--c5)" : "text-(--c5)"}
                 />
                 {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
                   <span className="font-creato text-base font-normal leading-4">Logout</span>
