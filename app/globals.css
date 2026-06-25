@@ -90,6 +90,15 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --DDDDDB:#DDDDDB;
+  --c5:#5C5C5F;
+  --f2:#F2F3F0;
+  --cc:#CCE88E;
+  --b1: #1B1B21;
+  --tracking-body: 0.02em;
+  --green:#397968;
+  --light-green:#CCE88E;
+  --eb:#EBF2F0;
 }
 
 @font-face {

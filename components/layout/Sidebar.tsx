@@ -1,6 +1,8 @@
 "use client"
 
 import { signOut } from "@/app/lib/auth-client"
+import logo from "@/components/layout/_assets/Logo.svg"
+import collapse from "@/components/layout/_assets/collapse.png"
 import {
   ChevronDown,
   ChevronUp,
@@ -12,13 +14,15 @@ import {
   Map,
   MapPin,
   MapPinned,
+  Menu,
   Search,
   Settings,
-  SidebarClose,
   Sliders,
   UserCheck,
   Users,
+  X
 } from "lucide-react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 
@@ -28,10 +32,12 @@ function SidebarTooltip({
   label,
   children,
   disabled,
+  isCollapsed,
 }: {
   label: string
   children: React.ReactNode
   disabled?: boolean
+  isCollapsed?: boolean
 }) {
   const [visible, setVisible] = useState(false)
   const [pos, setPos] = useState(0)
@@ -42,8 +48,8 @@ function SidebarTooltip({
   return (
     <div
       ref={ref}
-      style={{ position: "relative" }}
-      onMouseEnter={(e) => {
+      className="relative"
+      onMouseEnter={() => {
         const rect = ref.current?.getBoundingClientRect()
         setPos(rect ? rect.top + rect.height / 2 : 0)
         setVisible(true)
@@ -54,35 +60,13 @@ function SidebarTooltip({
       {visible && (
         <div
           style={{
-            position: "fixed",
-            left: 252,
-            top: pos,
-            transform: "translateY(-50%)",
-            background: "#1e2024",
-            color: "#fff",
-            fontSize: 11,
-            fontWeight: 500,
-            padding: "5px 10px",
-            borderRadius: 7,
-            whiteSpace: "nowrap",
-            zIndex: 9999,
-            pointerEvents: "none",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.18)",
+            left: isCollapsed ? "70px" : "252px",
+            top: `${pos}px`,
           }}
+          className="fixed -translate-y-1/2 bg-[#1e2024] text-white text-[11px] font-medium px-2.5 py-1.5 rounded-md whitespace-nowrap z-[9999] pointer-events-none shadow-[0_2px_10px_rgba(0,0,0,0.18)] transition-[left] duration-150 ease-in-out hidden md:block"
         >
           {label}
-          {/* Arrow left */}
-          <div
-            style={{
-              position: "absolute",
-              right: "100%",
-              top: "50%",
-              transform: "translateY(-50%)",
-              borderTop: "5px solid transparent",
-              borderBottom: "5px solid transparent",
-              borderRight: "5px solid #1e2024",
-            }}
-          />
+          <div className="absolute right-full top-1/2 -translate-y-1/2 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-r-[5px] border-r-[#1e2024]" />
         </div>
       )}
     </div>
@@ -98,6 +82,7 @@ function NavItem({
   onClick,
   badge,
   href,
+  isCollapsed,
 }: {
   icon: React.ElementType
   label: string
@@ -105,11 +90,12 @@ function NavItem({
   onClick?: () => void
   badge?: string
   href?: string
+  isCollapsed: boolean
 }) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <SidebarTooltip label={label}>
+    <SidebarTooltip label={label} isCollapsed={isCollapsed}>
       <a
         href={href ?? "#"}
         target={href ? "_blank" : undefined}
@@ -120,46 +106,28 @@ function NavItem({
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 10,
-          padding: "7px 10px",
-          borderRadius: active ? 12 : 8,
-          background: active ? "#D1E99E" : hovered ? "#EFEFED" : "transparent",
-          color: active ? "#1E463C" : hovered ? "#1E463C" : "#555",
-          fontWeight: active ? 600 : 500,
-          fontSize: 12,
-          textDecoration: "none",
-          transition: "background 0.12s, color 0.12s",
-          cursor: "pointer",
-          userSelect: "none",
-        }}
+        className={`h-8 px-2.5 flex items-center select-none text-[12px] no-underline transition-all duration-120 cursor-pointer ${
+          isCollapsed ? "md:justify-center md:gap-0" : "justify-between gap-2.5"
+        } ${
+          active
+            ? "bg-[#CCE88E] text-[#1E463C] font-semibold rounded-lg" // <-- Updated to #CCE88E and 8px
+            : hovered
+              ? "bg-[var(--f2)] text-[var(--c5)] font-medium rounded-lg" // <-- 8px
+              : "bg-transparent text-[var(--c5)] font-medium rounded-lg" // <-- 8px
+        }`}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div className={`flex items-center ${isCollapsed ? "md:justify-center md:gap-0" : "gap-2.5"}`}>
           <Icon
             size={15}
             strokeWidth={active ? 2.2 : 1.6}
-            style={{
-              flexShrink: 0,
-              color: active ? "#1E463C" : hovered ? "#1E463C" : "#888",
-            }}
+            className={`shrink-0 ${active ? "text-[#1E463C]" : hovered ? "text-[#1E463C]" : "text-[#888]"}`}
           />
-          <span>{label}</span>
+          {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
+            <span className="text-c5 font-creato text-base font-normal leading-4">{label}</span>
+          )}
         </div>
-        {badge && (
-          <span
-            style={{
-              background: "#FF7D60",
-              color: "#fff",
-              fontSize: 9,
-              fontWeight: 700,
-              padding: "1px 6px",
-              borderRadius: 99,
-              lineHeight: 1.6,
-            }}
-          >
+        {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && badge && (
+          <span className="bg-[#FF7D60] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-[1.6]">
             {badge}
           </span>
         )}
@@ -170,8 +138,14 @@ function NavItem({
 
 // ─── MAIN SIDEBAR ────────────────────────────────────────────────────────────
 
-export default function Sidebar() {
+interface SidebarProps {
+  isMobileOpen: boolean;
+  setIsMobileOpen: (open: boolean) => void;
+}
+
+export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps) {
   const router = useRouter()
+  const [isCollapsed, setIsCollapsed] = useState(false)
   const [activeItem, setActiveItem] = useState<string | null>("Analytics")
   const [isStatesOpen, setIsStatesOpen] = useState(true)
   const [activeState, setActiveState] = useState<string | null>(null)
@@ -179,433 +153,291 @@ export default function Sidebar() {
   const [logoutHovered, setLogoutHovered] = useState(false)
   const [searchFocused, setSearchFocused] = useState(false)
 
-  const navItems = [
-    { label: "Dashboard", icon: LayoutDashboard },
-    { label: "Analytics", icon: LineChart },
-    { label: "GIS Political Map", icon: Map },
-    { label: "Candidates", icon: Users },
-    { label: "Documents", icon: FileText, badge: "3" },
-    { label: "Scenario Simulator", icon: Sliders },
-    { label: "Reports", icon: FileSpreadsheet },
-    { label: "Users", icon: Users },
-    { label: "Roles & Permissions", icon: UserCheck },
-    { label: "System Settings", icon: Settings },
-  ]
-
   const stateItems = ["Malacca", "Johor Bahru"]
 
+  const handleItemClick = (item: string) => {
+    setActiveItem(item)
+    setActiveState(null)
+    setIsMobileOpen(false)
+  }
+
   return (
-    <aside
-      style={{
-        width: 240,
-        height: "100vh",
-        borderRight: "1px solid #E4E4E2",
-        background: "#F8F9FA",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        fontFamily: "Inter, system-ui, sans-serif",
-        color: "#4A4A4A",
-        flexShrink: 0,
-      }}
-    >
-      <div
-        style={{
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
-      >
-        {/* ── Logo Header ── */}
+    <>
+      {/* ── Mobile Background Overlay ── */}
+      {isMobileOpen && (
         <div
-          style={{
-            padding: "14px 14px 12px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderBottom: "1px solid #EFEFED",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div
-              style={{
-                background: "#1E463C",
-                color: "#fff",
-                fontWeight: 700,
-                fontSize: 11,
-                padding: "5px 6px",
-                borderRadius: 7,
-                letterSpacing: "0.05em",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 28,
-                height: 28,
-                lineHeight: 1,
-              }}
-            >
-              RP
-            </div>
-            <span
-              style={{
-                fontWeight: 600,
-                fontSize: 13,
-                color: "#1E463C",
-                letterSpacing: "0.03em",
-              }}
-            >
-              RISIK PRN
-            </span>
-          </div>
-          <SidebarTooltip label="Collapse sidebar">
-            <button
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: "#aaa",
-                padding: 2,
-                display: "flex",
-                alignItems: "center",
-                borderRadius: 5,
-              }}
-            >
-              <SidebarClose size={16} strokeWidth={1.5} />
-            </button>
-          </SidebarTooltip>
-        </div>
+          className="fixed inset-0 bg-black/40 z-40 md:hidden backdrop-blur-sm transition-opacity"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
 
-        {/* ── Search ── */}
-        <div style={{ padding: "10px 12px 6px" }}>
+      <aside
+        className={`h-screen border-r border-[#E4E4E2] bg-f2 flex flex-col justify-between font-sans text-[#4A4A4A] shrink-0 transition-all duration-200 ease-in-out 
+          fixed inset-y-0 left-0 z-50 transform ${isMobileOpen ? "translate-x-0 w-[240px]" : "-translate-x-full w-[240px]"}
+          md:relative md:translate-x-0 ${isCollapsed ? "md:w-[60px]" : "md:w-[227px]"}
+        `}
+      >
+        <div className="overflow-hidden flex flex-col h-full">
+          {/* ── Logo Header ── */}
           <div
-            style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-            }}
+            className={`h-20 flex items-center border-b border-DDDDB transition-all duration-150 ${
+              isCollapsed ? "md:justify-center px-0" : "justify-between px-6"
+            } justify-between px-0`}
           >
-            <Search
-              size={13}
-              style={{
-                position: "absolute",
-                left: 10,
-                color: "#aaa",
-                pointerEvents: "none",
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Search"
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              style={{
-                width: "100%",
-                background: "#fff",
-                border: `1px solid ${searchFocused ? "#a8c07a" : "#E4E4E2"}`,
-                borderRadius: 8,
-                paddingLeft: 30,
-                paddingRight: 44,
-                paddingTop: 6,
-                paddingBottom: 6,
-                fontSize: 11,
-                color: "#333",
-                outline: "none",
-                transition: "border-color 0.15s",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                right: 8,
-                display: "flex",
-                gap: 2,
-                fontSize: 9,
-                color: "#bbb",
-                border: "1px solid #E4E4E2",
-                borderRadius: 4,
-                padding: "1px 5px",
-                background: "#f5f5f3",
-                pointerEvents: "none",
-                fontFamily: "monospace",
-                lineHeight: 1.6,
-              }}
-            >
-              ⌘K
-            </div>
-          </div>
-        </div>
-
-        {/* ── Navigation ── */}
-        <nav
-          style={{
-            padding: "6px 10px",
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            overflowY: "auto",
-            flex: 1,
-          }}
-        >
-          {/* Dashboard */}
-          <NavItem
-            icon={LayoutDashboard}
-            label="Dashboard"
-            active={activeItem === "Dashboard"}
-            onClick={() => setActiveItem("Dashboard")}
-          />
-
-          {/* States — collapsible */}
-          <div>
-            <SidebarTooltip label="Browse states">
-              <button
-                onClick={() => setIsStatesOpen(!isStatesOpen)}
-                onMouseEnter={() => setStatesHovered(true)}
-                onMouseLeave={() => setStatesHovered(false)}
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "7px 10px",
-                  borderRadius: 8,
-                  background: statesHovered ? "#EFEFED" : "transparent",
-                  border: "none",
-                  cursor: "pointer",
-                  color: statesHovered ? "#1E463C" : "#555",
-                  fontSize: 12,
-                  fontWeight: 500,
-                  transition: "background 0.12s, color 0.12s",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <MapPin
-                    size={15}
-                    strokeWidth={1.6}
-                    style={{ color: statesHovered ? "#1E463C" : "#888" }}
-                  />
-                  <span>States</span>
-                </div>
-                {isStatesOpen ? (
-                  <ChevronUp size={13} style={{ color: "#aaa" }} />
-                ) : (
-                  <ChevronDown size={13} style={{ color: "#aaa" }} />
-                )}
-              </button>
-            </SidebarTooltip>
-
-            {isStatesOpen && (
-              <div
-                style={{
-                  marginTop: 2,
-                  marginLeft: 34,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 1,
-                }}
-              >
-                {stateItems.map((state) => (
-                  <SidebarTooltip key={state} label={`View ${state} data`}>
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        setActiveState(state)
-                        setActiveItem(null)
-                      }}
-                      style={{
-                        display: "block",
-                        padding: "6px 10px",
-                        borderRadius: 7,
-                        fontSize: 12,
-                        fontWeight: activeState === state ? 600 : 400,
-                        color: activeState === state ? "#1E463C" : "#666",
-                        background:
-                          activeState === state ? "#E8F4EE" : "transparent",
-                        textDecoration: "none",
-                        transition: "background 0.12s, color 0.12s",
-                        cursor: "pointer",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (activeState !== state) {
-                          e.currentTarget.style.background = "#EFEFED"
-                          e.currentTarget.style.color = "#1E463C"
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (activeState !== state) {
-                          e.currentTarget.style.background = "transparent"
-                          e.currentTarget.style.color = "#666"
-                        }
-                      }}
-                    >
-                      {state}
-                    </a>
-                  </SidebarTooltip>
-                ))}
+            {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
+              <div className="flex items-center gap-2">
+                <Image src={logo} alt="logo" />
               </div>
             )}
+
+            {/* Desktop Collapse Button */}
+            <div className="hidden md:block">
+              <SidebarTooltip label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"} isCollapsed={isCollapsed}>
+                <button
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="bg-transparent border-none cursor-pointer p-1.5 flex items-center justify-center rounded-md hover:bg-gray-200/50 transition-colors"
+                >
+                  <Image
+                    src={collapse}
+                    alt="Toggle Sidebar"
+                    className={`w-4 h-4 transition-transform duration-150 ${isCollapsed ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </SidebarTooltip>
+            </div>
+
+            {/* Mobile Close Button */}
+            <button
+              onClick={() => setIsMobileOpen(false)}
+              className="md:hidden text-[#aaa] p-1.5 rounded-md hover:bg-gray-200/50 transition-colors"
+            >
+              <X size={18} />
+            </button>
           </div>
 
-          {/* Analytics (default active) */}
-          <NavItem
-            icon={LineChart}
-            label="Analytics"
-            active={activeItem === "Analytics"}
-            onClick={() => {
-              setActiveItem("Analytics")
-              setActiveState(null)
+          {/* ── Search ── */}
+          {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
+            <div className="p-6 pb-1.5">
+              <div className="relative flex items-center">
+                <Search size={16} className="absolute left-2.5 text-[#aaa] pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  className={`w-full bg-background text-c5 rounded-sm font-normal border rounded-lg pl-7 pr-11 py-1.5 text-[11px] text-[#333] outline-none transition-colors duration-150 ${
+                    searchFocused ? "border-[#a8c07a]" : "border-[#E4E4E2]"
+                  }`}
+                />
+                <div className="absolute right-2 flex gap-0.5 text-[9px] text-[#bbb] border border-[#E4E4E2] rounded px-1.5 bg-[#f5f5f3] pointer-events-none font-mono lining-nums leading-[1.6]">
+                  MACOS
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Navigation ── */}
+          <nav
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
             }}
-          />
+            className={`flex flex-col gap-2 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden ${
+              isCollapsed ? "md:p-1.5 pl-6 pr-3 pt-5.5" : " pl-6 pr-3 pt-5.5"
+            }`}
+          >
+            <NavItem
+              icon={LayoutDashboard}
+              label="Dashboard"
+              active={activeItem === "Dashboard"}
+              onClick={() => handleItemClick("Dashboard")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* GIS Political Map */}
-          <NavItem
-            icon={Map}
-            label="GIS Political Map"
-            active={activeItem === "GIS Political Map"}
-            onClick={() => {
-              setActiveItem("GIS Political Map")
-              setActiveState(null)
-            }}
-          />
+            {/* States — dropdown */}
+            <div>
+              <SidebarTooltip label="Browse states" isCollapsed={isCollapsed}>
+                <button
+                  onClick={() => {
+                    if (isCollapsed) setIsCollapsed(false)
+                    setIsStatesOpen(!isStatesOpen)
+                  }}
+                  onMouseEnter={() => setStatesHovered(true)}
+                  onMouseLeave={() => setStatesHovered(false)}
+                  className={`w-full h-8 flex items-center border-none cursor-pointer text-[12px] no-underline transition-colors duration-120 rounded-lg ${
+                    isCollapsed ? "md:justify-center p-0" : "justify-between px-2.5"
+                  } ${
+                    statesHovered 
+                      ? "bg-f2 text-c5" 
+                      : "bg-transparent text-c5"
+                  }`}
+                >
+                  <div className={`flex items-center ${isCollapsed ? "md:justify-center md:gap-0" : "gap-2.5"}`}>
+                    <MapPin
+                      size={15}
+                      strokeWidth={1.6}
+                      className={statesHovered ? "text-[#1E463C]" : "text-[#888]"}
+                    />
+                    {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
+                      <span className="text-c5 font-creato text-base font-normal leading-4">States</span>
+                    )}
+                  </div>
+                  {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
+                    isStatesOpen ? (
+                      <ChevronUp size={13} className="text-[#aaa] shrink-0" />
+                    ) : (
+                      <ChevronDown size={13} className="text-[#aaa] shrink-0" />
+                    )
+                  )}
+                </button>
+              </SidebarTooltip>
 
-          {/* Candidates */}
-          <NavItem
-            icon={Users}
-            label="Candidates"
-            active={activeItem === "Candidates"}
-            onClick={() => {
-              setActiveItem("Candidates")
-              setActiveState(null)
-            }}
-          />
+              {isStatesOpen && (!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
+                <div className="mt-0.5 ml-8 flex flex-col gap-px">
+                  {stateItems.map((state) => (
+                    <SidebarTooltip key={state} label={`View ${state} data`} isCollapsed={isCollapsed}>
+                      <a
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setActiveState(state)
+                          setActiveItem(null)
+                          setIsMobileOpen(false)
+                        }}
+                        className={`block px-2.5 py-1.5 rounded-lg text-[12px] no-underline transition-colors duration-120 cursor-pointer ${
+                          activeState === state
+                            ? "font-semibold text-[#1E463C] bg-[#E8F4EE]" 
+                            : "font-normal text-c5 bg-transparent hover:bg-[#EFEFED] hover:text-[#1E463C]"
+                        }`}
+                      >
+                        <span className="text-c5 font-creato text-base font-normal leading-4">{state}</span>
+                      </a>
+                    </SidebarTooltip>
+                  ))}
+                </div>
+              )}
+            </div>
 
-          {/* Documents */}
-          <NavItem
-            icon={FileText}
-            label="Documents"
-            active={activeItem === "Documents"}
-            badge="3"
-            onClick={() => {
-              setActiveItem("Documents")
-              setActiveState(null)
-            }}
-          />
+            <NavItem
+              icon={LineChart}
+              label="Analytics"
+              active={activeItem === "Analytics"}
+              onClick={() => handleItemClick("Analytics")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* Scenario Simulator */}
-          <NavItem
-            icon={Sliders}
-            label="Scenario Simulator"
-            active={activeItem === "Scenario Simulator"}
-            onClick={() => {
-              setActiveItem("Scenario Simulator")
-              setActiveState(null)
-            }}
-          />
+            <NavItem
+              icon={Map}
+              label="GIS Political Map"
+              active={activeItem === "GIS Political Map"}
+              onClick={() => handleItemClick("GIS Political Map")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* Reports */}
-          <NavItem
-            icon={FileSpreadsheet}
-            label="Reports"
-            active={activeItem === "Reports"}
-            onClick={() => {
-              setActiveItem("Reports")
-              setActiveState(null)
-            }}
-          />
+            <NavItem
+              icon={Users}
+              label="Candidates"
+              active={activeItem === "Candidates"}
+              onClick={() => handleItemClick("Candidates")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* Onset Data */}
-          <NavItem
-            icon={MapPinned}
-            label="Onset Data"
-            href="https://risik-johor.pages.dev"
-            active={activeItem === "Onset Data"}
-            onClick={() => {
-              setActiveItem("Onset Data")
-              setActiveState(null)
-            }}
-          />
+            <NavItem
+              icon={FileText}
+              label="Documents"
+              active={activeItem === "Documents"}
+              badge="3"
+              onClick={() => handleItemClick("Documents")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* Divider */}
-          <div style={{ borderTop: "1px solid #EFEFED", margin: "6px 0" }} />
+            <NavItem
+              icon={Sliders}
+              label="Scenario Simulator"
+              active={activeItem === "Scenario Simulator"}
+              onClick={() => handleItemClick("Scenario Simulator")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* Users */}
-          <NavItem
-            icon={Users}
-            label="Users"
-            active={activeItem === "Users"}
-            onClick={() => {
-              setActiveItem("Users")
-              setActiveState(null)
-            }}
-          />
+            <NavItem
+              icon={FileSpreadsheet}
+              label="Reports"
+              active={activeItem === "Reports"}
+              onClick={() => handleItemClick("Reports")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* Roles & Permissions */}
-          <NavItem
-            icon={UserCheck}
-            label="Roles & Permissions"
-            active={activeItem === "Roles & Permissions"}
-            onClick={() => {
-              setActiveItem("Roles & Permissions")
-              setActiveState(null)
-            }}
-          />
+            <NavItem
+              icon={MapPinned}
+              label="Onset Data"
+              href="https://risik-johor.pages.dev"
+              active={activeItem === "Onset Data"}
+              onClick={() => handleItemClick("Onset Data")}
+              isCollapsed={isCollapsed}
+            />
 
-          {/* System Settings */}
-          <NavItem
-            icon={Settings}
-            label="System Settings"
-            active={activeItem === "System Settings"}
-            onClick={() => {
-              setActiveItem("System Settings")
-              setActiveState(null)
-            }}
-          />
-        </nav>
-      </div>
+      
 
-      {/* ── Logout ── */}
-      <div style={{ padding: "8px 10px 14px" }}>
-        <div style={{ borderTop: "1px solid #EFEFED", paddingTop: 8 }}>
-          <SidebarTooltip label="Sign out of RISIK PRN">
-            <a
-              href="#"
-              onClick={async (e) => {
-                e.preventDefault()
-                await signOut()
-                router.push("/")
-              }}
-              onMouseEnter={(e) => {
-                setLogoutHovered(true)
-              }}
-              onMouseLeave={(e) => {
-                setLogoutHovered(false)
-              }}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "7px 10px",
-                borderRadius: 8,
-                fontSize: 12,
-                fontWeight: 500,
-                color: logoutHovered ? "#dc2626" : "#888",
-                background: logoutHovered ? "#FEF2F2" : "transparent",
-                textDecoration: "none",
-                transition: "background 0.12s, color 0.12s",
-                cursor: "pointer",
-              }}
-            >
-              <LogOut
-                size={15}
-                strokeWidth={1.6}
-                style={{ color: logoutHovered ? "#dc2626" : "#aaa" }}
-              />
-              <span>Logout</span>
-            </a>
-          </SidebarTooltip>
+            <NavItem
+              icon={Users}
+              label="Users"
+              active={activeItem === "Users"}
+              onClick={() => handleItemClick("Users")}
+              isCollapsed={isCollapsed}
+            />
+
+            <NavItem
+              icon={UserCheck}
+              label="Roles & Permissions"
+              active={activeItem === "Roles & Permissions"}
+              onClick={() => handleItemClick("Roles & Permissions")}
+              isCollapsed={isCollapsed}
+            />
+
+            <NavItem
+              icon={Settings}
+              label="System Settings"
+              active={activeItem === "System Settings"}
+              onClick={() => handleItemClick("System Settings")}
+              isCollapsed={isCollapsed}
+            />
+          </nav>
         </div>
-      </div>
-    </aside>
+
+        {/* ── Logout ── */}
+        <div className={`p-2 pb-3.5 ${isCollapsed ? "md:px-1.5 px-2.5" : "px-2.5"}`}>
+          <div className="border-t border-[#EFEFED] pt-2">
+            <SidebarTooltip label="Sign out of RISIK PRN" isCollapsed={isCollapsed}>
+              <a
+                href="#"
+                onClick={async (e) => {
+                  e.preventDefault()
+                  await signOut()
+                  router.push("/")
+                }}
+                onMouseEnter={() => setLogoutHovered(true)}
+                onMouseLeave={() => setLogoutHovered(false)}
+                className={`h-8 flex items-center text-[12px] font-medium no-underline transition-all duration-120 cursor-pointer rounded-lg w-full ${
+                  isCollapsed ? "md:justify-center md:gap-0 md:px-0 justify-start gap-2.5 px-2.5" : "justify-start gap-2.5 px-2.5"
+                } ${
+                  logoutHovered 
+                    ? "bg-[#FEF2F2] text-[var(--c5)]" 
+                    : "bg-transparent text-[var(--c5)]"
+                }`}
+              >
+                <LogOut
+                  size={15}
+                  strokeWidth={1.6}
+                  className={logoutHovered ? "text-[var(--c5)]" : "text-[var(--c5)]"}
+                />
+                {(!isCollapsed || (typeof window !== 'undefined' && window.innerWidth < 768)) && (
+                  <span className="font-creato text-base font-normal leading-4">Logout</span>
+                )}
+              </a>
+            </SidebarTooltip>
+          </div>
+        </div>
+      </aside>
+    </>
   )
 }
