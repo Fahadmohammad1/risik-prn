@@ -51,35 +51,38 @@ const OFFICER_DASHBOARD_DATA = {
   ]
 };
 
+type ChartInstance = { destroy: () => void };
+
 // ─── DYNAMIC SCRIPT CHART ENGINE HOOK ────────────────────────────────────────
-function useChartJsLoader(renderCallback, dependencies = []) {
-  const canvasRef = useRef(null);
-  const chartInstanceRef = useRef(null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function useChartJsLoader(renderCallback: (ctx: CanvasRenderingContext2D, Chart: any) => ChartInstance, dependencies: React.DependencyList = []) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const chartInstanceRef = useRef<ChartInstance | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
-    const ctx = canvasRef.current.getContext("2d");
+    const ctx = canvasRef.current.getContext("2d") as CanvasRenderingContext2D;
     if (chartInstanceRef.current) chartInstanceRef.current.destroy();
 
     const render = () => {
-      if (window.Chart) {
-        chartInstanceRef.current = renderCallback(ctx, window.Chart);
+      if ((window as Window & { Chart?: unknown }).Chart) {
+        chartInstanceRef.current = renderCallback(ctx, (window as Window & { Chart?: unknown }).Chart);
       }
     };
 
-    if (window.Chart) {
+    if ((window as Window & { Chart?: unknown }).Chart) {
       render();
     } else {
       const globalScriptId = "cdn-chartjs-umd-loader";
-      let script = document.getElementById(globalScriptId);
+      let script = document.getElementById(globalScriptId) as HTMLScriptElement | null;
       if (!script) {
-        script = document.createElement("script");
+        script = document.createElement("script") as HTMLScriptElement;
         script.id = globalScriptId;
         script.src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js";
         document.head.appendChild(script);
       }
       script.addEventListener("load", render);
-      return () => script.removeEventListener("load", render);
+      return () => script!.removeEventListener("load", render);
     }
 
     return () => {
@@ -196,8 +199,10 @@ function SemiDonutChart() {
 }
 
 // ─── MASTER DASHBOARD WORKSPACE VIEW ─────────────────────────────────────────
+type MapDistrict = typeof OFFICER_DASHBOARD_DATA.mapDistricts[0];
+
 export default function OfficerDashboard() {
-  const [hoveredDistrict, setHoveredDistrict] = useState(null);
+  const [hoveredDistrict, setHoveredDistrict] = useState<MapDistrict | null>(null);
 
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-6 lg:p-8 font-sans antialiased">
