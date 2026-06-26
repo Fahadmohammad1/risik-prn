@@ -322,7 +322,7 @@ export default function DocumentOverview() {
           </div>
 
           {/* Bordered and shaded horizontal legend matching image_d83edc.png */}
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4 w-full border border-gray-200/60 rounded-xl py-3 px-4 bg-gray-50/40">
+          <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-2 mt-4 w-full border border-(--DDDDDB) rounded-xl p-3 bg-gray-50/40">
             {[
               { name: 'Reports', value: 42, color: '#CCE88E' },
               { name: 'Research', value: 28, color: '#22493E' },
