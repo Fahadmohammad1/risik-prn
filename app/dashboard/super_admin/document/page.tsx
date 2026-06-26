@@ -50,11 +50,11 @@ const DASHBOARD_DATA = {
     { id: 4, name: "Report from Malacca", type: "PPT", progress: 15, status: "In Review", time: "3 Min" },
   ],
   library: [
-    { id: 1, name: "Election Strategy Report 2026", type: "Reports", state: "Johor Bahru", category: "Strategy", user: "Jhon Doe", date: "May 22, 2026", size: "4.2 MB", status: "Strong" },
-    { id: 2, name: "Market Analysis 2026", type: "Analytics", state: "Kuala Lumpur", category: "Research", user: "Jane Smith", date: "June 11, 2026", size: "2.9 MB", status: "Moderate" },
-    { id: 3, name: "Consumer Behavior Survey", type: "Research", state: "Penang", category: "Analysis", user: "Alex Wong", date: "April 10, 2026", size: "3.5 MB", status: "Weak" },
-    { id: 4, name: "Digital Marketing Trends", type: "Marketing", state: "Malacca", category: "Strategy", user: "Michael Tan", date: "March 25, 2025", size: "5.1 MB", status: "Strong" },
-    { id: 5, name: "Financial Overview Q1", type: "Finance", state: "Putrajaya", category: "Overview", user: "Rachel Lim", date: "April 15, 2025", size: "6.8 MB", status: "Moderate" },
+    { id: 1, name: "Election Strategy ", type: "Reports", state: "Johor Bahru", category: "Strategy", user: "Jhon Doe", date: "May 22, 2026", size: "4.2 MB", status: "Strong" },
+    { id: 2, name: "Market Analysis", type: "Analytics", state: "Kuala Lumpur", category: "Research", user: "Jane Smith", date: "June 11, 2026", size: "2.9 MB", status: "Moderate" },
+    { id: 3, name: "Consumer Behavior ", type: "Research", state: "Penang", category: "Analysis", user: "Alex Wong", date: "April 10, 2026", size: "3.5 MB", status: "Weak" },
+    { id: 4, name: "Digital Marketing", type: "Marketing", state: "Malacca", category: "Strategy", user: "Michael Tan", date: "March 25, 2025", size: "5.1 MB", status: "Strong" },
+    { id: 5, name: "Financial Overview", type: "Finance", state: "Putrajaya", category: "Overview", user: "Rachel Lim", date: "April 15, 2025", size: "6.8 MB", status: "Moderate" },
   ]
 };
 
@@ -65,7 +65,7 @@ export default function DocumentOverview() {
     <div className="min-h-screen bg-(--f2) p-6 font-sans antialiased text-gray-800 selection:bg-emerald-100 flex flex-col gap-4">
 
       {/* --- HEADER SECTION --- */}
-      <div className="flex flex-col lg:flex-col lg:items-start md:flex-col md:items-start justify-items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col lg:flex-col lg:items-start md:flex-col md:items-start justify-items-start gap-4 sm:flex-col sm:items-start sm:justify-between">
         <div>
           <h1 className="font-creato font-medium text-4xl text-(--b1) leading-9 mb-2">Documents Overview</h1>
         </div>
@@ -74,7 +74,7 @@ export default function DocumentOverview() {
           <div className="flex flex-wrap items-center gap-2">
 
             <div className="relative">
-              <select className="appearance-none text-(--b1c) bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium max-w-32.75">
+              <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>Johor Bahru</option>
                 <option>Kuala Lumpur</option>
                 <option>Penang</option>
@@ -85,7 +85,7 @@ export default function DocumentOverview() {
             </div>
 
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-(--b1c) max-w-32.75">
+              <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>District</option>
                 <option>District 1</option>
                 <option>District 2</option>
@@ -96,7 +96,7 @@ export default function DocumentOverview() {
             </div>
 
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-(--b1c) max-w-32.75">
+              <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>Party</option>
                 <option>Party A</option>
                 <option>Party B</option>
@@ -107,7 +107,7 @@ export default function DocumentOverview() {
             </div>
 
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-(--b1c) max-w-32.75">
+              <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                 <option>Status</option>
                 <option>Active</option>
                 <option>Pending</option>
@@ -120,8 +120,8 @@ export default function DocumentOverview() {
 
           </div>
 
-          <button className="w-full font-creato text-base sm:w-auto flex items-center justify-center gap-2 bg-(--light-green) hover:bg-lime-300 text-(--b1) font-normal px-4 py-2.5 rounded-lg sm:text-sm transition-all active:scale-95">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button className="w-48 lg:w-47 xl:40 hover:bg-(--surf-green) transition-all font-creato text-[16px]! flex items-center justify-center gap-2 bg-(--light-green) text-(--b1) font-normal px-4 py-2.5 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.5646 7.50922C14.5709 7.50919 14.5771 7.50917 14.5833 7.50917C16.6544 7.50917 18.3333 9.19118 18.3333 11.2661C18.3333 13.1998 16.875 14.7924 15 15M14.5646 7.50922C14.577 7.37172 14.5833 7.23247 14.5833 7.09174C14.5833 4.55579 12.5313 2.5 10 2.5C7.6027 2.5 5.63528 4.34389 5.43369 6.69326M14.5646 7.50922C14.4794 8.45632 14.1072 9.3205 13.5357 10.0138M5.43369 6.69326C3.31999 6.89477 1.66667 8.67827 1.66667 10.8486C1.66667 12.8681 3.09814 14.5527 5.00001 14.9394M5.43369 6.69326C5.56522 6.68072 5.69853 6.67431 5.83334 6.67431C6.77153 6.67431 7.63729 6.98495 8.33374 7.50917" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M10 10.833L10 17.4997M12.0833 12.9163C11.6737 12.4949 10.5835 10.833 10 10.833C9.41648 10.833 8.32628 12.4949 7.91667 12.9163" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -149,7 +149,7 @@ export default function DocumentOverview() {
                   </svg>
                 </span> Total Documents
               </p>
-              <div className="flex items-end">
+              <div className="flex items-end gap-2">
                 <p className=" font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
                 <span className="font-creato text-sm text-(--b1)">{DASHBOARD_DATA.metrics.totalDocs.label}</span>
               </div>
@@ -167,7 +167,7 @@ export default function DocumentOverview() {
                   </svg>
                 </span> Analyzed Documents
               </p>
-              <div className="flex items-end">
+              <div className="flex items-end gap-2">
                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">2,120</p>
                 <span className="font-creato text-sm text-(--b1)">86.5% Analyzed</span>
               </div>
@@ -189,7 +189,7 @@ export default function DocumentOverview() {
                   </svg>
                 </span> Reports
               </p>
-              <div className="flex items-end">
+              <div className="flex items-end gap-2">
                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
                 <span className="font-creato text-sm text-(--b1)">41.0%</span>
               </div>
@@ -206,7 +206,7 @@ export default function DocumentOverview() {
                   </svg>
                 </span> OCR
               </p>
-              <div className="flex items-end">
+              <div className="flex items-end gap-2">
                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">92%</p>
               </div>
             </div>
@@ -252,7 +252,7 @@ export default function DocumentOverview() {
                     </defs>
                   </svg>
                 </span>
-                <p className="font-creato text-sm font-medium leading-5">
+                <p className="font-creato text-sm font-normal leading-5">
                   {finding.text}
                   {finding.highlight && <span className="font-creato font-bold text-sm text-(--green)">{finding.highlight}</span>}
                 </p>
@@ -274,7 +274,7 @@ export default function DocumentOverview() {
 
           {/* Container size optimized to match the image ratio perfectly */}
           <div className="relative w-full mt-2" style={{ height: '240px', overflow: 'hidden' }}>
-            <div className="absolute inset-0" style={{ height: '480px' }}>
+            <div className="absolute inset-0 z-5" style={{ height: '480px' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                   <Pie
@@ -305,24 +305,49 @@ export default function DocumentOverview() {
                       <Cell
                         key={`cell-${idx}`}
                         fill={entry.color}
-                        className="hover:opacity-75 transition-opacity cursor-pointer focus:outline-none"
+                        className="hover:opacity-85 transition-opacity cursor-pointer focus:outline-none"
                       />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ background: '#1e293b', borderRadius: '8px', color: '#fff', fontSize: '11px' }} />
+
+                  {/* Custom Tooltip matching image_f3f580.png styling exactly */}
+                  <Tooltip
+                    cursor={false}
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        const data = payload[0].payload;
+                        // Calculates absolute number based on the total 2,450 context
+                        const absoluteValue = Math.round((data.value / 100) * 2450).toLocaleString();
+
+                        return (
+                          <div
+                            className="bg-white z-5 border border-neutral-200/70 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 font-sans text-xs font-normal text-[#1B1B21]"
+                            style={{ boxShadow: '0 2px 8px -1px rgba(0, 0, 0, 0.06), 0 1px 3px -1px rgba(0, 0, 0, 0.04)' }}
+                          >
+                            <span
+                              className="w-2.5 h-2.5 rounded-full block shrink-0"
+                              style={{ backgroundColor: data.color }}
+                            />
+                            <span className="tracking-tight text-neutral-700">{absoluteValue}</span>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            
+
             {/* Label centered perfectly at the bottom baseline */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-center w-full">
+            <div className="absolute bottom-2 z-4 left-1/2 -translate-x-1/2 text-center w-full">
               <span className="font-creato text-5xl sm:text-6xl font-normal text-(--b1) tracking-tight">2,450</span>
               <p className="font-creato text-gray-700 text-sm sm:text-base font-normal mt-1">Total Documents</p>
             </div>
           </div>
 
           {/* Bordered and shaded horizontal legend matching image_d83edc.png */}
-          <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-2 mt-4 w-full border border-(--DDDDDB) rounded-xl p-3 bg-gray-50/40">
+          <div className="flex overflow-auto flex-wrap items-center justify-between gap-x-2 mt-4 gap-y-2 w-full border border-(--DDDDDB) rounded-md p-3 bg-gray-50/40">
             {[
               { name: 'Reports', value: 42, color: '#CCE88E' },
               { name: 'Research', value: 28, color: '#22493E' },
@@ -338,14 +363,15 @@ export default function DocumentOverview() {
           </div>
         </div>
 
+
         {/* Upload Trend Line Chart */}
-        {/* Upload Trend Line Chart */}
+
         <div className="bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-8">
             <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Document Upload Trend</h3>
             <div className="relative inline-block">
               <select
-                className="appearance-none bg-transparent font-creato font-medium px-2 text-sm leading-3 text-(--b1) pr-8 cursor-pointer focus:outline-none"
+                className="appearance-none bg-transparent font-creato font-medium px-2 text-sm leading-3 text-(--b1c) pr-8 cursor-pointer focus:outline-none"
                 defaultValue="30"
               >
                 <option value="7">Last 7 Days</option>
@@ -360,32 +386,33 @@ export default function DocumentOverview() {
 
           <div className="w-full grow flex items-center min-h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart 
-                data={DASHBOARD_DATA.uploadTrend} 
-                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+              <LineChart
+                data={DASHBOARD_DATA.uploadTrend}
+                margin={{ top: 10, right: 10, left: -5, bottom: -2 }}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="transparent" />
-                
-                <XAxis 
-                  dataKey="date" 
+
+                <XAxis
+                  dataKey="date"
                   tick={{ fontSize: 14, fill: '#1B1B21' }}
                   className="font-sans text-sm tracking-[0.02em]"
                   dy={16}
                   height={40}
-                  axisLine={false} 
-                  tickLine={false} 
+                  axisLine={false}
+                  tickLine={false}
                 />
-                
-                <YAxis 
+
+                <YAxis
                   domain={[0, 800]}
                   ticks={[0, 200, 400, 600, 800]}
+                  tickMargin={20}
                   tick={{ fontSize: 14, fill: '#1B1B21' }}
                   className="font-sans text-sm tracking-[0.02em]"
-                  axisLine={false} 
-                  tickLine={false} 
+                  axisLine={false}
+                  tickLine={false}
                 />
-                
-                <Tooltip 
+
+                <Tooltip
                   cursor={{ stroke: '#94a3b8', strokeWidth: 1, strokeDasharray: '4 4' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
@@ -393,8 +420,8 @@ export default function DocumentOverview() {
                         <div className="bg-white border border-gray-200/80 rounded-xl p-3 shadow-sm flex flex-col gap-2 font-sans text-xs tracking-[0.02em] text-[#1B1B21]">
                           {payload.map((entry, index) => (
                             <div key={index} className="flex items-center gap-2">
-                              <span 
-                                className="w-2.5 h-2.5 rounded-full block shrink-0" 
+                              <span
+                                className="w-2.5 h-2.5 rounded-full block shrink-0"
                                 style={{ backgroundColor: entry.stroke }}
                               />
                               <span className="font-normal">
@@ -409,32 +436,32 @@ export default function DocumentOverview() {
                   }}
                 />
 
-                <Line 
-                  type="monotone" 
+                <Line
+                  type="monotone"
                   name="Research"
-                  dataKey="Research" 
-                  stroke="#397968" 
-                  strokeWidth={3.5} 
-                  dot={{ r: 0 }} 
-                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }} 
+                  dataKey="Research"
+                  stroke="#397968"
+                  strokeWidth={3.5}
+                  dot={{ r: 0 }}
+                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }}
                 />
-                <Line 
-                  type="monotone" 
+                <Line
+                  type="monotone"
                   name="Reports"
-                  dataKey="Reports" 
-                  stroke="#CCE88E" 
-                  strokeWidth={3.5} 
-                  dot={{ r: 0 }} 
-                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }} 
+                  dataKey="Reports"
+                  stroke="#CCE88E"
+                  strokeWidth={3.5}
+                  dot={{ r: 0 }}
+                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }}
                 />
-                <Line 
-                  type="monotone" 
+                <Line
+                  type="monotone"
                   name="Others"
-                  dataKey="Others" 
-                  stroke="#FF7D60" 
-                  strokeWidth={3.5} 
-                  dot={{ r: 0 }} 
-                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }} 
+                  dataKey="Others"
+                  stroke="#FF7D60"
+                  strokeWidth={3.5}
+                  dot={{ r: 0 }}
+                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -449,7 +476,7 @@ export default function DocumentOverview() {
         {/* Recent Documents */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-(--DDDDDB) h-91.5 flex flex-col justify-between">
           <h3 className="font-creato text-xl font-medium leading-5 mb-5 select-none text-(--b1) tracking-(--tracking-body)">Recent Documents</h3>
-          
+
           {/* Scrollable Container with exact 4px custom scrollbar styling */}
           <div className="grow overflow-y-auto pr-2 space-y-4
             [&::-webkit-scrollbar]:w-1
@@ -461,7 +488,7 @@ export default function DocumentOverview() {
             [&::-webkit-scrollbar-thumb]:rounded-full"
           >
             {DASHBOARD_DATA.recentDocs.map((doc, idx) => (
-              <div key={idx} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 pl-0 pt-0 rounded-xl mb-4 transition-colors gap-4 last:mb-0">
+              <div key={idx} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-0 pt-0 rounded-xl mb-4 transition-colors gap-4 last:mb-0">
                 <div className="flex items-center gap-4">
                   <div className="flex gap-4">
                     <div className="min-w-0">
@@ -503,11 +530,11 @@ export default function DocumentOverview() {
               <tbody className="divide-y divide-gray-50">
                 {DASHBOARD_DATA.ocrQueue.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/60 transition-colors">
-                    <td className="py-3 font-creato font-medium text-sm leading-3 text-(--b1) max-w-27.5 truncate">{item.name}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.type}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.progress}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.status}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.time}</td>
+                    <td className="py-3 font-creato font-normal text-sm leading-3 text-(--b1) max-w-27.5 truncate">{item.name}</td>
+                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.type}</td>
+                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.progress}</td>
+                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.status}</td>
+                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.time}</td>
                   </tr>
                 ))}
               </tbody>
@@ -522,16 +549,56 @@ export default function DocumentOverview() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <h3 className="font-creato text-xl font-medium leading-5 tracking-(--tracking-body)">Documents Library</h3>
           <div className="flex gap-3 justify-between">
-            <div className="relative lg:w-50 w-40">
-              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+
+            {/* search bar */}
+
+            <div className="relative flex items-center lg:w-63.5 w-40">
+              {/* Custom Search SVG Icon */}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute left-3.5 pointer-events-none shrink-0"
+              >
+                <g clipPath="url(#clip0_788_23627)">
+                  <path d="M11.6666 11.666L14.6666 14.666" stroke="#5C5C5F" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M13.3333 7.33301C13.3333 4.0193 10.647 1.33301 7.33325 1.33301C4.01954 1.33301 1.33325 4.0193 1.33325 7.33301C1.33325 10.6467 4.01954 13.333 7.33325 13.333C10.647 13.333 13.3333 10.6467 13.3333 7.33301Z" stroke="#5C5C5F" strokeLinejoin="round" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_788_23627">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+
               <input
                 type="text"
                 placeholder="Search library..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full text-(--c5) pl-9 pr-4 py-2 border border-gray-200 focus:outline-none focus:border-gray-400 focus:bg-white rounded-lg bg-slate-50/60 transition-all"
+                className="w-full bg-white text-(--c5) font-creato font-normal rounded-md border border-(--DDDDDB) pl-10 pr-16 py-2 text-sm leading-4.5 placeholder-(--c5) outline-none transition-colors duration-150"
               />
+
+              {/* Command Shortcuts Container */}
+              <div className="absolute right-3 flex items-center gap-1 pointer-events-none select-none">
+                {/* Command Icon */}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                  <rect x="0.25" y="0.25" width="15.5" height="15.5" rx="3.75" fill="white" />
+                  <rect x="0.25" y="0.25" width="15.5" height="15.5" rx="3.75" stroke="#DDDDDB" strokeWidth="0.5" />
+                  <path d="M6.34085 7.11274V8.89145H5.56057C4.70058 8.89145 4 9.57105 4 10.4352C4 11.2994 4.69638 12 5.56057 12C6.41636 12 7.11694 11.2994 7.11694 10.4352V9.66335H8.88306V10.4352C8.88306 11.2994 9.58364 12 10.4394 12C11.3036 12 12 11.2994 12 10.4352C12 9.57105 11.2994 8.89145 10.4394 8.89145H9.65915V7.11274H10.4394C11.2994 7.10855 12 6.42895 12 5.56476C12 4.70477 11.3036 4 10.4394 4C9.58364 4 8.88306 4.70477 8.88306 5.56476V6.34085H7.11694V5.56476C7.11694 4.70477 6.41636 4 5.56057 4C4.69638 4 4 4.70477 4 5.56476C4 6.42895 4.70058 7.10855 5.56057 7.11274H6.34085ZM5.57315 6.34924C5.13686 6.34924 4.78448 5.99685 4.78448 5.56476C4.78448 5.13686 5.13686 4.78448 5.56057 4.78448C5.98427 4.78448 6.33665 5.13686 6.33665 5.57735V6.34924H5.57315ZM10.431 6.34924H9.66335V5.57735C9.66335 5.13686 10.0157 4.78448 10.4394 4.78448C10.8673 4.78448 11.2155 5.13686 11.2155 5.56476C11.2155 5.99685 10.8631 6.34924 10.431 6.34924ZM7.12113 8.89565V7.10435H8.88306V8.89565H7.12113ZM5.57315 9.65076H6.33665V10.4227C6.33665 10.8589 5.98427 11.2113 5.56057 11.2113C5.13686 11.2113 4.78448 10.8631 4.78448 10.431C4.78448 10.0031 5.13686 9.65076 5.57315 9.65076ZM10.431 9.65076C10.8631 9.65076 11.2155 10.0031 11.2155 10.431C11.2155 10.8631 10.8673 11.2113 10.4394 11.2113C10.0157 11.2113 9.66335 10.8589 9.66335 10.4227V9.65076H10.431Z" fill="#5C5C5F" />
+                </svg>
+
+                {/* K Letter Icon */}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                  <rect x="0.25" y="0.25" width="15.5" height="15.5" rx="3.75" fill="white" />
+                  <rect x="0.25" y="0.25" width="15.5" height="15.5" rx="3.75" stroke="#DDDDDB" strokeWidth="0.5" />
+                  <path d="M10.9299 11.5604H9.61995L7.23995 8.21043L6.17995 9.29043V11.5604H5.06995V4.44043H6.17995V7.95043L9.51995 4.44043H10.8299L7.96995 7.39043L10.9299 11.5604Z" fill="#5C5C5F" />
+                </svg>
+              </div>
             </div>
+
             <button className="cursor-pointer font-creato text-sm leading-3.5 text-(--c5)">View All</button>
           </div>
         </div>
@@ -542,15 +609,15 @@ export default function DocumentOverview() {
             <table className="w-full text-left text-xs min-w-240">
               <thead className="h-8">
                 <tr className="text-gray-400 bg-transparent border-b border-b(--DDDDDB) pb-2">
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) tracking-(--tracking-body)">Document Name</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Type</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">State</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Category</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Uploaded By</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Upload Date</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Size</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Status</th>
-                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Action</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) tracking-(--tracking-body)">Document Name</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">Type</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">State</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">Category</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">Uploaded By</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">Upload Date</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">Size</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">Status</th>
+                  <th className="font-creato font-medium text-xs leading-4.5 text-(--c5) text-center tracking-(--tracking-body)">Action</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -558,8 +625,8 @@ export default function DocumentOverview() {
                   .filter(doc => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
                   .map((doc) => (
                     <tr key={doc.id} className="">
-                      <td className="font-creato font-medium text-sm leading-3 text-(--b1) py-3.5 pl-0  flex items-center gap-4 max-w-57.5 truncate">
-                        <span className="">
+                      <td className="font-creato font-medium text-base leading-3 text-(--b1) py-3.5 pl-0  flex items-center gap-4 max-w-57.5 truncate">
+                        <span className="w-8 h-8">
                           <Image
                             src={pdf}
                             alt="PDF"
@@ -570,12 +637,12 @@ export default function DocumentOverview() {
                         {doc.name}
                       </td>
                       <td className="text-center"><span className="font-creato font-bold text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span></td>
-                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.state}</td>
-                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.category}</td>
-                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.user}</td>
-                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.date}</td>
-                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.size}</td>
-                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.status}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.state}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.category}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.user}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.date}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.size}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.status}</td>
                       <td className="py-3.5 text-center">
                         <div className="flex items-center justify-center gap-2">
                           <button title="View" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
