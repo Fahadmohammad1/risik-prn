@@ -70,7 +70,7 @@ export default function GeographicalOverview() {
         <div className="min-h-screen bg-(--f2) p-6 font-sans antialiased text-gray-800 selection:bg-emerald-100 flex flex-col gap-4">
 
             {/* --- HEADER SECTION --- */}
-            <div className="flex flex-col lg:flex-col lg:items-start md:flex-col md:items-start justify-items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col lg:flex-col lg:items-start md:flex-col md:items-start justify-items-start gap-4 sm:justify-between">
                 <div>
                     <h1 className="font-creato font-medium text-4xl text-(--b1) leading-9 mb-2">GIS Political Map Overview</h1>
                 </div>
@@ -79,7 +79,7 @@ export default function GeographicalOverview() {
                     <div className="flex flex-wrap items-center gap-2">
 
                         <div className="relative">
-                            <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+                            <select className="font-creato cursor-pointer focus:outline-none appearance-none bg-white px-3 py-2 pr-10 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                                 <option>2021</option>
                                 <option>2022</option>
                                 <option>2023</option>
@@ -90,7 +90,7 @@ export default function GeographicalOverview() {
                         </div>
 
                         <div className="relative">
-                            <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+                            <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                                 <option>Johor Bahru</option>
                                 <option>Kuala Lumpur</option>
                                 <option>Penang</option>
@@ -101,7 +101,7 @@ export default function GeographicalOverview() {
                         </div>
 
                         <div className="relative">
-                            <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+                            <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                                 <option>District</option>
                                 <option>District 1</option>
                                 <option>District 2</option>
@@ -112,7 +112,7 @@ export default function GeographicalOverview() {
                         </div>
 
                         <div className="relative">
-                            <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+                            <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                                 <option>Party</option>
                                 <option>Party A</option>
                                 <option>Party B</option>
@@ -123,7 +123,7 @@ export default function GeographicalOverview() {
                         </div>
 
                         <div className="relative">
-                            <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+                            <select className="font-creato cursor-pointer focus:outline-none leading-5 appearance-none bg-white px-3 py-2 pr-6 border border-(--DDDDDB) rounded text-sm font-medium text-gray-600 max-w-32.75">
                                 <option>Status</option>
                                 <option>Active</option>
                                 <option>Pending</option>
@@ -138,17 +138,17 @@ export default function GeographicalOverview() {
 
                     <div className='flex justify-between gap-2 w-auto '>
 
-                        <button className="w-40 md:w-40 font-creato text-base lg:w-auto flex items-center justify-center gap-2 bg-(--light-green) hover:bg-lime-300 text-(--b1) font-normal px-4 py-2.5 rounded-lg sm:text-sm cursor-pointer active:scale-95">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <button className="w-40 md:w-40 hover:bg-(--surf-green) transition-all font-creato text-[16px]! lg:w-39 flex items-center justify-center gap-2 bg-(--light-green) text-(--b1) font-normal px-4 py-1 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14.5646 7.50922C14.5709 7.50919 14.5771 7.50917 14.5833 7.50917C16.6544 7.50917 18.3333 9.19118 18.3333 11.2661C18.3333 13.1998 16.875 14.7924 15 15M14.5646 7.50922C14.577 7.37172 14.5833 7.23247 14.5833 7.09174C14.5833 4.55579 12.5313 2.5 10 2.5C7.6027 2.5 5.63528 4.34389 5.43369 6.69326M14.5646 7.50922C14.4794 8.45632 14.1072 9.3205 13.5357 10.0138M5.43369 6.69326C3.31999 6.89477 1.66667 8.67827 1.66667 10.8486C1.66667 12.8681 3.09814 14.5527 5.00001 14.9394M5.43369 6.69326C5.56522 6.68072 5.69853 6.67431 5.83334 6.67431C6.77153 6.67431 7.63729 6.98495 8.33374 7.50917" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M10 10.833L10 17.4997M12.0833 12.9163C11.6737 12.4949 10.5835 10.833 10 10.833C9.41648 10.833 8.32628 12.4949 7.91667 12.9163" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             Export Report
                         </button>
 
-                        <div className="relative w-45 md:w-45 lg:w-auto">
+                        <div className="relative w-45 md:w-45 lg:w-46">
                             <select
-                                className="appearance-none w-full font-creato text-base sm:text-sm bg-background text-(--b1) font-normal rounded-lg active:scale-95 cursor-pointer pl-12 pr-4 py-2.5 focus:outline-none"
+                                className="appearance-none border border-(--DDDDDB) w-full font-creato text-[16px]! sm:text-sm bg-background text-(--b1) font-normal rounded active:scale-95 cursor-pointer pl-12 pr-4 py-1.5 focus:outline-none"
                                 defaultValue=""
                             >
                                 <option value="" disabled>
@@ -200,7 +200,7 @@ export default function GeographicalOverview() {
                     {/* Top 2 large metric cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                        <div className="flex flex-col justify-between bg-white p-5 rounded-2xl border border-gray-100 transition-all duration-300 group" style={{ minHeight: '176px' }}>
+                        <div className="flex flex-col justify-between bg-white p-5 rounded-2xl border border-(--DDDDDB) transition-all duration-300 group" style={{ minHeight: '176px' }}>
                             <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                                 <span>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -211,13 +211,13 @@ export default function GeographicalOverview() {
                                     </svg>
                                 </span> Total Constituencies
                             </p>
-                            <div className="flex items-end gap-1 mt-6">
+                            <div className="flex items-end gap-2 mt-6">
                                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
                         </div>
 
-                        <div className="flex flex-col justify-between bg-white p-5 rounded-2xl border border-gray-100 transition-all duration-300 group" style={{ minHeight: '176px' }}>
+                        <div className="flex flex-col justify-between bg-white p-5 rounded-2xl border border-(--DDDDDB) transition-all duration-300 group" style={{ minHeight: '176px' }}>
                             <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                                 <span>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -230,7 +230,7 @@ export default function GeographicalOverview() {
                                     </svg>
                                 </span> Competitive Areas
                             </p>
-                            <div className="flex items-end gap-1 mt-6">
+                            <div className="flex items-end gap-2 mt-6">
                                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">2,120</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
@@ -239,9 +239,9 @@ export default function GeographicalOverview() {
                     </div>
 
                     {/* Bottom 3 smaller metric cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 xl:grid-cols-7 lg:grid-cols-3 gap-4">
 
-                        <div className="flex flex-col justify-between bg-white p-5 rounded-2xl border border-gray-100 transition-all duration-300 group" style={{ minHeight: '176px' }}>
+                        <div className="flex flex-col xl:col-span-2  justify-between bg-white p-5 rounded-2xl border border-(--DDDDDB) transition-all duration-300 group" style={{ minHeight: '176px' }}>
                             <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                                 <span>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -250,13 +250,13 @@ export default function GeographicalOverview() {
                                     </svg>
                                 </span> Strong Areas
                             </p>
-                            <div className="flex items-end gap-1 mt-4">
+                            <div className="flex items-end gap-2 mt-4">
                                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
                         </div>
 
-                        <div className="flex flex-col justify-between bg-white p-5 rounded-2xl border border-gray-100 transition-all duration-300 group" style={{ minHeight: '176px' }}>
+                        <div className="flex flex-col xl:col-span-2  justify-between bg-white p-5 rounded-2xl border border-(--DDDDDB) transition-all duration-300 group" style={{ minHeight: '176px' }}>
                             <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                                 <span>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -267,13 +267,13 @@ export default function GeographicalOverview() {
                                     </svg>
                                 </span> Risk Areas
                             </p>
-                            <div className="flex items-end gap-1 mt-4">
+                            <div className="flex items-end gap-2 mt-4">
                                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">92%</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
                         </div>
 
-                        <div className="flex flex-col justify-between bg-white p-5 rounded-2xl border border-gray-100 transition-all duration-300 group sm:col-span-1" style={{ minHeight: '176px' }}>
+                        <div className="flex flex-col xl:col-span-3  justify-between bg-white p-5 rounded-2xl border border-(--DDDDDB) transition-all duration-300 group sm:col-span-1" style={{ minHeight: '176px' }}>
                             <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                                 <span>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -284,7 +284,7 @@ export default function GeographicalOverview() {
                                     </svg>
                                 </span> Campaign Coverage
                             </p>
-                            <div className="flex items-end gap-1 mt-4">
+                            <div className="flex items-end gap-2 mt-4">
                                 <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
                             </div>
                         </div>
@@ -294,7 +294,7 @@ export default function GeographicalOverview() {
                 </div>
 
                 {/* Right: Political Strength Analysis (2 parts = col-span-2) */}
-                <div className="col-span-1 xl:col-span-2 lg:col-span-3 bg-white border border-gray-100 rounded-3xl p-5 font-sans text-gray-800">
+                <div className="col-span-1 xl:col-span-2 lg:col-span-3 bg-white border border-(--DDDDDB) rounded-2xl p-5 font-sans text-gray-800">
                     <h2 className="font-creato text-xl font-medium leading-5 mb-6 text-(--b1)">Political Strength Analysis</h2>
                     <div className="flex justify-between text-sm font-medium text-gray-400 border-b border-gray-100 pb-3 mb-5">
                         <span className='font-creato font-normal text-xs leading-3 text-(--c5)'>Strengths</span>
@@ -334,11 +334,11 @@ export default function GeographicalOverview() {
                 <div className="flex flex-col gap-4 col-span-1 lg:col-span-3 min-w-0">
 
                     {/* GIS Map Container */}
-                    <div className="bg-white rounded-2xl p-5 w-full" style={{ minHeight: '350px' }}>
+                    <div className="bg-white rounded-2xl border border-(--DDDDDB) p-5 w-full" style={{ minHeight: '350px' }}>
                         <div className="flex flex-row justify-between items-center sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
                             <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Political GIS Map</h3>
                             <select
-                                className="font-creato text-sm text-(--b1) w-28 bg-transparent px-4 py-2 focus:outline-none cursor-pointer"
+                                className="font-creato text-sm text-(--b1c) w-28 bg-transparent px-4 py-2 focus:outline-none cursor-pointer"
                                 defaultValue="all"
                             >
                                 <option value="all">All States</option>
@@ -364,7 +364,7 @@ export default function GeographicalOverview() {
                     </div>
 
                     {/* Strategic District Watchlist Table */}
-                    <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 w-full min-w-0">
+                    <div className="bg-white p-4 sm:p-5 rounded-2xl border border-(--DDDDDB) w-full min-w-0">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                             <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Strategic District Watchlist</h3>
                         </div>
@@ -390,17 +390,17 @@ export default function GeographicalOverview() {
                                             .filter(doc => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
                                             .map((doc) => (
                                                 <tr key={doc.id} className=" transition-colors group">
-                                                    <td className="font-creato font-medium text-sm leading-3 text-(--b1) py-4.25 pl-0 pr-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-xs">
+                                                    <td className="font-creato leading-4.5 font-normal text-sm text-(--b1) py-4.25 pl-0 pr-4 whitespace-nowrap overflow-hidden text-ellipsis max-w-xs">
                                                         {doc.name}
                                                     </td>
                                                     <td className="text-center py-3.5 whitespace-nowrap">
-                                                        <span className="font-creato text-xs px-2 py-0.5 text-(--b1)">{doc.type}</span>
+                                                        <span className="font-creato leading-4.5 text-sm px-2 py-0.5 text-(--b1)">{doc.type}</span>
                                                     </td>
-                                                    <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1) whitespace-nowrap">{doc.state}</td>
-                                                    <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1) whitespace-nowrap">{doc.category}</td>
-                                                    <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1) whitespace-nowrap">{doc.user}</td>
-                                                    <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1) whitespace-nowrap">{doc.date}</td>
-                                                    <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1) whitespace-nowrap">{doc.size}</td>
+                                                    <td className="text-center leading-4.5 px-2 font-creato font-normal text-sm text-(--b1) whitespace-nowrap">{doc.state}</td>
+                                                    <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1) whitespace-nowrap">{doc.category}</td>
+                                                    <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1) whitespace-nowrap">{doc.user}</td>
+                                                    <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1) whitespace-nowrap">{doc.date}</td>
+                                                    <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1) whitespace-nowrap">{doc.size}</td>
                                                 </tr>
                                             ))}
                                     </tbody>
@@ -415,7 +415,7 @@ export default function GeographicalOverview() {
                 <div className="flex flex-col gap-4 col-span-1 lg:col-span-2 min-w-0">
 
                     {/* Political Hotspots */}
-                    <div className="bg-(--dark-green) border border-gray-100 rounded-3xl p-5 text-gray-800">
+                    <div className="bg-(--dark-green) border border-(--DDDDDB) rounded-2xl p-5 text-gray-800">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="font-creato text-xl font-medium leading-5 text-(--cc)">
                                 Political Hotspots
@@ -460,7 +460,7 @@ export default function GeographicalOverview() {
                     </div>
 
                     {/* Candidate Card */}
-                    <div className="w-full bg-white border border-gray-100 rounded-3xl p-6  font-sans text-gray-800">
+                    <div className="w-full bg-white border border-(--DDDDDB) rounded-2xl p-6  font-sans text-gray-800">
                         {/* Candidate Avatar */}
                         <div className="mb-4">
                             <Image
@@ -478,7 +478,7 @@ export default function GeographicalOverview() {
                         </h2>
 
                         {/* Badges / Tags Section */}
-                        <div className="flex items-center gap-3 lg:gap-1 text-sm mb-6">
+                        <div className="flex items-center xl:gap-3 lg:gap-1 text-sm mb-6">
                             <span className="font-creato text-xs font-normal text-(--b1) py-1 px-2 rounded bg-(--light-green)">
                                 Strong
                             </span>
@@ -503,12 +503,12 @@ export default function GeographicalOverview() {
                         </div>
 
                         {/* Metrics Grid */}
-                        <div className="flex lg:flex-wrap lg:gap-2 justify-between items-center text-gray-900">
+                        <div className="flex lg:flex-wrap xl:flex-nowrap justify-between items-center text-gray-900">
                             {/* Support Metric */}
                             <div className="flex-1">
-                                <div className="flex items-baseline pr-4 gap-1">
-                                    <span className="text-3xl font-creato text-(--b1)">91%</span>
-                                    <span className="text-xs font-creato text-(--b1)">Support</span>
+                                <div className="flex items-baseline pr-4 gap-2">
+                                    <span className="text-3xl font-creato text-(--b1) tracking-(--tracking-body)">91%</span>
+                                    <span className="text-xs font-creato text-(--b1) tracking-(--tracking-body)">Support</span>
                                 </div>
                             </div>
 
@@ -517,9 +517,9 @@ export default function GeographicalOverview() {
 
                             {/* Trend Metric */}
                             <div className="flex-1 justify-center pl-4 lg:pl-0 pr-4">
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-3xl font-creato text-(--b1)">+6%</span>
-                                    <span className="text-xs font-creato text-(--b1)">Trend</span>
+                                <div className="flex items-baseline gap-2">
+                                    <span className="text-3xl font-creato text-(--b1) tracking-(--tracking-body)">+6%</span>
+                                    <span className="text-xs font-creato text-(--b1) tracking-(--tracking-body)">Trend</span>
                                 </div>
                             </div>
 
@@ -528,20 +528,20 @@ export default function GeographicalOverview() {
 
                             {/* Rank Metric */}
                             <div className="flex-1 pl-4 items-center">
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-3xl font-creato text-(--b1)">#1</span>
-                                    <span className="text-xs font-creato text-(--b1)">Rank</span>
+                                <div className="flex items-baseline gap-2">
+                                    <span className="text-3xl font-creato text-(--b1) tracking-(--tracking-body)">#1</span>
+                                    <span className="text-xs font-creato text-(--b1) tracking-(--tracking-body)">Rank</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     {/* GIS Insights Card */}
-                    <div className="bg-white p-5 rounded-2xl border border-gray-100 ">
+                    <div className="bg-white p-5 rounded-2xl border border-(--DDDDDB) ">
                         <h3 className="font-creato text-xl font-medium leading-5 mb-4">GIS Insights</h3>
                         <ul className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-none] space-y-4 text-xs text-gray-600 max-h-44 overflow-y-auto pr-1">
                             {DASHBOARD_DATA.keyFindings.map((finding) => (
-                                <li key={finding.id} className="leading-3.5 flex items-start gap-2 text-(--c5) border-b border-gray-50 pb-0 mb-3 last:border-0 last:pb-0">
+                                <li key={finding.id} className="leading-3.5 flex items-start gap-2 text-(--c5)  pb-0 mb-3 last:border-0 last:pb-0">
                                     <span className="shrink-0 mt-0.5">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g clipPath="url(#clip0_627_24193)">
@@ -555,7 +555,7 @@ export default function GeographicalOverview() {
                                             </defs>
                                         </svg>
                                     </span>
-                                    <p className="font-creato text-sm font-medium leading-5">
+                                    <p className="font-creato text-sm font-normal leading-5">
                                         {finding.text}{" "}
                                         {finding.highlight && <span className="font-creato text-sm font-bold leading-3.5 text-(--green)">{finding.highlight}</span>}
                                     </p>

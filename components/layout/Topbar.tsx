@@ -45,7 +45,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
           <Menu size={20} />
         </button>
 
-        <h4 className="font-creato font-bold text-2xl tracking-(--tracking-body)">
+        <h4 className="font-creato font-bold text-2xl text-(--b1) tracking-(--tracking-body)">
           Analytics
         </h4>
       </div>
@@ -58,12 +58,47 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
           <button
             type="button"
             onClick={() => setIsCalOpen(!isCalOpen)}
-            className="h-9.5 px-2.5 md:px-3 bg-white border border-[#E4E4E2] rounded flex items-center gap-1.5 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none"
+            className="h-9.5 px-2.5 md:px-3 xl:px-4 bg-white border border-(--DDDDDB) rounded flex items-center gap-1.5 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none"
           >
-            <span className="text-[11px] font-medium text-[#4A4A4A] tracking-tight">
+            <span className="font-creato text-xs font-medium text-(--b1) tracking-tight">
               {currentEvent}
             </span>
-            <CalendarDays size={8} className="text-gray-400 stroke-[1.8]" />
+            
+            {/* Custom SVG Calendar Icon */}
+            <svg 
+              width="14" 
+              height="14" 
+              viewBox="0 0 14 14" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className="text-gray-400 shrink-0"
+            >
+              <g clipPath="url(#clip0_788_23797)">
+                <path 
+                  d="M10.5 1.16602V2.33268M3.5 1.16602V2.33268" 
+                  stroke="currentColor" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+                <path 
+                  d="M1.45833 7.14189C1.45833 4.60013 1.45833 3.32925 2.18873 2.53962C2.91913 1.75 4.0947 1.75 6.44583 1.75H7.55416C9.90529 1.75 11.0809 1.75 11.8113 2.53962C12.5417 3.32925 12.5417 4.60013 12.5417 7.14189V7.44144C12.5417 9.9832 12.5417 11.2541 11.8113 12.0437C11.0809 12.8333 9.90529 12.8333 7.55416 12.8333H6.44583C4.0947 12.8333 2.91913 12.8333 2.18873 12.0437C1.45833 11.2541 1.45833 9.9832 1.45833 7.44144V7.14189Z" 
+                  stroke="currentColor" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+                <path 
+                  d="M1.75 4.66602H12.25" 
+                  stroke="currentColor" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_788_23797">
+                  <rect width="14" height="14" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
           </button>
 
           {isCalOpen && (
@@ -76,8 +111,11 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                     setCurrentEvent(event);
                     setIsCalOpen(false);
                   }}
-                  className={`w-full h-8 px-2.5 text-left text-[11px] font-medium transition-colors cursor-pointer ${currentEvent === event ? "bg-[#EFEFED] text-[#1E463C]" : "text-[#4A4A4A] bg-transparent hover:bg-gray-50"
-                    }`}
+                  className={`font-creato w-full h-8 px-2.5 text-left text-xs font-medium transition-colors cursor-pointer ${
+                    currentEvent === event 
+                      ? "bg-white text-(--b1)" 
+                      : "text-(--b1) bg-transparent hover:bg-(--DDDDDB)"
+                  }`}
                 >
                   {event}
                 </button>
@@ -87,11 +125,12 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         </div>
 
         {/* Language Selector Dropdown */}
+        {/* Language Selector Dropdown */}
         <div ref={langDropdownRef} className="relative inline-block text-left select-none">
           <button
             type="button"
             onClick={() => setIsLangOpen(!isLangOpen)}
-            className="h-9.5 px-2.5 bg-white border border-[#E4E4E2] rounded flex items-center gap-1.5 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none"
+            className="h-9.5 px-2.5 xl:px-3.5 bg-white border border-[#E4E4E2] rounded flex items-center gap-1.5 cursor-pointer hover:bg-gray-50 transition-colors focus:outline-none"
           >
             {currentLang.code === "EN" ? (
               <svg className="w-3.5 h-2.5 rounded-[1px] shrink-0" viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg">
@@ -128,8 +167,25 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                 <path d="M 6.5 2 L 6.8 3.2 L 8 3 L 7 3.8 L 7.8 4.8 L 6.6 4.3 L 6.5 5.5 L 6.1 4.3 L 5 4.8 L 5.8 3.8 L 4.8 3 L 6 3.2 Z" fill="#ffff00" />
               </svg>
             )}
-            <span className="text-[11px] font-medium text-[#4A4A4A]">{currentLang.code}</span>
-            <ChevronDown size={8} className={`text-gray-400 stroke-[1.8] transition-transform duration-150 ${isLangOpen ? "rotate-180" : ""}`} />
+            <span className="font-creato text-xs font-medium text-(--b1)">{currentLang.code}</span>
+            
+            {/* Custom Arrow SVG Icon */}
+            <svg 
+              width="14" 
+              height="14" 
+              viewBox="0 0 14 14" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className={`text-gray-400 shrink-0 transition-transform duration-150 ${isLangOpen ? "rotate-180" : ""}`}
+            >
+              <path 
+                d="M10.5 5.25003C10.5 5.25003 7.92229 8.74999 6.99997 8.75C6.07766 8.75001 3.5 5.25 3.5 5.25" 
+                stroke="currentColor" 
+                strokeWidth="1.4"
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
 
           {isLangOpen && (
@@ -140,8 +196,9 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                   setCurrentLang({ code: "EN", label: "English" });
                   setIsLangOpen(false);
                 }}
-                className={`w-full py-1 h-9.5 px-2.5 flex items-center gap-2 text-left text-[11px] font-medium transition-colors cursor-pointer ${currentLang.code === "EN" ? "bg-[#EFEFED] text-[#1E463C]" : "text-[#4A4A4A] bg-transparent hover:bg-gray-50"
-                  }`}
+                className={`w-full py-1 h-9.5 px-2.5 flex items-center gap-2 text-left text-[11px] font-medium transition-colors cursor-pointer ${
+                  currentLang.code === "EN" ? "bg-[#EFEFED] text-[#1E463C]" : "text-[#4A4A4A] bg-transparent hover:bg-gray-50"
+                }`}
               >
                 <svg className="w-3.5 h-2.5 rounded-[1px] shrink-0" viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg">
                   <clipPath id="uk-opt-clip">
@@ -164,8 +221,9 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
                   setCurrentLang({ code: "BM", label: "Bahasa Melayu" });
                   setIsLangOpen(false);
                 }}
-                className={`w-full h-8 px-2.5 flex items-center gap-2 text-left text-[11px] font-medium transition-colors cursor-pointer ${currentLang.code === "BM" ? "bg-[#EFEFED] text-[#1E463C]" : "text-[#4A4A4A] bg-transparent hover:bg-gray-50"
-                  }`}
+                className={`w-full h-8 px-2.5 flex items-center gap-2 text-left text-[11px] font-medium transition-colors cursor-pointer ${
+                  currentLang.code === "BM" ? "bg-[#EFEFED] text-[#1E463C]" : "text-[#4A4A4A] bg-transparent hover:bg-gray-50"
+                }`}
               >
                 <svg className="w-3.5 h-2.5 rounded-[1px] shrink-0" viewBox="0 0 28 14" xmlns="http://www.w3.org/2000/svg">
                   <rect width="28" height="1" fill="#cc0000" y="0" />
@@ -202,13 +260,6 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
 
         </button>
 
-        {/* Support / Chat Button */}
-        <button className="w-9.5 h-9.5 bg-white border border-[#E4E4E2] rounded-lg flex items-center justify-center text-[#4A4A4A] hover:bg-gray-50 hover:text-black transition-all">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.08234 15.833C3.99892 15.7264 3.18729 15.401 2.64298 14.8567C1.66667 13.8804 1.66667 12.309 1.66667 9.16634V8.74967C1.66667 5.60698 1.66667 4.03563 2.64298 3.05932C3.61929 2.08301 5.19064 2.08301 8.33333 2.08301H11.6667C14.8094 2.08301 16.3807 2.08301 17.357 3.05932C18.3333 4.03563 18.3333 5.60698 18.3333 8.74967V9.16634C18.3333 12.309 18.3333 13.8804 17.357 14.8567C16.3807 15.833 14.8094 15.833 11.6667 15.833C11.1996 15.8434 10.8276 15.879 10.4622 15.9622C9.46352 16.1921 8.53877 16.7031 7.62489 17.1487C6.32274 17.7837 5.67166 18.1012 5.26308 17.8039C4.48141 17.2218 5.24545 15.4179 5.41667 14.583" stroke="#1B1B21" stroke-linecap="round" />
-          </svg>
-
-        </button>
 
       </div>
     </div>
