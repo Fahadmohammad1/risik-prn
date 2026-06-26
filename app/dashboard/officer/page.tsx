@@ -144,7 +144,7 @@ function TrendLineChart() {
         <span className="text-[15px] font-semibold text-gray-800">My Submission Trend</span>
         <span className="text-xs text-gray-400 cursor-pointer">Last 30 Days ▾</span>
       </div>
-      <div className="relative flex-grow min-h-[180px]">
+      <div className="relative grow min-h-45">
         <canvas ref={canvasRef} />
       </div>
     </div>
@@ -179,7 +179,7 @@ function SemiDonutChart() {
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col h-full">
       <div className="text-[15px] font-semibold text-gray-800 mb-3">My Coverage Areas</div>
-      <div className="relative h-[180px] flex justify-center items-end">
+      <div className="relative h-45 flex justify-center items-end">
         <canvas ref={canvasRef} />
         <div className="absolute bottom-2.5 text-center">
           <div className="text-[36px] font-bold text-gray-900 leading-none">{OFFICER_DASHBOARD_DATA.coverage.percentage}%</div>
@@ -206,7 +206,7 @@ export default function OfficerDashboard() {
 
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-6 lg:p-8 font-sans antialiased">
-      <div className="max-w-[1400px] mx-auto flex flex-col gap-6">
+      <div className="max-w-350 mx-auto flex flex-col gap-6">
         
         {/* ROW 1: GRID STATS & SUBMISSION DATA GRAPH */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
@@ -237,13 +237,13 @@ export default function OfficerDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           {/* Interactive GIS Vector Functional Map */}
-          <div className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col min-h-[380px] lg:col-span-2">
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col min-h-95 lg:col-span-2">
             <div className="flex justify-between items-center mb-4">
               <span className="text-[15px] font-semibold text-gray-800">Field Activity Map</span>
               <span className="text-sm text-gray-500 cursor-pointer">Johor Bahru ▾</span>
             </div>
             
-            <div className="flex-grow flex items-center justify-center bg-gray-50/50 rounded-xl relative p-4 overflow-hidden">
+            <div className="grow flex items-center justify-center bg-gray-50/50 rounded-xl relative p-4 overflow-hidden">
               {/* Dynamic Map Tooltip */}
               {hoveredDistrict && (
                 <div className="absolute top-4 right-4 bg-gray-900 text-white p-2 px-3 rounded-lg text-xs shadow-md z-10 transition-all duration-150">
@@ -253,9 +253,9 @@ export default function OfficerDashboard() {
               )}
 
               {/* Core Vector Mapping Engine */}
-              <svg viewBox="0 0 400 240" className="w-full max-h-[260px]">
+              <svg viewBox="0 0 400 240" className="w-full max-h-65">
                 <g stroke="#ffffff" strokeWidth="2.5" strokeLinejoin="round">
-                  {OFFICER_DASHBOARD_DATA.mapDistricts.map((district) => (
+                  {OFFICER_DASHBOARD_DATA?.mapDistricts ? OFFICER_DASHBOARD_DATA.mapDistricts.map((district) => (
                     <path
                       key={district.id}
                       d={district.d}
@@ -268,7 +268,7 @@ export default function OfficerDashboard() {
                       onMouseEnter={() => setHoveredDistrict(district)}
                       onMouseLeave={() => setHoveredDistrict(null)}
                     />
-                  ))}
+                  )) : null}
                 </g>
               </svg>
 
@@ -288,10 +288,10 @@ export default function OfficerDashboard() {
               <span className="text-[15px] font-semibold text-gray-800">Recent Activities</span>
               <span className="text-xs text-indigo-600 font-medium cursor-pointer hover:underline">View All</span>
             </div>
-            <div className="flex flex-col gap-4 flex-grow justify-between">
+            <div className="flex flex-col gap-4 grow justify-between">
               {OFFICER_DASHBOARD_DATA.activities.map((item, index) => (
                 <div key={index} className="flex items-start gap-3 text-xs sm:text-sm text-gray-600">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-300 shrink-0" />
                   <p className="margin-0 leading-relaxed">
                     {item.text}
                     <span className="text-teal-600 font-semibold">{item.highlight}</span>
@@ -310,7 +310,7 @@ export default function OfficerDashboard() {
           <div className="bg-white border border-gray-100 rounded-2xl p-6 lg:col-span-2 min-w-0 shadow-sm">
             <div className="text-[15px] font-semibold text-gray-800 mb-4">Recent Documents</div>
             <div className="overflow-x-auto -mx-6 px-6">
-              <table className="w-full border-collapse text-left text-xs sm:text-sm min-w-[500px]">
+              <table className="w-full border-collapse text-left text-xs sm:text-sm min-w-15">
                 <tbody>
                   {OFFICER_DASHBOARD_DATA.recentDocuments.map((doc, i) => (
                     <tr key={i} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition">

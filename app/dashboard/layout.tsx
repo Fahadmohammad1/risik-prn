@@ -7,7 +7,7 @@ import Topbar from "@/components/layout/Topbar";
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
@@ -18,7 +18,6 @@ export default function DashboardLayout({
       <Sidebar isMobileOpen={isMobileOpen} setIsMobileOpen={setIsMobileOpen} />
 
       {/* MAIN CONTENT REGION */}
-      {/* 2. Added `flex-col` so Topbar splits cleanly from contents, and `overflow-hidden` */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         {/* Topbar stays pinned here */}
@@ -28,9 +27,9 @@ export default function DashboardLayout({
         <div className="flex-1 overflow-y-auto">
           {children}
         </div>
-        
+
       </main>
 
     </div>
-  );
+  )
 }
