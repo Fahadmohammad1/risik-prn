@@ -254,8 +254,8 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
         {/* Notification Bell Button (Hidden on extra small screens for layout breathing room) */}
         <button className="hidden sm:flex w-9.5 h-9.5 bg-white border border-[#E4E4E2] rounded-lg items-center justify-center text-[#4A4A4A] hover:bg-gray-50 hover:text-black transition-all">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.10827 12.3083C1.93106 13.47 2.72333 14.2763 3.69338 14.6782C7.41234 16.2188 12.5877 16.2188 16.3066 14.6782C17.2767 14.2763 18.0689 13.47 17.8917 12.3083C17.7828 11.5944 17.2443 10.9999 16.8453 10.4194C16.3227 9.64971 16.2708 8.81018 16.2707 7.91699C16.2707 4.46521 13.4632 1.66699 10 1.66699C6.53678 1.66699 3.72927 4.46521 3.72927 7.91699C3.7292 8.81018 3.67727 9.64971 3.15468 10.4194C2.7557 10.9999 2.21718 11.5944 2.10827 12.3083Z" stroke="#1B1B21" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M6.66667 15.834C7.04874 17.2717 8.39628 18.334 10 18.334C11.6037 18.334 12.9513 17.2717 13.3333 15.834" stroke="#1B1B21" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M2.10827 12.3083C1.93106 13.47 2.72333 14.2763 3.69338 14.6782C7.41234 16.2188 12.5877 16.2188 16.3066 14.6782C17.2767 14.2763 18.0689 13.47 17.8917 12.3083C17.7828 11.5944 17.2443 10.9999 16.8453 10.4194C16.3227 9.64971 16.2708 8.81018 16.2707 7.91699C16.2707 4.46521 13.4632 1.66699 10 1.66699C6.53678 1.66699 3.72927 4.46521 3.72927 7.91699C3.7292 8.81018 3.67727 9.64971 3.15468 10.4194C2.7557 10.9999 2.21718 11.5944 2.10827 12.3083Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M6.66667 15.834C7.04874 17.2717 8.39628 18.334 10 18.334C11.6037 18.334 12.9513 17.2717 13.3333 15.834" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
 
         </button>
