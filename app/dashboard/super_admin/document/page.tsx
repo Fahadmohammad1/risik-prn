@@ -3,6 +3,9 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Search, ChevronDown, FileText } from 'lucide-react';
+import { minLength } from 'better-auth';
+import Image from 'next/image';
+import pdf from "../document/_assets/pdf.svg"
 
 const DASHBOARD_DATA = {
   metrics: {
@@ -71,7 +74,7 @@ export default function DocumentOverview() {
           <div className="flex flex-wrap items-center gap-2">
 
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+              <select className="appearance-none text-(--b1c) bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium max-w-32.75">
                 <option>Johor Bahru</option>
                 <option>Kuala Lumpur</option>
                 <option>Penang</option>
@@ -82,7 +85,7 @@ export default function DocumentOverview() {
             </div>
 
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+              <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-(--b1c) max-w-32.75">
                 <option>District</option>
                 <option>District 1</option>
                 <option>District 2</option>
@@ -93,7 +96,7 @@ export default function DocumentOverview() {
             </div>
 
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+              <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-(--b1c) max-w-32.75">
                 <option>Party</option>
                 <option>Party A</option>
                 <option>Party B</option>
@@ -104,7 +107,7 @@ export default function DocumentOverview() {
             </div>
 
             <div className="relative">
-              <select className="appearance-none bg-white px-3 py-2 pr-10 border border-gray-200 rounded text-sm font-medium text-gray-600 max-w-32.75">
+              <select className="appearance-none bg-white px-3 py-2 pr-6 border border-gray-200 rounded text-sm font-medium text-(--b1c) max-w-32.75">
                 <option>Status</option>
                 <option>Active</option>
                 <option>Pending</option>
@@ -117,7 +120,7 @@ export default function DocumentOverview() {
 
           </div>
 
-          <button className="w-full font-creato text-base sm:w-auto flex items-center justify-center gap-2 bg-(--light-green) hover:bg-lime-300 text-(--b1) font-normal px-4 py-2.5 rounded-lg sm:text-sm transition-all shadow-sm active:scale-95">
+          <button className="w-full font-creato text-base sm:w-auto flex items-center justify-center gap-2 bg-(--light-green) hover:bg-lime-300 text-(--b1) font-normal px-4 py-2.5 rounded-lg sm:text-sm transition-all active:scale-95">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.5646 7.50922C14.5709 7.50919 14.5771 7.50917 14.5833 7.50917C16.6544 7.50917 18.3333 9.19118 18.3333 11.2661C18.3333 13.1998 16.875 14.7924 15 15M14.5646 7.50922C14.577 7.37172 14.5833 7.23247 14.5833 7.09174C14.5833 4.55579 12.5313 2.5 10 2.5C7.6027 2.5 5.63528 4.34389 5.43369 6.69326M14.5646 7.50922C14.4794 8.45632 14.1072 9.3205 13.5357 10.0138M5.43369 6.69326C3.31999 6.89477 1.66667 8.67827 1.66667 10.8486C1.66667 12.8681 3.09814 14.5527 5.00001 14.9394M5.43369 6.69326C5.56522 6.68072 5.69853 6.67431 5.83334 6.67431C6.77153 6.67431 7.63729 6.98495 8.33374 7.50917" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M10 10.833L10 17.4997M12.0833 12.9163C11.6737 12.4949 10.5835 10.833 10 10.833C9.41648 10.833 8.32628 12.4949 7.91667 12.9163" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
@@ -128,13 +131,13 @@ export default function DocumentOverview() {
       </div>
 
       {/* --- METRIC GRID --- */}
-      <div className="mt-2 flex flex-col lg:flex-row md:flex-col gap-4">
+      <div className="mt-2 flex flex-col xl:flex-row lg:flex-col md:flex-col gap-4">
 
         <div className="lg:flex-3">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mb-4 gap-4">
 
-            <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
+            <div className="flex flex-col justify-between gap-13.5 bg-white p-5 rounded-2xl border border-(--DDDDDB) group">
+              <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span>
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#EBEDFC" />
@@ -147,13 +150,13 @@ export default function DocumentOverview() {
                 </span> Total Documents
               </p>
               <div className="flex items-end">
-                <p className="font-creato text-5xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
+                <p className=" font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
                 <span className="font-creato text-sm text-(--b1)">{DASHBOARD_DATA.metrics.totalDocs.label}</span>
               </div>
             </div>
 
-            <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
+            <div className="flex flex-col justify-between gap-13.5 bg-white p-5 rounded-2xl border border-(--DDDDDB) group">
+              <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span>
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#FAEECF" />
@@ -165,7 +168,7 @@ export default function DocumentOverview() {
                 </span> Analyzed Documents
               </p>
               <div className="flex items-end">
-                <p className="font-creato text-5xl font-normal">2,120</p>
+                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">2,120</p>
                 <span className="font-creato text-sm text-(--b1)">86.5% Analyzed</span>
               </div>
             </div>
@@ -174,8 +177,8 @@ export default function DocumentOverview() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 col-span-1">
 
-            <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
+            <div className="flex flex-col justify-between gap-6.5 bg-white p-5 rounded-2xl border border-(--DDDDDB) group" style={{ maxHeight: "176px" }}>
+              <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span>
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#EBF2F0" />
@@ -187,13 +190,13 @@ export default function DocumentOverview() {
                 </span> Reports
               </p>
               <div className="flex items-end">
-                <p className="font-creato text-5xl font-normal">320</p>
+                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
                 <span className="font-creato text-sm text-(--b1)">41.0%</span>
               </div>
             </div>
 
-            <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
+            <div className="border border-(--DDDDDB) flex flex-col justify-between gap-6.5 bg-white p-5 rounded-2xl group" style={{ maxHeight: "176px" }}>
+              <p className="font-creato text-xl lg:text-base xl:text-xlfont-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span>
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#FFE5DF" />
@@ -204,12 +207,12 @@ export default function DocumentOverview() {
                 </span> OCR
               </p>
               <div className="flex items-end">
-                <p className="font-creato text-5xl font-normal">92%</p>
+                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">92%</p>
               </div>
             </div>
 
-            <div className="flex flex-col gap-13.5 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all duration-300 group md:col-span-2 lg:col-span-1">
-              <p className="font-creato text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
+            <div className="flex flex-col justify-between gap-6.5 bg-white p-5 rounded-2xl border border-(--DDDDDB)  group md:col-span-2 lg:col-span-1" style={{ maxHeight: "176px" }}>
+              <p className="font-creato text-xl lg:text-base xl:text-xl font-medium leading-5 flex gap-2 items-center text-(--b1)">
                 <span>
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="30" height="30" rx="4" fill="#E7F1F8" />
@@ -222,8 +225,8 @@ export default function DocumentOverview() {
                 </span> Storage Used
               </p>
               <div className="flex flex-col">
-                <p className="font-creato text-5xl font-normal">320</p>
-                <span className="font-creato text-sm text-(--green)">41.0%</span>
+                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
+                <span className="font-creato text-sm text-(--green)">of 100 GB</span>
               </div>
             </div>
 
@@ -231,11 +234,11 @@ export default function DocumentOverview() {
         </div>
 
         {/* Key Findings */}
-        <div className="lg:flex-2 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <h3 className="font-creato text-xl font-medium leading-5 mb-4">Key Findings</h3>
+        <div className="lg:flex-2 bg-white p-5 rounded-2xl border border-(--DDDDDB) ">
+          <h3 className="font-creato text-xl font-medium leading-5 mb-4 text-(--b1)">Key Findings</h3>
           <ul className="space-y-4 text-[11px] sm:text-xs text-gray-600 max-h-43.75 overflow-y-auto pr-1">
             {DASHBOARD_DATA.keyFindings.map((finding) => (
-              <li key={finding.id} className="flex items-center gap-2 mb-1 border-b border-gray-50 pb-2 last:border-0 last:pb-0">
+              <li key={finding.id} className="flex text-(--c5) items-center gap-2 mb-1 pb-2">
                 <span>
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clipPath="url(#clip0_627_24193)">
@@ -251,7 +254,7 @@ export default function DocumentOverview() {
                 </span>
                 <p className="font-creato text-sm font-medium leading-5">
                   {finding.text}
-                  {finding.highlight && <span className="font-creato text-sm text-(--green)">{finding.highlight}</span>}
+                  {finding.highlight && <span className="font-creato font-bold text-sm text-(--green)">{finding.highlight}</span>}
                 </p>
               </li>
             ))}
@@ -264,28 +267,41 @@ export default function DocumentOverview() {
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
 
         {/* Half Pie — Document Types */}
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm xl:col-span-2 flex flex-col items-center justify-between">
+        <div className="main-pie bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col items-center justify-between">
           <div className="w-full text-left">
-            <h3 className="font-creato text-xl font-medium leading-5">Document Types</h3>
+            <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Document Types</h3>
           </div>
 
-          {/* Half pie: paddinBottom 50% = container height is exactly half the width */}
-          <div className="relative w-full mt-4" style={{ paddingBottom: '50%', overflow: 'hidden' }}>
-            <div className="absolute inset-0" style={{ bottom: '-50%' }}>
+          {/* Container size optimized to match the image ratio perfectly */}
+          <div className="relative w-full mt-2" style={{ height: '240px', overflow: 'hidden' }}>
+            <div className="absolute inset-0" style={{ height: '480px' }}>
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
+                <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                   <Pie
-                    data={DASHBOARD_DATA.documentTypes}
+                    data={[
+                      { name: 'Reports', value: 42, color: '#CCE88E' },
+                      { name: 'Research', value: 28, color: '#22493E' },
+                      { name: 'Surveys', value: 15, color: '#E5A90F' },
+                      { name: 'News', value: 10, color: '#3549E5' },
+                      { name: 'Others', value: 5, color: '#FF7D60' }
+                    ]}
                     cx="50%"
                     cy="50%"
                     startAngle={180}
                     endAngle={0}
-                    innerRadius="55%"
-                    outerRadius="80%"
-                    paddingAngle={2}
+                    innerRadius="72%"
+                    outerRadius="98%"
+                    paddingAngle={3}
+                    cornerRadius={10}
                     dataKey="value"
                   >
-                    {DASHBOARD_DATA.documentTypes.map((entry, idx) => (
+                    {[
+                      { color: '#CCE88E' },
+                      { color: '#22493E' },
+                      { color: '#E5A90F' },
+                      { color: '#3549E5' },
+                      { color: '#FF7D60' }
+                    ].map((entry, idx) => (
                       <Cell
                         key={`cell-${idx}`}
                         fill={entry.color}
@@ -297,42 +313,129 @@ export default function DocumentOverview() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            {/* Label centred in the inner hole of the arc */}
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-center w-full">
-              <span className="font-creato text-4xl sm:text-5xl font-normal text-(--b1)">2,450</span>
-              <p className="font-creato text-(--b1) text-sm sm:text-base tracking-widest mt-0.5">Total Documents</p>
+            
+            {/* Label centered perfectly at the bottom baseline */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-center w-full">
+              <span className="font-creato text-5xl sm:text-6xl font-normal text-(--b1) tracking-tight">2,450</span>
+              <p className="font-creato text-gray-700 text-sm sm:text-base font-normal mt-1">Total Documents</p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-6 w-full">
-            {DASHBOARD_DATA.documentTypes.map((type) => (
-              <div key={type.name} className="flex items-center gap-2 text-[11px] font-semibold text-gray-500 hover:text-gray-900 transition-colors cursor-pointer">
+          {/* Bordered and shaded horizontal legend matching image_d83edc.png */}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4 w-full border border-gray-200/60 rounded-xl py-3 px-4 bg-gray-50/40">
+            {[
+              { name: 'Reports', value: 42, color: '#CCE88E' },
+              { name: 'Research', value: 28, color: '#22493E' },
+              { name: 'Surveys', value: 15, color: '#E5A90F' },
+              { name: 'News', value: 10, color: '#3549E5' },
+              { name: 'Others', value: 5, color: '#FF7D60' }
+            ].map((type) => (
+              <div key={type.name} className="flex items-center gap-1.5 transition-colors cursor-pointer">
                 <span className="w-2.5 h-2.5 rounded-full block shrink-0" style={{ backgroundColor: type.color }}></span>
-                <span className="font-creato text-xs text-(--b1)">{type.name} ({type.value}%)</span>
+                <span className="font-creato font-normal text-[11px] sm:text-xs text-gray-600">{type.name} {type.value}%</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Upload Trend Line Chart */}
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm xl:col-span-2 flex flex-col justify-between">
+        {/* Upload Trend Line Chart */}
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-8">
-            <h3 className="font-creato text-xl font-medium leading-5">Document Upload Trend</h3>
-            <span className="font-creato font-medium text-sm leading-3 text-(--b1) px-2.5 py-1 cursor-pointer flex items-center gap-4 transition-colors">
-              Last 30 Days <ChevronDown className="w-3 h-3" />
-            </span>
+            <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Document Upload Trend</h3>
+            <div className="relative inline-block">
+              <select
+                className="appearance-none bg-transparent font-creato font-medium px-2 text-sm leading-3 text-(--b1) pr-8 cursor-pointer focus:outline-none"
+                defaultValue="30"
+              >
+                <option value="7">Last 7 Days</option>
+                <option value="30">Last 30 Days</option>
+                <option value="90">Last 90 Days</option>
+                <option value="365">Last 1 Year</option>
+              </select>
+
+              <ChevronDown className="w-3 h-3 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-(--b1)" />
+            </div>
           </div>
 
           <div className="w-full grow flex items-center min-h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={DASHBOARD_DATA.uploadTrend} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }} />
-                <Line type="monotone" dataKey="Reports" stroke="#bef264" strokeWidth={3} dot={{ r: 0 }} activeDot={{ r: 6 }} />
-                <Line type="monotone" dataKey="Research" stroke="#1e3a1e" strokeWidth={3} dot={{ r: 0 }} activeDot={{ r: 6 }} />
-                <Line type="monotone" dataKey="Others" stroke="#f97316" strokeWidth={3} dot={{ r: 0 }} activeDot={{ r: 6 }} />
+              <LineChart 
+                data={DASHBOARD_DATA.uploadTrend} 
+                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="transparent" />
+                
+                <XAxis 
+                  dataKey="date" 
+                  tick={{ fontSize: 14, fill: '#1B1B21' }}
+                  className="font-sans text-sm tracking-[0.02em]"
+                  dy={16}
+                  height={40}
+                  axisLine={false} 
+                  tickLine={false} 
+                />
+                
+                <YAxis 
+                  domain={[0, 800]}
+                  ticks={[0, 200, 400, 600, 800]}
+                  tick={{ fontSize: 14, fill: '#1B1B21' }}
+                  className="font-sans text-sm tracking-[0.02em]"
+                  axisLine={false} 
+                  tickLine={false} 
+                />
+                
+                <Tooltip 
+                  cursor={{ stroke: '#94a3b8', strokeWidth: 1, strokeDasharray: '4 4' }}
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-white border border-gray-200/80 rounded-xl p-3 shadow-sm flex flex-col gap-2 font-sans text-xs tracking-[0.02em] text-[#1B1B21]">
+                          {payload.map((entry, index) => (
+                            <div key={index} className="flex items-center gap-2">
+                              <span 
+                                className="w-2.5 h-2.5 rounded-full block shrink-0" 
+                                style={{ backgroundColor: entry.stroke }}
+                              />
+                              <span className="font-normal">
+                                {entry.name} {entry.value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+
+                <Line 
+                  type="monotone" 
+                  name="Research"
+                  dataKey="Research" 
+                  stroke="#397968" 
+                  strokeWidth={3.5} 
+                  dot={{ r: 0 }} 
+                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }} 
+                />
+                <Line 
+                  type="monotone" 
+                  name="Reports"
+                  dataKey="Reports" 
+                  stroke="#CCE88E" 
+                  strokeWidth={3.5} 
+                  dot={{ r: 0 }} 
+                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }} 
+                />
+                <Line 
+                  type="monotone" 
+                  name="Others"
+                  dataKey="Others" 
+                  stroke="#FF7D60" 
+                  strokeWidth={3.5} 
+                  dot={{ r: 0 }} 
+                  activeDot={{ r: 6, stroke: '#3549E5', strokeWidth: 2, fill: '#fff' }} 
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -343,23 +446,34 @@ export default function DocumentOverview() {
       {/* --- RECENT ACTIONS --- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
-          <h3 className="font-creato text-xl font-medium leading-5 mb-5">Recent Documents</h3>
-          <div className="space-y-4 max-h-67.5 overflow-y-auto pr-1">
+        {/* Recent Documents */}
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-(--DDDDDB) h-91.5 flex flex-col justify-between">
+          <h3 className="font-creato text-xl font-medium leading-5 mb-5 select-none text-(--b1) tracking-(--tracking-body)">Recent Documents</h3>
+          
+          {/* Scrollable Container with exact 4px custom scrollbar styling */}
+          <div className="grow overflow-y-auto pr-2 space-y-4
+            [&::-webkit-scrollbar]:w-1
+            [&::-webkit-scrollbar-track]:bg-[#F2F3F0]
+            [&::-webkit-scrollbar-track]:border
+            [&::-webkit-scrollbar-track]:border-[#DDDDDB]
+            [&::-webkit-scrollbar-track]:rounded-full
+            [&::-webkit-scrollbar-thumb]:bg-[#22493E]
+            [&::-webkit-scrollbar-thumb]:rounded-full"
+          >
             {DASHBOARD_DATA.recentDocs.map((doc, idx) => (
-              <div key={idx} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 pl-0 pt-0 rounded-xl mb-4 transition-colors gap-4">
+              <div key={idx} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 pl-0 pt-0 rounded-xl mb-4 transition-colors gap-4 last:mb-0">
                 <div className="flex items-center gap-4">
                   <div className="flex gap-4">
                     <div className="min-w-0">
-                      <h4 className="font-creato font-medium text-sm leading-3 text-(--b1)">{doc.name}</h4>
-                      <p className="font-creato font-medium text-xs mt-1 leading-3 text-(--c5)">{doc.date} • {doc.size}</p>
+                      <h4 className="font-creato font-medium text-md leading-4 text-(--b1) tracking-(--tracking-body)">{doc.name}</h4>
+                      <p className="font-creato font-medium text-xs mt-2 leading-3 tracking-(--tracking-body) text-(--c5)">{doc.date} • {doc.size}</p>
                     </div>
                     <span className="h-full font-medium font-creato text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-0 pt-2 sm:pt-0 border-gray-100">
-                  <button className="font-creato font-normal text-sm leading-3 text-(--b1) px-4 py-2 bg-white border border-gray-200 hover:border-gray-400 rounded shadow-sm active:scale-95 transition-all">Analyze</button>
-                  <button className="p-1.5 cursor-pointer border border-gray-200 rounded-lg">
+                <div className="flex items-center justify-between sm:justify-end gap-2 border-t sm:border-0 pt-2 sm:pt-0 border-gray-100">
+                  <button className="font-creato font-normal text-md tracking-(--tracking-body) leading-3 text-(--b1) px-3.75 py-2.75 bg-white border border-(--DDDDDB) rounded-md active:scale-95">Analyze</button>
+                  <button className="p-1.75 cursor-pointer border border-(--DDDDDB) rounded-lg">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9.9966 10H10.0041" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       <path d="M14.9998 10H15.0073" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -372,28 +486,28 @@ export default function DocumentOverview() {
           </div>
         </div>
 
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
-          <h3 className="font-creato text-xl font-medium leading-5 mb-5">OCR Processing Queue</h3>
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-(--DDDDDB)">
+          <h3 className="font-creato text-xl font-medium leading-5 mb-5 text-(--b1) tracking-(--tracking-body)">OCR Processing Queue</h3>
           <p className="text-[10px] text-gray-400 mb-3 lg:hidden">Swipe left/right to view full queue data</p>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs min-w-125">
               <thead>
-                <tr className="h-8 text-gray-400 border-b border-gray-100">
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5)">Document</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">File Type</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">Progress</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">Status</th>
-                  <th className="pb-2 font-creato font-medium text-sm leading-3 text-(--c5) text-center">Time Left</th>
+                <tr className="h-8 text-gray-400 border-b border-(--DDDDDB)">
+                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) tracking-(--tracking-body)">Document</th>
+                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">File Type</th>
+                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Progress</th>
+                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Status</th>
+                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Time Left</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {DASHBOARD_DATA.ocrQueue.map((item) => (
                   <tr key={item.id} className="hover:bg-slate-50/60 transition-colors">
                     <td className="py-3 font-creato font-medium text-sm leading-3 text-(--b1) max-w-27.5 truncate">{item.name}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.type}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.progress}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.status}</td>
-                    <td className="py-3 font-creato text-center font-medium text-sm leading-3 text-(--b1)">{item.time}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.type}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.progress}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.status}</td>
+                    <td className="py-3 font-creato text-center font-medium text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.time}</td>
                   </tr>
                 ))}
               </tbody>
@@ -404,9 +518,9 @@ export default function DocumentOverview() {
       </div>
 
       {/* --- DOCUMENTS LIBRARY --- */}
-      <div className="bg-white p-4 sm:p-5 rounded-2xl border border-gray-100 shadow-sm">
+      <div className="bg-white p-4 sm:p-5 rounded-2xl border border-(--DDDDDB) ">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <h3 className="font-creato text-xl font-medium leading-5">Documents Library</h3>
+          <h3 className="font-creato text-xl font-medium leading-5 tracking-(--tracking-body)">Documents Library</h3>
           <div className="flex gap-3 justify-between">
             <div className="relative lg:w-50 w-40">
               <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -427,57 +541,58 @@ export default function DocumentOverview() {
           <div className="overflow-x-auto border border-gray-50">
             <table className="w-full text-left text-xs min-w-240">
               <thead className="h-8">
-                <tr className="text-gray-400 bg-transparent border-b pb-2">
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5)">Document Name</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Type</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">State</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Category</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Uploaded By</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Upload Date</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Size</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Status</th>
-                  <th className="font-creato font-medium text-sm leading-3 text-(--c5) text-center">Action</th>
+                <tr className="text-gray-400 bg-transparent border-b border-b(--DDDDDB) pb-2">
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) tracking-(--tracking-body)">Document Name</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Type</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">State</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Category</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Uploaded By</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Upload Date</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Size</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Status</th>
+                  <th className="font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="">
                 {DASHBOARD_DATA.library
                   .filter(doc => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
                   .map((doc) => (
-                    <tr key={doc.id} className="hover:bg-slate-50/50 transition-colors group">
-                      <td className="font-creato font-medium text-sm leading-3 text-(--b1) py-5 pl-0  flex items-center gap-4 max-w-57.5 truncate">
-                        <span className="p-1.5 bg-red-50 text-red-600 rounded-lg group-hover:bg-red-100 transition-colors shrink-0">
-                          <FileText className="w-4 h-4" />
+                    <tr key={doc.id} className="">
+                      <td className="font-creato font-medium text-sm leading-3 text-(--b1) py-3.5 pl-0  flex items-center gap-4 max-w-57.5 truncate">
+                        <span className="">
+                          <Image
+                            src={pdf}
+                            alt="PDF"
+                            width={32}
+                            height={32}
+                          />
                         </span>
                         {doc.name}
                       </td>
-                      <td className="py-3.5"><span className="font-creato text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span></td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.state}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.category}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.user}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.date}</td>
-                      <td className="px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.size}</td>
-                      <td className="px-2 py-3.5">
-                        <span className={`font-creato font-medium text-sm leading-3.5 ${doc.status === 'Strong' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}`}>
-                          {doc.status}
-                        </span>
-                      </td>
+                      <td className="text-center"><span className="font-creato font-bold text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span></td>
+                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.state}</td>
+                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.category}</td>
+                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.user}</td>
+                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.date}</td>
+                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.size}</td>
+                      <td className="text-center px-2 font-creato font-medium text-sm leading-3.5 text-(--b1)">{doc.status}</td>
                       <td className="py-3.5 text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <button title="View" className="border border-gray-200 p-1.5 hover:bg-slate-100 rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+                          <button title="View" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
                               <path d="M14.3333 15.9997C14.3333 16.4417 14.5089 16.8656 14.8215 17.1782C15.1341 17.4907 15.558 17.6663 16 17.6663C16.442 17.6663 16.866 17.4907 17.1785 17.1782C17.4911 16.8656 17.6667 16.4417 17.6667 15.9997C17.6667 15.5576 17.4911 15.1337 17.1785 14.8212C16.866 14.5086 16.442 14.333 16 14.333C15.558 14.333 15.1341 14.5086 14.8215 14.8212C14.5089 15.1337 14.3333 15.5576 14.3333 15.9997Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                               <path d="M23.5 16C21.5 19.3333 19 21 16 21C13 21 10.5 19.3333 8.5 16C10.5 12.6667 13 11 16 11C19 11 21.5 12.6667 23.5 16Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </button>
-                          <button title="Download" className="border border-gray-200 p-1.5 hover:bg-slate-100 rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+                          <button title="Download" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
                               <path d="M20.1082 13.7583C20.1138 13.7583 20.1194 13.7583 20.125 13.7583C21.989 13.7583 23.5 15.2721 23.5 17.1394C23.5 18.8798 22.1875 20.3131 20.5 20.5M20.1082 13.7583C20.1193 13.6345 20.125 13.5092 20.125 13.3826C20.125 11.1002 18.2782 9.25 16 9.25C13.8424 9.25 12.0717 10.9095 11.8903 13.0239M20.1082 13.7583C20.0315 14.6107 19.6965 15.3885 19.1821 16.0124M11.8903 13.0239C9.98799 13.2053 8.5 14.8104 8.5 16.7638C8.5 18.5813 9.78832 20.0974 11.5 20.4455M11.8903 13.0239C12.0087 13.0127 12.1287 13.0069 12.25 13.0069C13.0944 13.0069 13.8736 13.2865 14.5004 13.7583" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                               <path d="M16 22.75L16 16.75M17.875 20.875C17.5064 21.2543 16.5252 22.75 16 22.75C15.4748 22.75 14.4936 21.2543 14.125 20.875" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </button>
-                          <button title="More" className="border border-gray-200 p-1.5 hover:bg-slate-100 rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+                          <button title="More" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
                               <path d="M15.9973 16H16.0033" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

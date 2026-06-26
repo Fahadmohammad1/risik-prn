@@ -99,15 +99,13 @@ function NavItem({
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className={`h-8 px-2.5 flex items-center select-none text-[12px] no-underline transition-all duration-120 cursor-pointer ${
-          isCollapsed ? "md:justify-center md:gap-0" : "justify-between gap-2.5"
-        } ${
-          active
-            ? "bg-[#CCE88E] text-[#1E463C] font-semibold rounded-lg"
+        className={`h-9 px-2 flex items-center text-(--b1) select-none text-xs no-underline transition-all duration-120 cursor-pointer ${isCollapsed ? "md:justify-center md:gap-0" : "justify-between gap-2.5"
+          } ${active
+            ? "bg-(--cc) text-(--b1) font-normal rounded-lg"
             : hovered
               ? "bg-(--f2) text-(--c5) font-medium rounded-lg"
               : "bg-transparent text-(--c5) font-medium rounded-lg"
-        }`}
+          }`}
       >
         <div className={`flex items-center ${isCollapsed ? "md:justify-center md:gap-0" : "gap-2.5"}`}>
           <Image
@@ -115,9 +113,8 @@ function NavItem({
             alt={label}
             width={15}
             height={15}
-            className={`shrink-0 transition-opacity duration-120 ${
-              active ? "opacity-100" : hovered ? "opacity-90" : "opacity-60"
-            }`}
+            className={`shrink-0 transition-opacity duration-120 ${active ? "opacity-100" : hovered ? "opacity-90" : "opacity-60"
+              }`}
           />
           {(!isCollapsed || (typeof window !== "undefined" && window.innerWidth < 768)) && (
             <span className="text-c5 font-creato text-base font-normal leading-4">{label}</span>
@@ -179,9 +176,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
         <div className="overflow-hidden flex flex-col h-full">
           {/* ── Header ── */}
           <div
-            className={`h-20 flex items-center border-b border-DDDDB px-6 transition-all duration-150 ${
-              isCollapsed ? "md:justify-center md:px-0" : "justify-between"
-            }`}
+            className={`h-20 flex items-center border-b border-DDDDB px-6 transition-all duration-150 ${isCollapsed ? "md:justify-center md:px-0" : "justify-between"
+              }`}
           >
             {(!isCollapsed || (typeof window !== "undefined" && window.innerWidth < 768)) && (
               <div className="flex items-center gap-2">
@@ -238,9 +234,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                   placeholder="Search"
                   onFocus={() => setSearchFocused(true)}
                   onBlur={() => setSearchFocused(false)}
-                  className={`w-full bg-background text-c5 rounded-sm font-normal border pl-7 pr-11 py-1.5 text-[11px] text-[#333] outline-none transition-colors duration-150 ${
-                    searchFocused ? "border-[#a8c07a]" : "border-[#E4E4E2]"
-                  }`}
+                  className={`w-full bg-background text-c5 rounded-sm font-normal border pl-7 pr-11 py-1.5 text-[11px] text-[#333] outline-none transition-colors duration-150 ${searchFocused ? "border-[#a8c07a]" : "border-[#E4E4E2]"
+                    }`}
                 />
                 <div className="absolute right-2 flex gap-0.5 text-[9px] text-[#bbb] border border-[#E4E4E2] rounded px-1.5 bg-[#f5f5f3] pointer-events-none font-mono lining-nums leading-[1.6]">
                   MACOS
@@ -252,9 +247,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
           {/* ── Nav ── */}
           <nav
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            className={`flex flex-col gap-2 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden pl-6 pr-3 pt-5.5 pb-4 ${
-              isCollapsed ? "md:p-1.5 md:pt-5.5" : ""
-            }`}
+            className={`flex flex-col gap-2 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden pl-6 pr-3 pt-5.5 pb-4 ${isCollapsed ? "md:p-1.5 md:pt-5.5" : ""
+              }`}
           >
             <NavItem
               iconSrc={dashboard}
@@ -274,9 +268,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                   }}
                   onMouseEnter={() => setStatesHovered(true)}
                   onMouseLeave={() => setStatesHovered(false)}
-                  className={`w-full h-8 flex items-center border-none cursor-pointer text-[12px] no-underline transition-colors duration-120 rounded-lg ${
-                    isCollapsed ? "md:justify-center p-0" : "justify-between px-2.5"
-                  } ${statesHovered ? "bg-f2 text-c5" : "bg-transparent text-c5"}`}
+                  className={`w-full text-(--c5) h-8 flex items-center border-none cursor-pointer no-underline transition-colors duration-120 rounded-lg ${isCollapsed ? "md:justify-center p-0" : "justify-between px-2.5"
+                    } ${statesHovered ? "bg-f2 text-(--c5)" : "bg-transparent text-(--c5)"}`}
                 >
                   <div className={`flex items-center ${isCollapsed ? "md:justify-center md:gap-0" : "gap-2.5"}`}>
                     <Image
@@ -287,13 +280,26 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                       className={`shrink-0 ${statesHovered ? "opacity-100" : "opacity-60"}`}
                     />
                     {(!isCollapsed || (typeof window !== "undefined" && window.innerWidth < 768)) && (
-                      <span className="text-c5 font-creato text-base font-normal leading-4">States</span>
+                      <span className="text-(--c5) font-creato text-base font-normal leading-4">States</span>
                     )}
                   </div>
                   {(!isCollapsed || (typeof window !== "undefined" && window.innerWidth < 768)) && (
-                    <span className="text-[#aaa] shrink-0 text-[10px] transform transition-transform duration-120">
-                      {isStatesOpen ? "▲" : "▼"}
-                    </span>
+                    <svg
+                      width="9"
+                      height="5"
+                      viewBox="0 0 9 5"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`shrink-0 transition-transform duration-200 ${isStatesOpen ? "rotate-180" : ""
+                        }`}
+                    >
+                      <path
+                        d="M0.5 0.5L3.79289 3.79289C4.12623 4.12623 4.29289 4.29289 4.5 4.29289C4.70711 4.29289 4.87377 4.12623 5.20711 3.79289L8.5 0.5"
+                        stroke="#5C5C5F"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   )}
                 </button>
               </SidebarTooltip>
@@ -310,13 +316,12 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                           setActiveItem(null)
                           setIsMobileOpen(false)
                         }}
-                        className={`block px-2.5 py-1.5 rounded-lg text-[12px] no-underline transition-colors duration-120 cursor-pointer ${
-                          activeState === state
-                            ? "font-semibold text-[#1E463C] bg-[#E8F4EE]"
-                            : "font-normal text-c5 bg-transparent hover:bg-[#EFEFED] hover:text-[#1E463C]"
-                        }`}
+                        className={`block px-2.5 py-1.5 rounded-lg text-[12px] no-underline transition-colors duration-120 cursor-pointer ${activeState === state
+                            ? "font-semibold text-(--c5) bg-[#E8F4EE]"
+                            : "font-normal bg-transparent hover:bg-[#EFEFED] hover:text-(--c5)"
+                          }`}
                       >
-                        <span className="text-c5 font-creato text-base font-normal leading-4">{state}</span>
+                        <span className="text-(--c5) font-creato text-base font-normal leading-4">{state}</span>
                       </a>
                     </SidebarTooltip>
                   ))}
@@ -413,11 +418,10 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                 }}
                 onMouseEnter={() => setLogoutHovered(true)}
                 onMouseLeave={() => setLogoutHovered(false)}
-                className={`h-8 flex items-center text-[12px] font-medium no-underline transition-all duration-120 cursor-pointer rounded-lg w-full ${
-                  isCollapsed
+                className={`h-8 flex items-center text-[12px] font-medium no-underline transition-all duration-120 cursor-pointer rounded-lg w-full ${isCollapsed
                     ? "md:justify-center md:gap-0 md:px-0 justify-start gap-2.5 px-2.5"
                     : "justify-start gap-2.5 px-2.5"
-                } ${logoutHovered ? "bg-[#FEF2F2] text-(--c5)" : "bg-transparent text-(--c5)"}`}
+                  } ${logoutHovered ? "bg-[#FEF2F2] text-(--c5)" : "bg-transparent text-(--c5)"}`}
               >
                 <Image src={logout} alt="Logout" width={15} height={15} className="shrink-0" />
                 {(!isCollapsed || (typeof window !== "undefined" && window.innerWidth < 768)) && (
