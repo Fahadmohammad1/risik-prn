@@ -33,11 +33,10 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
   }, []);
 
   return (
-    <div className="h-20 px-4 md:px-6 bg-[#F8F9FA] border-b border-b-[#DDDDDB] flex items-center justify-between font-sans w-full">
+    <div className="h-28 lg:h-20 px-4 md:px-6 bg-(--f2) border-b border-b-[#DDDDDB] pt-5 pb-2 lg:py-0 flex lg:flex-row lg:gap-0 gap-4 flex-col lg:items-center justify-between font-sans w-full">
       
-      {/* Left side: Mobile Hamburger + Dynamic Page Title */}
       <div className="flex items-center gap-3">
-        {/* Mobile Menu Trigger (Visible only on mobile/tablet) */}
+   
         <button
           onClick={onMenuClick}
           className="md:hidden p-1.5 text-[#1E463C] hover:bg-gray-200/50 rounded-lg transition-colors"
