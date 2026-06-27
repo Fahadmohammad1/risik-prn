@@ -150,7 +150,7 @@ export default function DocumentOverview() {
                 </span> Total Documents
               </p>
               <div className="flex items-end gap-2">
-                <p className=" font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
+                <p className=" font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
                 <span className="font-creato text-sm text-(--b1)">{DASHBOARD_DATA.metrics.totalDocs.label}</span>
               </div>
             </div>
@@ -168,7 +168,7 @@ export default function DocumentOverview() {
                 </span> Analyzed Documents
               </p>
               <div className="flex items-end gap-2">
-                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">2,120</p>
+                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">2,120</p>
                 <span className="font-creato text-sm text-(--b1)">86.5% Analyzed</span>
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function DocumentOverview() {
                 </span> Reports
               </p>
               <div className="flex items-end gap-2">
-                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
+                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">320</p>
                 <span className="font-creato text-sm text-(--b1)">41.0%</span>
               </div>
             </div>
@@ -207,7 +207,7 @@ export default function DocumentOverview() {
                 </span> OCR
               </p>
               <div className="flex items-end gap-2">
-                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">92%</p>
+                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">92%</p>
               </div>
             </div>
 
@@ -225,7 +225,7 @@ export default function DocumentOverview() {
                 </span> Storage Used
               </p>
               <div className="flex flex-col">
-                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
+                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">320</p>
                 <span className="font-creato text-sm text-(--green)">of 100 GB</span>
               </div>
             </div>
@@ -291,7 +291,7 @@ export default function DocumentOverview() {
                     endAngle={0}
                     innerRadius="72%"
                     outerRadius="98%"
-                    paddingAngle={3}
+                    paddingAngle={1.5}
                     cornerRadius={10}
                     dataKey="value"
                   >
@@ -310,9 +310,10 @@ export default function DocumentOverview() {
                     ))}
                   </Pie>
 
-                  {/* Custom Tooltip matching image_f3f580.png styling exactly */}
+                  {/* Added offset to pull the popup upward on hover */}
                   <Tooltip
                     cursor={false}
+                    offset={-45}
                     content={({ active, payload }) => {
                       if (active && payload && payload.length) {
                         const data = payload[0].payload;
@@ -388,28 +389,37 @@ export default function DocumentOverview() {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={DASHBOARD_DATA.uploadTrend}
-                margin={{ top: 10, right: 10, left: -5, bottom: -2 }}
+                /* Adjusted left margin to gracefully house the left-aligned axis numbers */
+                margin={{ top: 10, right: 10, left: 0, bottom: -2 }}
               >
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="transparent" />
 
                 <XAxis
                   dataKey="date"
-                  tick={{ fontSize: 14, fill: '#1B1B21' }}
-                  className="font-sans text-sm tracking-[0.02em]"
+                  tick={{ fontSize: 14, fill: 'var(--b1)', fontFamily: 'var(--font-creato, Creato, sans-serif)' }}
+                  className="text-(--b1) text-sm tracking-[0.02em]"
                   dy={16}
                   height={40}
                   axisLine={false}
                   tickLine={false}
                 />
-
                 <YAxis
                   domain={[0, 800]}
                   ticks={[0, 200, 400, 600, 800]}
-                  tickMargin={20}
-                  tick={{ fontSize: 14, fill: '#1B1B21' }}
-                  className="font-sans text-sm tracking-[0.02em]"
                   axisLine={false}
                   tickLine={false}
+                  tick={({ x, y, payload }) => (
+                    <text
+                      x={Number(x) - 45}
+                      y={Number(y) + 4}
+                      textAnchor="start"
+                      fill="#1B1B21"
+                      fontSize={14}
+                      className="font-creato text-(--b1) text-sm tracking-[0.02em]"
+                    >
+                      {payload.value}
+                    </text>
+                  )}
                 />
 
                 <Tooltip
@@ -417,7 +427,7 @@ export default function DocumentOverview() {
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
-                        <div className="bg-white border border-gray-200/80 rounded-xl p-3 shadow-sm flex flex-col gap-2 font-sans text-xs tracking-[0.02em] text-[#1B1B21]">
+                        <div className="bg-white text-(--b1) border border-gray-200/80 rounded-xl p-3 shadow-sm flex flex-col gap-2 font-creato text-xs tracking-[0.02em]">
                           {payload.map((entry, index) => (
                             <div key={index} className="flex items-center gap-2">
                               <span
@@ -478,7 +488,7 @@ export default function DocumentOverview() {
           <h3 className="font-creato text-xl font-medium leading-5 mb-5 select-none text-(--b1) tracking-(--tracking-body)">Recent Documents</h3>
 
           {/* Scrollable Container with exact 4px custom scrollbar styling */}
-          <div className="grow overflow-y-auto pr-2 space-y-4
+          <div className="grow overflow-y-auto space-y-4
             [&::-webkit-scrollbar]:w-1
             [&::-webkit-scrollbar-track]:bg-[#F2F3F0]
             [&::-webkit-scrollbar-track]:border
@@ -492,7 +502,7 @@ export default function DocumentOverview() {
                 <div className="flex items-center gap-4">
                   <div className="flex gap-4">
                     <div className="min-w-0">
-                      <h4 className="font-creato font-medium text-md leading-4 text-(--b1) tracking-(--tracking-body)">{doc.name}</h4>
+                      <h4 className="font-creato font-normal text-md leading-4 text-(--b1) tracking-(--tracking-body)">{doc.name}</h4>
                       <p className="font-creato font-medium text-xs mt-2 leading-3 tracking-(--tracking-body) text-(--c5)">{doc.date} • {doc.size}</p>
                     </div>
                     <span className="h-full font-medium font-creato text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span>
