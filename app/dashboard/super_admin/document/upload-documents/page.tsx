@@ -146,7 +146,7 @@ export default function UploadDocument() {
     const [notes, setNotes] = useState(
         "Observation from ground visit, voter sentiment and campaign feedback."
     );
-    const dateInputRef = useRef(null);
+    const dateInputRef = useRef<HTMLInputElement>(null);
 
     // ── AI settings — fully controlled
     const [aiSettings, setAiSettings] = useState<Record<AiKey, boolean>>({

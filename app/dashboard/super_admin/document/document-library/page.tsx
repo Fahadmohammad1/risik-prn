@@ -4,7 +4,8 @@
 import React, { useState } from 'react';
 
 import Image from 'next/image';
-import pdf from "../document/_assets/pdf.svg"
+// import pdf from "../document/_assets/pdf.svg"
+import pdf from "../_assets/pdf.svg"
 
 
 const DASHBOARD_DATA = {
