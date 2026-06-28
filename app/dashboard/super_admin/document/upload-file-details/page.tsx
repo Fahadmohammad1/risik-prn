@@ -2,7 +2,8 @@
 
 
 import Image from "next/image"
-import pdf from "../document/_assets/pdf.svg"
+
+import pdf from "../_assets/pdf.svg"
 import icon1 from "./_assets/icon1.svg"
 import icon2 from "./_assets/icon2.svg"
 import icon3 from "./_assets/icon3.svg"
@@ -120,7 +121,7 @@ export default function uploadFile() {
                         onOpenChange={setOpenRejectDialog}
                     />
 
-                    <button className="w-48 lg:w-47 xl:w-30.5 transition-all font-creato text-[16px]! flex items-center justify-center gap-2 bg-(--cc) text-(--b1) font-normal px-4 py-2 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
+                    <button className="w-48 hover:bg-(--surf-green) lg:w-47 xl:w-30.5 transition-all font-creato text-[16px]! flex items-center justify-center gap-2 bg-(--cc) text-(--b1) font-normal px-4 py-2 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15.8253 15.8337H15.8332M15.8253 15.8337C15.3063 16.3482 14.3659 16.2201 13.7064 16.2201C12.8969 16.2201 12.5071 16.3784 11.9294 16.9562C11.4374 17.4481 10.7779 18.3336 9.99986 18.3337C9.22175 18.3336 8.56227 17.4481 8.07031 16.9562C7.49257 16.3784 7.10275 16.2201 6.29322 16.2201C5.63374 16.2201 4.69332 16.3482 4.17441 15.8337C3.65134 15.315 3.78007 14.3707 3.78007 13.7069C3.78007 12.8682 3.59663 12.4825 2.99932 11.8852C2.11078 10.9967 1.66652 10.5524 1.6665 10.0003C1.66651 9.44825 2.11077 9.00399 2.9993 8.11546C3.5325 7.58226 3.78007 7.05389 3.78007 6.29371C3.78007 5.6342 3.65192 4.69378 4.1665 4.17486C4.68519 3.65181 5.62951 3.78054 6.29324 3.78054C7.0534 3.78054 7.58177 3.533 8.11496 2.9998C9.0035 2.11126 9.44777 1.66699 9.99984 1.66699C10.5519 1.66699 10.9962 2.11126 11.8847 2.9998C12.4178 3.53288 12.9461 3.78054 13.7064 3.78054C14.3659 3.78054 15.3064 3.65238 15.8253 4.16699C16.3483 4.68568 16.2196 5.62998 16.2196 6.29371C16.2196 7.13248 16.4031 7.51814 17.0004 8.11546C17.8889 9.00399 18.3332 9.44825 18.3332 10.0003C18.3332 10.5524 17.8889 10.9967 17.0004 11.8852C16.403 12.4825 16.2196 12.8682 16.2196 13.7069C16.2196 14.3707 16.3483 15.315 15.8253 15.8337Z" stroke="#1B1B21" />
                             <path d="M7.5 10.7444C7.5 10.7444 8.5 11.2875 9 12.0837C9 12.0837 10.5 8.95866 12.5 7.91699" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
