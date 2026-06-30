@@ -135,7 +135,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-white font-sans">
       {/* ── NAV ── */}
       <nav className="sticky top-0 z-50 border-b border-[#EFEFED] bg-white/90 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-[1200px] items-center justify-between px-6">
+        <div className="mx-auto flex h-14 max-w-300 items-center justify-between px-6">
           <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-[#1E463C] text-[11px] font-bold tracking-wide text-white">
               RP
@@ -173,7 +173,7 @@ export default function HomePage() {
       </nav>
 
       {/* ── HERO ── */}
-      <section className="mx-auto max-w-[1200px] px-6 pt-20 pb-16 text-center">
+      <section className="mx-auto max-w-300 px-6 pt-20 pb-16 text-center">
         <span className="mb-4 inline-block rounded-full bg-[#D1E99E] px-3 py-1 text-xs font-semibold tracking-wide text-[#1E463C] uppercase">
           Malaysia&apos;s Political Intelligence Platform
         </span>
@@ -189,13 +189,13 @@ export default function HomePage() {
         <div className="mt-8 flex items-center justify-center gap-3">
           <button
             onClick={() => handleFeatureClick("/dashboard/super_admin")}
-            className="h-11 rounded-[8px] bg-[#1E463C] px-7 text-sm font-medium text-white transition-colors hover:bg-[#22493e]/90"
+            className="h-11 rounded-xl bg-[#1E463C] px-7 text-sm font-medium text-white transition-colors hover:bg-[#22493e]/90"
           >
             Enter Dashboard
           </button>
           <button
             onClick={() => router.push("/auth/login")}
-            className="h-11 rounded-[8px] border border-[#DDDDDB] px-7 text-sm font-medium text-[#1B1B21] transition-colors hover:bg-[#F8F9FA]"
+            className="h-11 rounded-xl border border-[#DDDDDB] px-7 text-sm font-medium text-[#1B1B21] transition-colors hover:bg-[#F8F9FA]"
           >
             Sign In
           </button>
@@ -204,7 +204,7 @@ export default function HomePage() {
 
       {/* ── STATS ── */}
       <section className="border-y border-[#EFEFED] bg-[#F8F9FA]">
-        <div className="mx-auto grid max-w-[1200px] grid-cols-2 gap-6 px-6 py-8 md:grid-cols-4">
+        <div className="mx-auto grid max-w-300 grid-cols-2 gap-6 px-6 py-8 md:grid-cols-4">
           {STATS.map((s) => (
             <div key={s.label} className="text-center">
               <p className="text-3xl font-bold text-[#1E463C]">{s.value}</p>
@@ -215,7 +215,7 @@ export default function HomePage() {
       </section>
 
       {/* ── FEATURES ── */}
-      <section className="mx-auto max-w-[1200px] px-6 py-20">
+      <section className="mx-auto max-w-300 px-6 py-20">
         <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold text-[#1B1B21]">
             Everything your campaign needs
@@ -286,7 +286,7 @@ export default function HomePage() {
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-[#EFEFED] bg-[#F8F9FA]">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-3 px-6 py-8 sm:flex-row">
+        <div className="mx-auto flex max-w-300 flex-col items-center justify-between gap-3 px-6 py-8 sm:flex-row">
           <div className="flex items-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded-[5px] bg-[#1E463C] text-[9px] font-bold text-white">
               RP
