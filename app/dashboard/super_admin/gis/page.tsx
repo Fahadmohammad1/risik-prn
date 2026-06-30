@@ -136,8 +136,8 @@ export default function GeographicalOverview() {
 
                     </div>
 
-                    <div className='flex justify-between gap-2 w-auto '>
 
+                    <div className='flex justify-between gap-2 w-auto '>
                         <button className="w-40 md:w-40 hover:bg-(--surf-green) transition-all font-creato text-[16px]! lg:w-39 flex items-center justify-center gap-2 bg-(--light-green) text-(--b1) font-normal px-4 py-1 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
                             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14.5646 7.50922C14.5709 7.50919 14.5771 7.50917 14.5833 7.50917C16.6544 7.50917 18.3333 9.19118 18.3333 11.2661C18.3333 13.1998 16.875 14.7924 15 15M14.5646 7.50922C14.577 7.37172 14.5833 7.23247 14.5833 7.09174C14.5833 4.55579 12.5313 2.5 10 2.5C7.6027 2.5 5.63528 4.34389 5.43369 6.69326M14.5646 7.50922C14.4794 8.45632 14.1072 9.3205 13.5357 10.0138M5.43369 6.69326C3.31999 6.89477 1.66667 8.67827 1.66667 10.8486C1.66667 12.8681 3.09814 14.5527 5.00001 14.9394M5.43369 6.69326C5.56522 6.68072 5.69853 6.67431 5.83334 6.67431C6.77153 6.67431 7.63729 6.98495 8.33374 7.50917" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
@@ -212,7 +212,7 @@ export default function GeographicalOverview() {
                                 </span> Total Constituencies
                             </p>
                             <div className="flex items-end gap-2 mt-6">
-                                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
+                                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">{DASHBOARD_DATA.metrics.totalDocs.value}</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
                         </div>
@@ -231,7 +231,7 @@ export default function GeographicalOverview() {
                                 </span> Competitive Areas
                             </p>
                             <div className="flex items-end gap-2 mt-6">
-                                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">2,120</p>
+                                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">2,120</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
                         </div>
@@ -251,7 +251,7 @@ export default function GeographicalOverview() {
                                 </span> Strong Areas
                             </p>
                             <div className="flex items-end gap-2 mt-4">
-                                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
+                                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">320</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
                         </div>
@@ -268,7 +268,7 @@ export default function GeographicalOverview() {
                                 </span> Risk Areas
                             </p>
                             <div className="flex items-end gap-2 mt-4">
-                                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">92%</p>
+                                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">92%</p>
                                 <span className="font-creato text-sm text-(--b1) mb-1">Areas</span>
                             </div>
                         </div>
@@ -285,7 +285,7 @@ export default function GeographicalOverview() {
                                 </span> Campaign Coverage
                             </p>
                             <div className="flex items-end gap-2 mt-4">
-                                <p className="font-creato text-3xl xl:5xl lg:text-3xl md:text-2xl font-normal">320</p>
+                                <p className="font-creato text-3xl xl:text-5xl lg:text-3xl md:text-2xl font-normal">320</p>
                             </div>
                         </div>
 

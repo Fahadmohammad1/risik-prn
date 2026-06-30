@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); */
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -108,7 +108,7 @@
 @font-face {
   font-family: "Creato Display";
   src: url("/fonts/CreatoDisplay-Regular.otf") format("opentype");
-  font-weight: 400;
+  font-weight: 400 900;
   font-style: normal;
 }
 

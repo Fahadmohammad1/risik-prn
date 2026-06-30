@@ -7,9 +7,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { X, Ban } from "lucide-react";
 
-// ── Custom Checkbox ──────────────────────────────────────────────────────────
+// ── Custom Checkbox ──────
 
 interface CustomCheckboxProps {
   id?: string;
@@ -26,7 +25,7 @@ function CustomCheckbox({ id, checked, onCheckedChange, className = "" }: Custom
       aria-checked={checked}
       id={id}
       onClick={() => onCheckedChange(!checked)}
-      className={`shrink-0 w-4.75 h-4..75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[#397968] rounded ${className}`}
+      className={`shrink-0 w-4.75 h-4.75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-[#397968] rounded ${className}`}
     >
       {checked ? (
         // ── Checked: custom green SVG ──
@@ -49,14 +48,21 @@ function CustomCheckbox({ id, checked, onCheckedChange, className = "" }: Custom
   );
 }
 
-// ── RejectForm ───────────────────────────────────────────────────────────────
+// ── RejectForm ────────
+
+interface ReportData {
+  title: string;
+  uploadedBy: string;
+  uploadDate: string;
+}
 
 interface RejectFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  reportData: ReportData; 
 }
 
-export default function RejectForm({ open, onOpenChange }: RejectFormProps) {
+export default function RejectForm({ open, onOpenChange, reportData }: RejectFormProps) {
   const [categories, setCategories] = useState({
     incomplete: false,
     missingEvidence: false,
@@ -75,7 +81,30 @@ export default function RejectForm({ open, onOpenChange }: RejectFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ categories, comments, notifyEmail, notifySystem });
+
+    // Dynamically captures injected reference props alongside interactive form fields
+    const fullFormData = {
+      reportContext: {
+        title: reportData?.title || "",
+        uploadedBy: reportData?.uploadedBy || "",
+        uploadDate: reportData?.uploadDate || "",
+      },
+      rejectionDetails: {
+        selectedCategories: Object.keys(categories).filter(
+          (key) => categories[key as keyof typeof categories]
+        ),
+        reviewerComments: comments,
+      },
+      notifications: {
+        sendEmail: notifyEmail,
+        sendSystemNotification: notifySystem,
+      },
+      submissionMetadata: {
+        processedTimestamp: new Date().toISOString(),
+      }
+    };
+
+    console.log("Full Form Submission :", fullFormData);
     onOpenChange(false);
   };
 
@@ -96,33 +125,39 @@ export default function RejectForm({ open, onOpenChange }: RejectFormProps) {
             </p>
           </div>
           <button
+            type="button"
             onClick={() => onOpenChange(false)}
             className="ml-6 p-1.5 cursor-pointer rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors shrink-0 mt-0.5"
           >
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M25.3341 6.66699L6.66748 25.3337M6.66748 6.66699L25.3341 25.3337" stroke="#141B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M25.3341 6.66699L6.66748 25.3337M6.66748 6.66699L25.3341 25.3337" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="px-6 pb-6 pt-2 flex flex-col gap-4">
 
-          {/* ── Report Information ── */}
+          {/* ── Report Information (Dynamic) ── */}
           <div className="rounded-md flex flex-col gap-5 border border-(--DDDDDB) p-4">
             <p className="font-creato text-base leading-5 font-medium text-(--b1) tracking-(--tracking-body)">Report Information</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <span className="block font-creato text-xs leading-4 font-normal text-(--c5) tracking-(--tracking-body) mb-0.5">Report Title</span>
-                <span className="block font-creato text-sm leading-4.5 font-medium text-(--b1) tracking-(--tracking-body)">Johor South Field Assessment</span>
+                <span className="block font-creato text-sm leading-4.5 font-medium text-(--b1) tracking-(--tracking-body)">
+                  {reportData?.title || "—"}
+                </span>
               </div>
               <div>
                 <span className="block font-creato text-xs leading-4 font-normal text-(--c5) tracking-(--tracking-body) mb-0.5">Upload By</span>
-                <span className="block font-creato text-sm leading-4.5 font-medium text-(--b1) tracking-(--tracking-body)">John Doe (Field Officer)</span>
+                <span className="block font-creato text-sm leading-4.5 font-medium text-(--b1) tracking-(--tracking-body)">
+                  {reportData?.uploadedBy || "—"}
+                </span>
               </div>
               <div>
                 <span className="block font-creato text-xs leading-4 font-normal text-(--c5) tracking-(--tracking-body) mb-0.5">Upload Date</span>
-                <span className="block font-creato text-sm leading-4.5 font-medium text-(--b1) tracking-(--tracking-body)">May 20, 2026, 2:30 PM</span>
+                <span className="block font-creato text-sm leading-4.5 font-medium text-(--b1) tracking-(--tracking-body)">
+                  {reportData?.uploadDate || "—"}
+                </span>
               </div>
             </div>
           </div>
@@ -205,13 +240,13 @@ export default function RejectForm({ open, onOpenChange }: RejectFormProps) {
             </div>
 
             {/* Reviewer Comments */}
-            <div className=" flex flex-col">
+            <div className="flex flex-col">
               <Label htmlFor="comments" className="font-creato text-base leading-5 font-medium text-(--b1) tracking-(--tracking-body) mb-2 flex items-center gap-1">
-                Reviewer Comments <span className=" text-[#FF7D60]">*</span>
+                Reviewer Comments <span className="text-[#FF7D60]">*</span>
               </Label>
               <Textarea
                 id="comments"
-                // value={comments}
+                value={comments}
                 onChange={(e) => setComments(e.target.value)}
                 placeholder="Please provide additional voter survey evidence and update demographic data."
                 className="flex-1 min-h-37 shadow-none resize-none border-(--DDDDDB) focus:outline-none focus:ring-0 focus:border-(--DDDDDB) focus-visible:outline-none focus-visible:ring-0 placeholder:text-gray-300 text-(--b1) text-sm rounded"
@@ -264,7 +299,7 @@ export default function RejectForm({ open, onOpenChange }: RejectFormProps) {
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="w-full sm:w-auto px-4 cursor-pointer font-creato text-base leading-5 rounded border border-(--DDDDDB) "
+              className="w-full sm:w-auto px-4 cursor-pointer font-creato text-base leading-5 rounded border border-(--DDDDDB)"
             >
               Cancel
             </Button>
@@ -273,7 +308,7 @@ export default function RejectForm({ open, onOpenChange }: RejectFormProps) {
               className="w-full sm:w-auto px-4 bg-[#FF7D60] hover:bg-[#e25c42] font-creato rounded text-base leading-5 text-background tracking-(--tracking-body)"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.6668 3.33301L3.3335 12.6663M3.3335 3.33301L12.6668 12.6663" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12.6668 3.33301L3.3335 12.6663M3.3335 3.33301L12.6668 12.6663" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               Reject Report
             </Button>

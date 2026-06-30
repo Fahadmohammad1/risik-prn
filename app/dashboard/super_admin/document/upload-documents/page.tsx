@@ -9,6 +9,7 @@ interface UploadedFile {
     id: string;
     name: string;
     size: string;
+    file?: File; // actual File object — present for browser-picked files, absent for pre-seeded entries
 }
 
 interface HistoryRow {
@@ -176,6 +177,7 @@ export default function UploadDocument() {
             id: uid(),
             name: f.name,
             size: formatBytes(f.size),
+            file: f, // keep the real File object
         }));
         setUploadedFiles((prev) => [...prev, ...next]);
     }, []);
@@ -193,10 +195,72 @@ export default function UploadDocument() {
     const handleDragLeave = () => setDragging(false);
     const removeFile = (id: string) => setUploadedFiles((prev) => prev.filter((f) => f.id !== id));
 
+    // ── Submit handler ──────
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const formData = {
+            documentInformation: {
+                title,
+                documentDate: docDate,
+                state,
+                district,
+                category,
+                documentType: docType,
+                notes,
+            },
+            aiAnalysisSettings: {
+                sentimentAnalysis: aiSettings.sentimentAnalysis,
+                riskDetection: aiSettings.riskDetection,
+                keywordExtraction: aiSettings.keywordExtraction,
+                topicClassification: aiSettings.topicClassification,
+                executiveSummary: aiSettings.executiveSummary,
+                historicalComparison: aiSettings.historicalComparison,
+            },
+            uploadedFiles: uploadedFiles.map(({ name, size, file }) => ({
+                name,
+                size,
+                file: file ?? null, // actual File object (null for pre-seeded demo entries)
+            })),
+        };
+
+        console.log("Form Submitted Data:", formData);
+    };
+
+    // ── Save Draft handler ──────
+    const handleSaveDraft = () => {
+        const draftData = {
+            documentInformation: {
+                title,
+                documentDate: docDate,
+                state,
+                district,
+                category,
+                documentType: docType,
+                notes,
+            },
+            aiAnalysisSettings: {
+                sentimentAnalysis: aiSettings.sentimentAnalysis,
+                riskDetection: aiSettings.riskDetection,
+                keywordExtraction: aiSettings.keywordExtraction,
+                topicClassification: aiSettings.topicClassification,
+                executiveSummary: aiSettings.executiveSummary,
+                historicalComparison: aiSettings.historicalComparison,
+            },
+            uploadedFiles: uploadedFiles.map(({ name, size, file }) => ({
+                name,
+                size,
+                file: file ?? null,
+            })),
+        };
+
+        console.log("Draft Saved Data:", draftData);
+    };
+
     // ── Render ──────
 
     return (
-        <div className="flex flex-col gap-8 p-6 bg-(--f2) min-h-screen">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-8 p-6 bg-(--f2) min-h-screen">
 
             {/* Heading */}
             <div className="flex flex-col gap-5">
@@ -228,7 +292,7 @@ export default function UploadDocument() {
                                 </label>
                                 <input
                                     type="text"
-                                    //   value={title}
+                                    value={title}
                                     placeholder="Johor South Field Assessment"
                                     onChange={(e) => setTitle(e.target.value)}
                                     className="border border-(--DDDDDB)  rounded px-3 py-2.25 text-sm font-creato leading-4.5 tracking-(--tracking-body) text-(--c5) focus:outline-none "
@@ -244,7 +308,7 @@ export default function UploadDocument() {
                                     <input
                                         ref={dateInputRef}
                                         type="date"
-                                        // value={docDate}
+                                        value={docDate}
                                         onChange={(e) => setDocDate(e.target.value)}
                                         className="w-full text-(--c5) border border-(--DDDDDB) rounded px-3 py-2 pr-10 text-sm font-creato focus:outline-none
                  [&::-webkit-calendar-picker-indicator]:opacity-0
@@ -259,7 +323,6 @@ export default function UploadDocument() {
                                         onClick={() => dateInputRef.current?.showPicker?.()}
                                         className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-auto"
                                     >
-                                        {/* Your SVG here */}
                                         <svg
                                             width="20"
                                             height="20"
@@ -311,7 +374,7 @@ export default function UploadDocument() {
                                 Notes <span className="font-creato text-sm font-normal leading-4.5 text-[#888B92] tracking-(--tracking-body)">(optional)</span>
                             </label>
                             <textarea
-                                // value={notes}
+                                value={notes}
                                 placeholder="Observation from ground visit, voter sentiment and campaign feedback."
                                 onChange={(e) => setNotes(e.target.value)}
                                 rows={3}
@@ -487,18 +550,19 @@ export default function UploadDocument() {
                 <div className="flex items-center gap-2.5 self-end sm:self-auto shrink-0">
                     <button
                         type="button"
+                        onClick={handleSaveDraft}
                         className="font-creato  text-base bg-background leading-5 tracking-(--tracking-body) text-(--b1) border border-(--DDDDDB) bg-whit px-5 py-3.25 rounded transition-colors"
                     >
                         Save Draft
                     </button>
                     <button
-                        type="button"
+                        type="submit"
                         className="font-creato  text-base leading-5 tracking-(--tracking-body) text-(--b1) bg-(--cc) hover:bg-[#2f6457] px-6.75 py-3.5 rounded transition-colors"
                     >
                         Submit File
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
     );
 }

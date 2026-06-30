@@ -33,7 +33,7 @@ export default function Topbar({ onMenuClick }: TopbarProps) {
   }, []);
 
   return (
-    <div className="h-28 lg:h-20 md:h-20 px-4 md:px-6 bg-(--f2) border-b border-b-[#DDDDDB] pt-5 pb-2 lg:py-0 flex lg:flex-row md:flex-row lg:gap-0 gap-4 flex-col lg:items-center justify-between font-sans w-full">
+    <div className="h-28 xl:h-19.75 lg:h-20 md:h-20 px-4 md:px-6 bg-(--f2) border-b border-b-[#DDDDDB] pt-5 pb-2 lg:py-0 flex lg:flex-row md:flex-row lg:gap-0 gap-4 flex-col lg:items-center justify-between font-sans w-full">
 
       <div className="flex items-center gap-3">
 
