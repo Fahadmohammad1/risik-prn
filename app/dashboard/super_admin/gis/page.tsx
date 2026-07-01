@@ -468,7 +468,7 @@ export default function GeographicalOverview() {
                                 alt="Onn Hafez Gazi"
                                 width={80}
                                 height={80}
-                                className="w-20 h-20 object-cover"
+                                className="w-20 h-20 object-cover rounded"
                             />
                         </div>
 
@@ -537,7 +537,7 @@ export default function GeographicalOverview() {
                     </div>
 
                     {/* GIS Insights Card */}
-                    <div className="bg-white p-5 rounded-2xl border border-(--DDDDDB) ">
+                    <div className="bg-white p-5 h-70 rounded-2xl border border-(--DDDDDB) ">
                         <h3 className="font-creato text-xl font-medium leading-5 mb-4">GIS Insights</h3>
                         <ul className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-none] space-y-4 text-xs text-gray-600 max-h-44 overflow-y-auto pr-1">
                             {DASHBOARD_DATA.keyFindings.map((finding) => (
