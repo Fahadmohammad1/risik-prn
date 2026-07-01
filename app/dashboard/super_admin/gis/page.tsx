@@ -536,7 +536,7 @@ export default function GeographicalOverview() {
                         </div>
                     </div>
 
-                    {/* GIS Insights Card */}
+                    {/* GIS Insights table */}
                     <div className="bg-white p-5 h-70 rounded-2xl border border-(--DDDDDB) ">
                         <h3 className="font-creato text-xl font-medium leading-5 mb-4">GIS Insights</h3>
                         <ul className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-none] space-y-4 text-xs text-gray-600 max-h-44 overflow-y-auto pr-1">
