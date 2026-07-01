@@ -268,13 +268,41 @@ export default function DocumentOverview() {
       {/* --- CHARTS GRID --- */}
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
 
+        <div className="main-pie bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col items-center justify-between">
+          <div className="w-full text-left">
+            <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Document Types</h3>
+          </div>
+
+          <SemiCircleChart totalDocsValue={DASHBOARD_DATA.metrics.totalDocs.value} />
+
+        </div>
+
         {/* Half Pie — Document Types */}
-       <SemiCircleChart totalDocsValue={DASHBOARD_DATA.metrics.totalDocs.value} />
 
 
         {/* Upload Trend Line Chart */}
+        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col justify-between">
+          <div className="flex items-center justify-between mb-8">
+            <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Document Upload Trend</h3>
+            <div className="relative inline-block">
+              <select
+                className="appearance-none bg-transparent font-creato font-medium px-2 text-sm leading-4 text-(--b1c) pr-8 cursor-pointer focus:outline-none"
+                defaultValue="30"
+              >
+                <option value="7">Last 7 Days</option>
+                <option value="30">Last 30 Days</option>
+                <option value="90">Last 90 Days</option>
+                <option value="365">Last 1 Year</option>
+              </select>
+              <ChevronDown className="w-3 h-3 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-(--b1)" />
+            </div>
+          </div>
+          <TrendChart trendData={DASHBOARD_DATA.uploadTrend} />
 
-      <TrendChart trendData={DASHBOARD_DATA.uploadTrend} />
+        </div>
+
+
+
 
       </div>
 

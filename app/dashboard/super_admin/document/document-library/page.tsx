@@ -24,7 +24,7 @@ export default function documentLibrary() {
 
 
     return (
-        <div className="p-6 flex flex-col gap-8 bg-(--f2)">
+        <div className="p-6 flex flex-col gap-8 bg-(--f2) h-300">
             {/* 1st row */}
             <div className="flex flex-col lg:flex-col md:flex-col xl:flex-row items-center justify-between">
                 <h1 className="font-creato font-medium text-4xl text-(--b1) leading-9 mb-2 tracking-(--tracking-body)">Documents Library</h1>
