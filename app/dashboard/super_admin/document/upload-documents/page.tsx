@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { ChevronDown, CloudUpload, Trash2, FileText, TriangleAlert } from "lucide-react";
+import { apiFetch, uploadDocument } from "@/app/lib/api";
 
 // ── Types ─
 
@@ -16,7 +17,15 @@ interface HistoryRow {
     id: string;
     name: string;
     date: string;
-    status: "Complete";
+    status: string;
+}
+
+// Backend document shape (subset used here).
+interface RecentDoc {
+    id: string;
+    title: string;
+    status: string;
+    createdAt: string;
 }
 
 // ── Helpers ────
@@ -25,6 +34,10 @@ function formatBytes(bytes: number): string {
     if (bytes === 0) return "0 B";
     const mb = bytes / (1024 * 1024);
     return mb >= 1 ? `${mb.toFixed(2)} MB` : `${(bytes / 1024).toFixed(1)} KB`;
+}
+
+function formatDate(iso: string): string {
+    return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
 function uid(): string {
@@ -106,15 +119,6 @@ function SelectField({
     );
 }
 
-// ── Static history data ──────
-
-const HISTORY_DATA: HistoryRow[] = Array.from({ length: 6 }, (_, i) => ({
-    id: String(i),
-    name: "Johor South Field Assessment",
-    date: "May 20, 2026",
-    status: "Complete",
-}));
-
 // ── AI settings keys ─────
 
 type AiKey =
@@ -137,13 +141,15 @@ const AI_ITEMS: { key: AiKey; label: string }[] = [
 // ── Main Component ──────
 
 export default function UploadDocument() {
+    const [submitting, setSubmitting] = useState(false);
+
     // ── Form state
     const [title, setTitle] = useState("Johor Field Assessment");
     const [docDate, setDocDate] = useState("2026-05-20");
     const [state, setState] = useState("Johor Bahru");
     const [district, setDistrict] = useState("Johor South");
     const [category, setCategory] = useState("Field Intelligence");
-    const [docType, setDocType] = useState("PDF");
+    const [docType, setDocType] = useState("CSV");
     const [notes, setNotes] = useState(
         "Observation from ground visit, voter sentiment and campaign feedback."
     );
@@ -163,13 +169,32 @@ export default function UploadDocument() {
         setAiSettings((prev) => ({ ...prev, [key]: !prev[key] }));
 
     // ── Upload state
-    const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([
-        { id: uid(), name: "Johor South Field Assessment.pdf", size: "4.25 MB" },
-        { id: uid(), name: "Johor South Field Assessment.pdf", size: "4.25 MB" },
-        { id: uid(), name: "Johor South Field Assessment.pdf", size: "4.25 MB" },
-    ]);
+    const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
     const [dragging, setDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // ── Recent upload history (live from the backend)
+    const [history, setHistory] = useState<HistoryRow[]>([]);
+
+    const loadHistory = useCallback(async () => {
+        try {
+            const docs = await apiFetch<RecentDoc[]>("/documents?limit=8");
+            setHistory(
+                docs.map((d) => ({
+                    id: d.id,
+                    name: d.title,
+                    date: formatDate(d.createdAt),
+                    status: "Complete",
+                })),
+            );
+        } catch {
+            setHistory([]);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadHistory();
+    }, [loadHistory]);
 
     const addFiles = useCallback((files: FileList | null) => {
         if (!files) return;
@@ -196,35 +221,43 @@ export default function UploadDocument() {
     const removeFile = (id: string) => setUploadedFiles((prev) => prev.filter((f) => f.id !== id));
 
     // ── Submit handler ──────
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (submitting) return;
 
-        const formData = {
-            documentInformation: {
-                title,
-                documentDate: docDate,
-                state,
-                district,
-                category,
-                documentType: docType,
-                notes,
-            },
-            aiAnalysisSettings: {
-                sentimentAnalysis: aiSettings.sentimentAnalysis,
-                riskDetection: aiSettings.riskDetection,
-                keywordExtraction: aiSettings.keywordExtraction,
-                topicClassification: aiSettings.topicClassification,
-                executiveSummary: aiSettings.executiveSummary,
-                historicalComparison: aiSettings.historicalComparison,
-            },
-            uploadedFiles: uploadedFiles.map(({ name, size, file }) => ({
-                name,
-                size,
-                file: file ?? null, // actual File object (null for pre-seeded demo entries)
-            })),
-        };
+        // Only entries backed by a real File object can be uploaded.
+        const realFiles = uploadedFiles.filter((f) => f.file);
+        if (realFiles.length === 0) {
+            alert("Please add at least one file to upload.");
+            return;
+        }
+        if (!title.trim()) {
+            alert("Please enter a document title.");
+            return;
+        }
 
-        console.log("Form Submitted Data:", formData);
+        setSubmitting(true);
+        try {
+            // Each selected file is uploaded straight to Cloudinary, then registered.
+            for (const f of realFiles) {
+                await uploadDocument(f.file as File, {
+                    title,
+                    documentDate: docDate,
+                    state,
+                    district,
+                    category,
+                    documentType: docType,
+                    notes,
+                });
+            }
+            // Show the result in place: refresh recent history + clear the picker.
+            setUploadedFiles([]);
+            await loadHistory();
+        } catch (err) {
+            alert((err as { message?: string })?.message ?? "Upload failed. Please try again.");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     // ── Save Draft handler ──────
@@ -363,7 +396,7 @@ export default function UploadDocument() {
                             />
                             <SelectField
                                 label="Document Type" required
-                                options={["PDF", "DOCX", "XLSX", "CSV"]}
+                                options={["CSV", "XLSX"]}
                                 value={docType} onChange={setDocType}
                             />
                         </div>
@@ -398,7 +431,14 @@ export default function UploadDocument() {
                                     </tr>
                                 </thead>
                                 <tbody className="">
-                                    {HISTORY_DATA.map((row) => (
+                                    {history.length === 0 && (
+                                        <tr>
+                                            <td colSpan={3} className="py-4 text-center text-sm text-(--c5) font-normal">
+                                                No uploads yet.
+                                            </td>
+                                        </tr>
+                                    )}
+                                    {history.map((row) => (
                                         <tr key={row.id}>
                                             <td className="py-2 pr-4 text-sm text-(--b1) font-normal">{row.name}</td>
                                             <td className="py-2.5 pr-4 text-sm text-(--b1)">{row.date}</td>
@@ -474,13 +514,13 @@ export default function UploadDocument() {
                             </button>
 
                             <p className="font-creato text-xs text-(--c5) leading-4 tracking-(--tracking-body) text-center">
-                                Supported formats: PDF, DOCX<br />Maximum file size: 50MB
+                                Supported formats: CSV, XLSX<br />Maximum file size: 50MB
                             </p>
 
                             <input
                                 ref={fileInputRef}
                                 type="file"
-                                accept=".pdf,.doc,.docx"
+                                accept=".csv,.xlsx"
                                 multiple
                                 className="hidden"
                                 onChange={(e) => {
@@ -557,9 +597,10 @@ export default function UploadDocument() {
                     </button>
                     <button
                         type="submit"
-                        className="font-creato  text-base leading-5 tracking-(--tracking-body) text-(--b1) bg-(--cc) hover:bg-[#2f6457] px-6.75 py-3.5 rounded transition-colors"
+                        disabled={submitting}
+                        className="font-creato  text-base leading-5 tracking-(--tracking-body) text-(--b1) bg-(--cc) hover:bg-[#2f6457] px-6.75 py-3.5 rounded transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                        Submit File
+                        {submitting ? "Uploading..." : "Submit File"}
                     </button>
                 </div>
             </div>

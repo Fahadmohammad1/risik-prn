@@ -18,8 +18,9 @@ import analytics from "@/components/layout/_assets/analytics.svg"
 import pp from "../layout/_assets/pp.png"
 
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { useRef, useState, useEffect } from "react"
+import { getStoredUser } from "@/app/lib/api"
 
 // ─── TOOLTIP ────────────────────────────────────────────────────────────────
 
@@ -66,6 +67,7 @@ function NavItem({
   onClick,
   badge,
   href,
+  route,
   isCollapsed,
 }: {
   iconSrc: any
@@ -74,18 +76,27 @@ function NavItem({
   onClick?: () => void
   badge?: string
   href?: string
+  route?: string
   isCollapsed: boolean
 }) {
   const [hovered, setHovered] = useState(false)
+  const router = useRouter()
 
   return (
     <SidebarTooltip label={label} isCollapsed={isCollapsed}>
       <a
-        href={href ?? "#"}
+        href={route ?? href ?? "#"}
         target={href ? "_blank" : undefined}
         rel={href ? "noopener noreferrer" : undefined}
         onClick={(e) => {
-          if (!href) e.preventDefault()
+          // Internal route → client-side nav (preserve middle-click / ctrl+click).
+          if (route) {
+            if (e.metaKey || e.ctrlKey || e.button === 1) return
+            e.preventDefault()
+            router.push(route)
+          } else if (!href) {
+            e.preventDefault()
+          }
           onClick?.()
         }}
         onMouseEnter={() => setHovered(true)}
@@ -133,8 +144,27 @@ interface SidebarProps {
 
 export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [activeItem, setActiveItem] = useState<string | null>(null)
+
+  // Active tab is derived from the current URL for routes that have a page.
+  const isRouteActive = (route: string, exact = false) =>
+    exact ? pathname === route : pathname === route || pathname.startsWith(`${route}/`)
+
+  // Documents route depends on the signed-in role: super_admin/admin get the
+  // full document workspace; officer/researcher get a read-only library.
+  const [documentsRoute, setDocumentsRoute] = useState("/dashboard/super_admin/document")
+  // The signed-in user, shown in the sidebar footer.
+  const [currentUser, setCurrentUser] = useState<{ name: string; email: string } | null>(null)
+  useEffect(() => {
+    const user = getStoredUser()
+    const role = user?.role
+    if (role === "officer") setDocumentsRoute("/dashboard/officer/documents")
+    else if (role === "researcher") setDocumentsRoute("/dashboard/researcher/documents")
+    else setDocumentsRoute("/dashboard/super_admin/document")
+    setCurrentUser(user ? { name: user.name, email: user.email } : null)
+  }, [])
   const [isStatesOpen, setIsStatesOpen] = useState(true)
   const [activeState, setActiveState] = useState<string | null>(null)
   const [statesHovered, setStatesHovered] = useState(false)
@@ -287,7 +317,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
             <NavItem
               iconSrc={dashboard}
               label="Dashboard"
-              active={activeItem === "Dashboard"}
+              route="/dashboard/super_admin"
+              active={isRouteActive("/dashboard/super_admin", true)}
               onClick={() => handleItemClick("Dashboard")}
               isCollapsed={isCollapsed}
             />
@@ -374,7 +405,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
             <NavItem
               iconSrc={gis}
               label="GIS Political Map"
-              active={activeItem === "GIS Political Map"}
+              route="/dashboard/super_admin/gis"
+              active={isRouteActive("/dashboard/super_admin/gis")}
               onClick={() => handleItemClick("GIS Political Map")}
               isCollapsed={isCollapsed}
             />
@@ -388,9 +420,8 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
             <NavItem
               iconSrc={reports}
               label="Documents"
-              active={activeItem === "Documents"}
-              badge="3"
-              href="/dashboard/super_admin/document"
+              route={documentsRoute}
+              active={isRouteActive(documentsRoute) || isRouteActive("/dashboard/super_admin/document")}
               onClick={() => handleItemClick("Documents")}
               isCollapsed={isCollapsed}
             />
@@ -504,10 +535,10 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                 {/* Details Section inside Dialog */}
                 <div className="px-2 py-1.5 border-b border-gray-100 flex flex-col">
                   <span className="font-creato text-sm font-semibold text-[#1B1B21] truncate">
-                    John Doe
+                    {currentUser?.name ?? "—"}
                   </span>
                   <span className="font-creato text-xs font-medium text-[#5C5C5F] truncate mt-0.5">
-                    john@email.com
+                    {currentUser?.email ?? ""}
                   </span>
                 </div>
                 
@@ -550,10 +581,10 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
                 {(!isCollapsed || (typeof window !== "undefined" && window.innerWidth < 768)) && (
                   <div className="flex flex-col min-w-0 gap-0.5">
                     <span className="font-creato text-base font-normal text-(--b1) leading-5 truncate">
-                      John Doe
+                      {currentUser?.name ?? "—"}
                     </span>
                     <span className="font-creato text-xs font-medium text-(--c5) leading-4 truncate">
-                      john@email.com
+                      {currentUser?.email ?? ""}
                     </span>
                   </div>
                 )}

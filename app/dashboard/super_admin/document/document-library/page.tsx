@@ -1,27 +1,101 @@
 "use client"
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Image from 'next/image';
 // import pdf from "../document/_assets/pdf.svg"
 import pdf from "../_assets/pdf.svg"
+import { apiFetch, fetchFileBlob, getStoredUser, type Role } from "@/app/lib/api";
 
+// ── Backend document shape + display mapping ──
+interface DocumentDto {
+    id: string;
+    title: string;
+    category: string | null;
+    state: string | null;
+    district: string | null;
+    documentType: string | null;
+    status: string;
+    originalName: string;
+    size: number;
+    uploadedBy: { id: string; name: string };
+    createdAt: string;
+}
 
-const DASHBOARD_DATA = {
-  library: [
-    { id: 1, name: "Election Strategy ", type: "Reports", state: "Johor Bahru", category: "Strategy", user: "Jhon Doe", date: "May 22, 2026", size: "4.2 MB", status: "Strong" },
-    { id: 2, name: "Market Analysis", type: "Analytics", state: "Kuala Lumpur", category: "Research", user: "Jane Smith", date: "June 11, 2026", size: "2.9 MB", status: "Moderate" },
-    { id: 3, name: "Consumer Behavior ", type: "Research", state: "Penang", category: "Analysis", user: "Alex Wong", date: "April 10, 2026", size: "3.5 MB", status: "Weak" },
-    { id: 4, name: "Digital Marketing", type: "Marketing", state: "Malacca", category: "Strategy", user: "Michael Tan", date: "March 25, 2025", size: "5.1 MB", status: "Strong" },
-    { id: 5, name: "Financial Overview", type: "Finance", state: "Putrajaya", category: "Overview", user: "Rachel Lim", date: "April 15, 2025", size: "6.8 MB", status: "Moderate" },
-  ]
-};
+function formatBytes(bytes: number): string {
+    if (!bytes) return "0 B";
+    const mb = bytes / (1024 * 1024);
+    return mb >= 1 ? `${mb.toFixed(1)} MB` : `${(bytes / 1024).toFixed(1)} KB`;
+}
+
+function formatDate(iso: string): string {
+    return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
 
 export default function documentLibrary() {
 
     const [searchTerm, setSearchTerm] = useState("");
+    const [documents, setDocuments] = useState<DocumentDto[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [role, setRole] = useState<Role | null>(null);
 
+    const loadDocuments = useCallback(async () => {
+        setLoading(true);
+        try {
+            const items = await apiFetch<DocumentDto[]>("/documents?limit=100");
+            setDocuments(items);
+        } catch {
+            setDocuments([]);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        setRole(getStoredUser()?.role ?? null);
+        loadDocuments();
+    }, [loadDocuments]);
+
+    // View: open the file inline in a new tab.
+    const handleView = async (doc: DocumentDto) => {
+        try {
+            const blob = await fetchFileBlob(doc.id);
+            window.open(URL.createObjectURL(blob), "_blank", "noopener,noreferrer");
+        } catch (err) {
+            alert((err as { message?: string })?.message ?? "Could not open the document.");
+        }
+    };
+
+    // Download: save the file with its original name.
+    const handleDownload = async (doc: DocumentDto) => {
+        try {
+            const blob = await fetchFileBlob(doc.id);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = doc.originalName;
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            alert((err as { message?: string })?.message ?? "Could not download the document.");
+        }
+    };
+
+    // Delete: super_admin / admin only.
+    const handleDelete = async (doc: DocumentDto) => {
+        if (!window.confirm(`Delete "${doc.title}"? This cannot be undone.`)) return;
+        try {
+            await apiFetch(`/documents/${doc.id}`, { method: "DELETE" });
+            setDocuments((prev) => prev.filter((d) => d.id !== doc.id));
+        } catch (err) {
+            alert((err as { message?: string })?.message ?? "Could not delete the document.");
+        }
+    };
+
+    const visibleDocs = documents.filter((doc) =>
+        doc.title.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
 
     return (
         <div className="p-6 flex flex-col gap-8 bg-(--f2) h-300">
@@ -211,8 +285,14 @@ export default function documentLibrary() {
                                 </tr>
                             </thead>
                             <tbody className="">
-                                {DASHBOARD_DATA.library
-                                    .filter(doc => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                                {!loading && visibleDocs.length === 0 && (
+                                    <tr>
+                                        <td colSpan={9} className="text-center py-8 font-creato text-sm text-(--c5)">
+                                            {documents.length === 0 ? "No documents uploaded yet." : "No documents match your search."}
+                                        </td>
+                                    </tr>
+                                )}
+                                {visibleDocs
                                     .map((doc) => (
                                         <tr key={doc.id} className="">
                                             <td className="font-creato font-medium text-base leading-3 text-(--b1) py-3.5 pl-0  flex items-center gap-4 max-w-57.5 truncate">
@@ -224,39 +304,39 @@ export default function documentLibrary() {
                                                         height={32}
                                                     />
                                                 </span>
-                                                {doc.name}
+                                                {doc.title}
                                             </td>
-                                            <td className="text-center"><span className="font-creato font-bold text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span></td>
-                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.state}</td>
-                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.category}</td>
-                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.user}</td>
-                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.date}</td>
-                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.size}</td>
+                                            <td className="text-center"><span className="font-creato font-bold text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.documentType || doc.category || "—"}</span></td>
+                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.state || "—"}</td>
+                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.category || "—"}</td>
+                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.uploadedBy.name}</td>
+                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{formatDate(doc.createdAt)}</td>
+                                            <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{formatBytes(doc.size)}</td>
                                             <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.status}</td>
                                             <td className="py-3.5 text-center">
                                                 <div className="flex items-center justify-center gap-2">
-                                                    <button title="View" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+                                                    <button title="View" onClick={() => handleView(doc)} className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors cursor-pointer">
                                                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
                                                             <path d="M14.3333 15.9997C14.3333 16.4417 14.5089 16.8656 14.8215 17.1782C15.1341 17.4907 15.558 17.6663 16 17.6663C16.442 17.6663 16.866 17.4907 17.1785 17.1782C17.4911 16.8656 17.6667 16.4417 17.6667 15.9997C17.6667 15.5576 17.4911 15.1337 17.1785 14.8212C16.866 14.5086 16.442 14.333 16 14.333C15.558 14.333 15.1341 14.5086 14.8215 14.8212C14.5089 15.1337 14.3333 15.5576 14.3333 15.9997Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                                                             <path d="M23.5 16C21.5 19.3333 19 21 16 21C13 21 10.5 19.3333 8.5 16C10.5 12.6667 13 11 16 11C19 11 21.5 12.6667 23.5 16Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                                                         </svg>
                                                     </button>
-                                                    <button title="Download" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+                                                    <button title="Download" onClick={() => handleDownload(doc)} className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors cursor-pointer">
                                                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
                                                             <path d="M20.1082 13.7583C20.1138 13.7583 20.1194 13.7583 20.125 13.7583C21.989 13.7583 23.5 15.2721 23.5 17.1394C23.5 18.8798 22.1875 20.3131 20.5 20.5M20.1082 13.7583C20.1193 13.6345 20.125 13.5092 20.125 13.3826C20.125 11.1002 18.2782 9.25 16 9.25C13.8424 9.25 12.0717 10.9095 11.8903 13.0239M20.1082 13.7583C20.0315 14.6107 19.6965 15.3885 19.1821 16.0124M11.8903 13.0239C9.98799 13.2053 8.5 14.8104 8.5 16.7638C8.5 18.5813 9.78832 20.0974 11.5 20.4455M11.8903 13.0239C12.0087 13.0127 12.1287 13.0069 12.25 13.0069C13.0944 13.0069 13.8736 13.2865 14.5004 13.7583" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                                                             <path d="M16 22.75L16 16.75M17.875 20.875C17.5064 21.2543 16.5252 22.75 16 22.75C15.4748 22.75 14.4936 21.2543 14.125 20.875" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                                                         </svg>
                                                     </button>
-                                                    <button title="More" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
-                                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
-                                                            <path d="M15.9973 16H16.0033" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                            <path d="M19.9999 16H20.0059" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                            <path d="M11.9999 16H12.0059" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                        </svg>
-                                                    </button>
+                                                    {(role === "super_admin" || role === "admin") && (
+                                                        <button title="Delete" onClick={() => handleDelete(doc)} className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-red-600 transition-colors cursor-pointer">
+                                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
+                                                                <path d="M22 11.5H10M20.6667 11.5L20.2 20.5C20.0667 22.5 20 23 18.5 23H13.5C12 23 11.9333 22.5 11.8 20.5L11.3333 11.5M14.5 11.5V10C14.5 9.5 14.5 9 16 9C17.5 9 17.5 9.5 17.5 10V11.5M14 14.5V20M18 14.5V20" stroke="#1B1B21" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                                                            </svg>
+                                                        </button>
+                                                    )}
                                                 </div>
                                             </td>
                                         </tr>

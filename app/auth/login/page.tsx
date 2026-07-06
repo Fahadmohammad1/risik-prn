@@ -1,6 +1,7 @@
 "use client"
 
 import { signIn } from "@/app/lib/auth-client"
+import { dashboardPath } from "@/app/lib/api"
 import { Eye, EyeOff } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -19,12 +20,12 @@ export default function LoginPage() {
     e.preventDefault()
     setError(null)
     setIsLoading(true)
-    const { error } = await signIn.email({ email, password })
+    const { data, error } = await signIn.email({ email, password })
     setIsLoading(false)
-    if (error) {
-      setError(error.message ?? "Sign in failed. Please try again.")
+    if (error || !data) {
+      setError(error?.message ?? "Sign in failed. Please try again.")
     } else {
-      router.push("/dashboard/super_admin")
+      router.push(dashboardPath(data.user.role))
     }
   }
 

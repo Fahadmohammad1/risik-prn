@@ -1,13 +1,38 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Search, ChevronDown, FileText } from 'lucide-react';
-import { minLength } from 'better-auth';
 import Image from 'next/image';
 import pdf from "../document/_assets/pdf.svg"
 import SemiCircleChart from '@/components/chart/SemiCirclePie';
 import TrendChart from '@/components/chart/TrendLineChart';
+import { apiFetch, fetchFileBlob, getStoredUser, type Role } from "@/app/lib/api";
+
+// ── Backend document shape + helpers ──
+interface LibraryDoc {
+  id: string;
+  title: string;
+  category: string | null;
+  state: string | null;
+  documentType: string | null;
+  status: string;
+  originalName: string;
+  size: number;
+  uploadedBy: { id: string; name: string };
+  createdAt: string;
+}
+
+function fmtBytes(bytes: number): string {
+  if (!bytes) return "0 B";
+  const mb = bytes / (1024 * 1024);
+  return mb >= 1 ? `${mb.toFixed(1)} MB` : `${(bytes / 1024).toFixed(1)} KB`;
+}
+
+function fmtDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
 
 const DASHBOARD_DATA = {
   metrics: {
@@ -62,6 +87,57 @@ const DASHBOARD_DATA = {
 
 export default function DocumentOverview() {
   const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
+  const [docs, setDocs] = useState<LibraryDoc[]>([]);
+  const [role, setRole] = useState<Role | null>(null);
+
+  const loadDocs = useCallback(async () => {
+    try {
+      setDocs(await apiFetch<LibraryDoc[]>("/documents?limit=100"));
+    } catch {
+      setDocs([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    setRole(getStoredUser()?.role ?? null);
+    loadDocs();
+  }, [loadDocs]);
+
+  const handleView = async (doc: LibraryDoc) => {
+    try {
+      const blob = await fetchFileBlob(doc.id);
+      window.open(URL.createObjectURL(blob), "_blank", "noopener,noreferrer");
+    } catch (err) {
+      alert((err as { message?: string })?.message ?? "Could not open the document.");
+    }
+  };
+
+  const handleDownload = async (doc: LibraryDoc) => {
+    try {
+      const blob = await fetchFileBlob(doc.id);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = doc.originalName;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert((err as { message?: string })?.message ?? "Could not download the document.");
+    }
+  };
+
+  const handleDelete = async (doc: LibraryDoc) => {
+    if (!window.confirm(`Delete "${doc.title}"? This cannot be undone.`)) return;
+    try {
+      await apiFetch(`/documents/${doc.id}`, { method: "DELETE" });
+      setDocs((prev) => prev.filter((d) => d.id !== doc.id));
+    } catch (err) {
+      alert((err as { message?: string })?.message ?? "Could not delete the document.");
+    }
+  };
+
+  const visibleDocs = docs.filter((d) => d.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <div className="min-h-screen bg-(--f2) p-6 font-sans antialiased text-gray-800 selection:bg-emerald-100 flex flex-col gap-4">
@@ -122,7 +198,7 @@ export default function DocumentOverview() {
 
           </div>
 
-          <button className="w-48 lg:w-47 xl:40 hover:bg-(--surf-green) transition-all font-creato text-[16px]! flex items-center justify-center gap-2 bg-(--light-green) text-(--b1) font-normal px-4 py-2.5 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
+          <button onClick={() => router.push("/dashboard/super_admin/document/upload-documents")} className="w-48 lg:w-47 xl:40 hover:bg-(--surf-green) transition-all font-creato text-[16px]! flex items-center justify-center gap-2 bg-(--light-green) text-(--b1) font-normal px-4 py-2.5 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M14.5646 7.50922C14.5709 7.50919 14.5771 7.50917 14.5833 7.50917C16.6544 7.50917 18.3333 9.19118 18.3333 11.2661C18.3333 13.1998 16.875 14.7924 15 15M14.5646 7.50922C14.577 7.37172 14.5833 7.23247 14.5833 7.09174C14.5833 4.55579 12.5313 2.5 10 2.5C7.6027 2.5 5.63528 4.34389 5.43369 6.69326M14.5646 7.50922C14.4794 8.45632 14.1072 9.3205 13.5357 10.0138M5.43369 6.69326C3.31999 6.89477 1.66667 8.67827 1.66667 10.8486C1.66667 12.8681 3.09814 14.5527 5.00001 14.9394M5.43369 6.69326C5.56522 6.68072 5.69853 6.67431 5.83334 6.67431C6.77153 6.67431 7.63729 6.98495 8.33374 7.50917" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M10 10.833L10 17.4997M12.0833 12.9163C11.6737 12.4949 10.5835 10.833 10 10.833C9.41648 10.833 8.32628 12.4949 7.91667 12.9163" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
@@ -323,20 +399,23 @@ export default function DocumentOverview() {
             [&::-webkit-scrollbar-thumb]:bg-[#22493E]
             [&::-webkit-scrollbar-thumb]:rounded-full"
           >
-            {DASHBOARD_DATA.recentDocs.map((doc, idx) => (
-              <div key={idx} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-0 pt-0 rounded-xl mb-4 transition-colors gap-4 last:mb-0">
+            {docs.length === 0 && (
+              <p className="font-creato text-sm text-(--c5)">No documents uploaded yet.</p>
+            )}
+            {docs.map((doc) => (
+              <div key={doc.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-0 pt-0 rounded-xl mb-4 transition-colors gap-4 last:mb-0">
                 <div className="flex items-center gap-4">
                   <div className="flex gap-4">
                     <div className="min-w-0">
-                      <h4 className="font-creato font-normal text-md leading-4 text-(--b1) tracking-(--tracking-body)">{doc.name}</h4>
-                      <p className="font-creato font-medium text-xs mt-2 leading-3 tracking-(--tracking-body) text-(--c5)">{doc.date} • {doc.size}</p>
+                      <h4 className="font-creato font-normal text-md leading-4 text-(--b1) tracking-(--tracking-body)">{doc.title}</h4>
+                      <p className="font-creato font-medium text-xs mt-2 leading-3 tracking-(--tracking-body) text-(--c5)">{fmtDate(doc.createdAt)} • {fmtBytes(doc.size)}</p>
                     </div>
-                    <span className="h-full font-medium font-creato text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span>
+                    <span className="h-full font-medium font-creato text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.documentType || doc.category || "—"}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between sm:justify-end gap-2 border-t sm:border-0 pt-2 sm:pt-0 border-gray-100">
-                  <button className="font-creato font-normal text-md tracking-(--tracking-body) leading-3 text-(--b1) px-3.75 py-2.75 bg-white border border-(--DDDDDB) rounded-md active:scale-95">Analyze</button>
-                  <button className="p-1.75 cursor-pointer border border-(--DDDDDB) rounded-lg">
+                  <button onClick={() => handleView(doc)} className="font-creato font-normal text-md tracking-(--tracking-body) leading-3 text-(--b1) px-3.75 py-2.75 bg-white border border-(--DDDDDB) rounded-md active:scale-95 cursor-pointer">Analyze</button>
+                  <button onClick={() => handleDownload(doc)} className="p-1.75 cursor-pointer border border-(--DDDDDB) rounded-lg">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M9.9966 10H10.0041" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       <path d="M14.9998 10H15.0073" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -346,35 +425,6 @@ export default function DocumentOverview() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-(--DDDDDB)">
-          <h3 className="font-creato text-xl font-medium leading-5 mb-5 text-(--b1) tracking-(--tracking-body)">OCR Processing Queue</h3>
-          <p className="text-[10px] text-gray-400 mb-3 lg:hidden">Swipe left/right to view full queue data</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs min-w-125">
-              <thead>
-                <tr className="h-8 text-gray-400 border-b border-(--DDDDDB)">
-                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) tracking-(--tracking-body)">Document</th>
-                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">File Type</th>
-                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Progress</th>
-                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Status</th>
-                  <th className="pb-2 font-creato font-medium text-xs leading-3 text-(--c5) text-center tracking-(--tracking-body)">Time Left</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {DASHBOARD_DATA.ocrQueue.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-50/60 transition-colors">
-                    <td className="py-3 font-creato font-normal text-sm leading-3 text-(--b1) max-w-27.5 truncate">{item.name}</td>
-                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.type}</td>
-                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.progress}</td>
-                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.status}</td>
-                    <td className="py-3 font-creato text-center font-normal text-sm leading-3.5 text-(--b1) tracking-(--tracking-body)">{item.time}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
 
@@ -435,7 +485,7 @@ export default function DocumentOverview() {
               </div>
             </div>
 
-            <button className="cursor-pointer font-creato text-sm leading-3.5 text-(--c5)">View All</button>
+            <button onClick={() => router.push("/dashboard/super_admin/document/document-library")} className="cursor-pointer font-creato text-sm leading-3.5 text-(--c5)">View All</button>
           </div>
         </div>
 
@@ -457,8 +507,14 @@ export default function DocumentOverview() {
                 </tr>
               </thead>
               <tbody className="">
-                {DASHBOARD_DATA.library
-                  .filter(doc => doc.name.toLowerCase().includes(searchTerm.toLowerCase()))
+                {visibleDocs.length === 0 && (
+                  <tr>
+                    <td colSpan={9} className="text-center py-8 font-creato text-sm text-(--c5)">
+                      {docs.length === 0 ? "No documents uploaded yet." : "No documents match your search."}
+                    </td>
+                  </tr>
+                )}
+                {visibleDocs
                   .map((doc) => (
                     <tr key={doc.id} className="">
                       <td className="font-creato font-medium text-base leading-3 text-(--b1) py-3.5 pl-0  flex items-center gap-4 max-w-57.5 truncate">
@@ -470,39 +526,39 @@ export default function DocumentOverview() {
                             height={32}
                           />
                         </span>
-                        {doc.name}
+                        {doc.title}
                       </td>
-                      <td className="text-center"><span className="font-creato font-bold text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.type}</span></td>
-                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.state}</td>
-                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.category}</td>
-                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.user}</td>
-                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.date}</td>
-                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.size}</td>
+                      <td className="text-center"><span className="font-creato font-bold text-xs px-2 py-0.5 bg-(--eb) rounded text-(--green)">{doc.documentType || doc.category || "—"}</span></td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.state || "—"}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.category || "—"}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.uploadedBy.name}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{fmtDate(doc.createdAt)}</td>
+                      <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{fmtBytes(doc.size)}</td>
                       <td className="text-center px-2 font-creato font-normal text-sm leading-4.5 text-(--b1)">{doc.status}</td>
                       <td className="py-3.5 text-center">
                         <div className="flex items-center justify-center gap-2">
-                          <button title="View" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+                          <button title="View" onClick={() => handleView(doc)} className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors cursor-pointer">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
                               <path d="M14.3333 15.9997C14.3333 16.4417 14.5089 16.8656 14.8215 17.1782C15.1341 17.4907 15.558 17.6663 16 17.6663C16.442 17.6663 16.866 17.4907 17.1785 17.1782C17.4911 16.8656 17.6667 16.4417 17.6667 15.9997C17.6667 15.5576 17.4911 15.1337 17.1785 14.8212C16.866 14.5086 16.442 14.333 16 14.333C15.558 14.333 15.1341 14.5086 14.8215 14.8212C14.5089 15.1337 14.3333 15.5576 14.3333 15.9997Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                               <path d="M23.5 16C21.5 19.3333 19 21 16 21C13 21 10.5 19.3333 8.5 16C10.5 12.6667 13 11 16 11C19 11 21.5 12.6667 23.5 16Z" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </button>
-                          <button title="Download" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+                          <button title="Download" onClick={() => handleDownload(doc)} className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors cursor-pointer">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
                               <path d="M20.1082 13.7583C20.1138 13.7583 20.1194 13.7583 20.125 13.7583C21.989 13.7583 23.5 15.2721 23.5 17.1394C23.5 18.8798 22.1875 20.3131 20.5 20.5M20.1082 13.7583C20.1193 13.6345 20.125 13.5092 20.125 13.3826C20.125 11.1002 18.2782 9.25 16 9.25C13.8424 9.25 12.0717 10.9095 11.8903 13.0239M20.1082 13.7583C20.0315 14.6107 19.6965 15.3885 19.1821 16.0124M11.8903 13.0239C9.98799 13.2053 8.5 14.8104 8.5 16.7638C8.5 18.5813 9.78832 20.0974 11.5 20.4455M11.8903 13.0239C12.0087 13.0127 12.1287 13.0069 12.25 13.0069C13.0944 13.0069 13.8736 13.2865 14.5004 13.7583" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                               <path d="M16 22.75L16 16.75M17.875 20.875C17.5064 21.2543 16.5252 22.75 16 22.75C15.4748 22.75 14.4936 21.2543 14.125 20.875" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </button>
-                          <button title="More" className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
-                              <path d="M15.9973 16H16.0033" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                              <path d="M19.9999 16H20.0059" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                              <path d="M11.9999 16H12.0059" stroke="#1B1B21" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </button>
+                          {(role === "super_admin" || role === "admin") && (
+                            <button title="Delete" onClick={() => handleDelete(doc)} className="border border-(--DDDDDB) rounded-lg text-gray-400 hover:text-red-600 transition-colors cursor-pointer">
+                              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
+                                <path d="M22 11.5H10M20.6667 11.5L20.2 20.5C20.0667 22.5 20 23 18.5 23H13.5C12 23 11.9333 22.5 11.8 20.5L11.3333 11.5M14.5 11.5V10C14.5 9.5 14.5 9 16 9C17.5 9 17.5 9.5 17.5 10V11.5M14 14.5V20M18 14.5V20" stroke="#1B1B21" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
