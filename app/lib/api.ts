@@ -3,7 +3,7 @@
 // localStorage and sent as `Authorization: Bearer <token>`.
 
 export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000/api/v1";
+  process.env.NEXT_PUBLIC_API_URL ?? "https://risik-test-server.vercel.app/api/v1";
 
 const TOKEN_KEY = "risik_token";
 const USER_KEY = "risik_user";
