@@ -191,6 +191,7 @@ export default function GeographicalOverview() {
                 </div>
             </div>
 
+
             {/* --- ROW 1: METRIC GRID + POLITICAL STRENGTH --- */}
             <div className="mt-2 grid grid-cols-1 xl:grid-cols-5 lg:grid-cols-3 gap-4 w-full">
 
@@ -537,9 +538,9 @@ export default function GeographicalOverview() {
                     </div>
 
                     {/* GIS Insights table */}
-                    <div className="bg-white p-5 h-70 rounded-2xl border border-(--DDDDDB) ">
+                    <div className="bg-white p-5  rounded-2xl border border-(--DDDDDB) ">
                         <h3 className="font-creato text-xl font-medium leading-5 mb-4">GIS Insights</h3>
-                        <ul className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-none] space-y-4 text-xs text-gray-600 max-h-44 overflow-y-auto pr-1">
+                        <ul className="min-h-50 max-h-50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-none] space-y-4 text-xs text-gray-600 overflow-y-auto pr-1">
                             {DASHBOARD_DATA.keyFindings.map((finding) => (
                                 <li key={finding.id} className="leading-3.5 flex items-start gap-2 text-(--c5)  pb-0 mb-3 last:border-0 last:pb-0">
                                     <span className="shrink-0 mt-0.5">
