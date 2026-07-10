@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -7,27 +6,29 @@ import Image from 'next/image';
 import pdf from "../document/_assets/pdf.svg"
 import SemiCircleChart from '@/components/chart/SemiCirclePie';
 
-import Dropdown from './_asstes/dropdown';
-import Plus from './_asstes/plus';
-import UserIcon from './_asstes/userIcon';
-import SuspendedIcon from './_asstes/SuspendedIcon';
-import NewUserIcon from './_asstes/NewUserIcon';
-import ActiveUser from './_asstes/ActiveUser';
-import PendingIcon from './_asstes/pendingIcon';
+import Dropdown from './_assets/dropdown';
+import Plus from './_assets/plus';
+import UserIcon from './_assets/userIcon';
+import SuspendedIcon from './_assets/SuspendedIcon';
+import NewUserIcon from './_assets/NewUserIcon';
+import ActiveUser from './_assets/ActiveUser';
+import PendingIcon from './_assets/pendingIcon';
 
 import { BarChart, Bar } from 'recharts';
-import UploadIcon from './_asstes/uploadIcon';
-import NewUserTableIcon from './_asstes/NewUserTableIcon';
+import UploadIcon from './_assets/uploadIcon';
+import NewUserTableIcon from './_assets/NewUserTableIcon';
 import { ChevronDown } from 'lucide-react';
-import pm from "./_asstes/pm.png"
-import EyeIcon from './_asstes/eyeIcon';
-import EditIcon from './_asstes/EditIcon';
-import DotIcon from './_asstes/dotIcon';
-import SearchIcon from './_asstes/searchIcon';
-import ExportIcon from './_asstes/exportIcon';
-import ImportUserIcon from './_asstes/importUserIcon';
-import SendIcon from './_asstes/sendIcon';
-import BulkRoleIcon from './_asstes/BulkRoleIcon';
+import pm from "./_assets/pm.png"
+import EyeIcon from './_assets/eyeIcon';
+import EditIcon from './_assets/EditIcon';
+import DotIcon from './_assets/dotIcon';
+import SearchIcon from './_assets/searchIcon';
+import ExportIcon from './_assets/exportIcon';
+import ImportUserIcon from './_assets/importUserIcon';
+import SendIcon from './_assets/sendIcon';
+import BulkRoleIcon from './_assets/BulkRoleIcon';
+import AddNewUserForm from './_dialog/AddNewUser';
+import ListTickIcon from './_assets/listTickIcon';
 
 const DASHBOARD_DATA = {
     metrics: {
@@ -57,7 +58,7 @@ const DASHBOARD_DATA = {
         { name: 'Mar', active: 34, new: 11, label: 'Mar 2025', rawActive: 98, rawNew: 24 },
         { name: 'Apr', active: 34, new: 24, label: 'Apr 2025', rawActive: 68, rawNew: 48 },
         { name: 'May', active: 45, new: 22, label: 'May 2025', rawActive: 90, rawNew: 44 },
-        { name: 'Jun', active: 36, new: 12, label: 'Jun 2025', rawActive: 72, rawNew: 24 },
+        { name: 'Jun', active: 36, text: 12, label: 'Jun 2025', rawActive: 72, rawNew: 24 },
     ],
     recentUserActivity: [
         { id: 1, name: "Jhon Doe", action: "Created Candidate Profile", time: "2 min ago", type: "new" },
@@ -104,6 +105,8 @@ const getRoleBadgeStyles = (role: string) => {
 
 export default function Users() {
     const [searchTerm, setSearchTerm] = useState("");
+    // 1. Added modal visibility state
+    const [isAddUserOpen, setIsAddUserOpen] = useState(false);
 
     return (
         <div className="min-h-screen bg-(--f2) p-6 font-sans antialiased text-gray-800 selection:bg-emerald-100 flex flex-col gap-4">
@@ -145,7 +148,11 @@ export default function Users() {
                         </div>
                     </div>
 
-                    <button className="w-32 hover:bg-(--surf-green) transition-all font-creato text-[16px]! flex items-center justify-center gap-2 bg-(--light-green) text-(--b1) font-normal px-4 py-2 leading-4 rounded sm:text-sm cursor-pointer active:scale-95">
+                    {/* 2. Added onClick event handler to open modal */}
+                    <button 
+                        onClick={() => setIsAddUserOpen(true)}
+                        className="w-32 hover:bg-(--surf-green) transition-all font-creato text-[16px]! flex items-center justify-center gap-2 bg-(--light-green) text-(--b1) font-normal px-4 py-2 leading-4 rounded sm:text-sm cursor-pointer active:scale-95"
+                    >
                         <Plus />
                         Add User
                     </button>
@@ -213,21 +220,11 @@ export default function Users() {
                 {/* User Insights */}
                 <div className="col-span-1 xl:col-span-2 lg:col-span-3 bg-white border border-(--DDDDDB) rounded-2xl p-5 font-sans text-gray-800">
                     <h3 className="font-creato text-xl font-medium leading-5 mb-4 text-(--b1)">User Insights</h3>
-                    <ul className="space-y-4 text-[11px] sm:text-xs text-gray-600 max-h-43.75 overflow-y-auto pr-1">
+                    <ul className="space-y-4 text-[11px] sm:text-xs text-gray-600 max-h-72 overflow-y-auto pr-1">
                         {DASHBOARD_DATA.keyFindings.map((finding) => (
                             <li key={finding.id} className="flex text-(--c5) items-center gap-2 mb-1 pb-2">
                                 <span>
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clipPath="url(#clip0_627_24193)">
-                                            <path d="M12.6604 12.6663H12.6667M12.6604 12.6663C12.2452 13.078 11.4929 12.9755 10.9653 12.9755C10.3177 12.9755 10.0058 13.1022 9.54363 13.5644C9.15007 13.9579 8.6225 14.6663 8.00003 14.6663C7.37754 14.6663 6.84996 13.9579 6.45639 13.5644C5.9942 13.1022 5.68234 12.9755 5.03472 12.9755C4.50713 12.9755 3.7548 13.078 3.33967 12.6663C2.92122 12.2514 3.0242 11.4959 3.0242 10.9649C3.0242 10.294 2.87745 9.9854 2.3996 9.50756C1.68877 8.79675 1.33335 8.4413 1.33334 7.99966C1.33335 7.55801 1.68876 7.2026 2.39958 6.49179C2.82614 6.06522 3.0242 5.64253 3.0242 5.03438C3.0242 4.50678 2.92167 3.75444 3.33334 3.3393C3.74829 2.92086 4.50375 3.02385 5.03473 3.02385 C5.64286 3.02385 6.06555 2.82581 6.49211 2.39925C7.20294 1.68842 7.55836 1.33301 8.00001 1.33301C8.44166 1.33301 8.79708 1.68842 9.50791 2.39925C9.93437 2.82572 10.357 3.02385 10.9653 3.02385C11.4929 3.02385 12.2453 2.92132 12.6604 3.33301C13.0788 3.74796 12.9758 4.5034 12.9758 5.03438C12.9758 5.70539 13.1226 6.01392 13.6004 6.49179C14.3113 7.2026 14.6667 7.55801 14.6667 7.99966C14.6667 8.4413 14.3113 8.79675 13.6004 9.50756C13.1226 9.98539 12.9758 10.294 12.9758 10.9649C12.9758 11.4959 13.0788 12.2514 12.6604 12.6663Z" stroke="#5C5C5F" />
-                                            <path d="M6 8.59491C6 8.59491 6.8 9.02945 7.2 9.66634C7.2 9.66634 8.4 7.16634 10 6.33301" stroke="#5C5C5F" strokeLinecap="round" strokeLinejoin="round" />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_627_24193">
-                                                <rect width="16" height="16" fill="white" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
+                                    <ListTickIcon/>
                                 </span>
                                 <p className="font-creato text-sm font-normal leading-5">
                                     {finding.text}
@@ -241,6 +238,9 @@ export default function Users() {
 
             {/* --- CHARTS GRID --- */}
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
+
+                {/* bar chart */}
+
                 <div className="bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col justify-between">
                     <div className="flex items-center justify-between mb-8">
                         <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">User Activity Trend</h3>
@@ -257,7 +257,7 @@ export default function Users() {
 
                     <div className="h-64 w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={DASHBOARD_DATA.uploadTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }} barGap={0}>
+                            <BarChart data={DASHBOARD_DATA.uploadTrend} margin={{ top: 10, right: 10, left: -15, bottom: 0 }} barGap={0}>
                                 <XAxis dataKey="name" axisLine={false} tickLine={false} dy={10} tick={{ className: "font-creato text-(--b1) text-sm tracking-(--tracking-body)" }} />
                                 <YAxis domain={[0, 100]} axisLine={false} tickLine={false} tickCount={5} tick={{ className: "font-creato text-(--b1) text-sm tracking-(--tracking-body)" }} tickFormatter={(val) => `${val}%`} />
                                 <Tooltip cursor={{ fill: 'transparent' }} content={({ active, payload }) => {
@@ -286,6 +286,8 @@ export default function Users() {
                     </div>
                 </div>
 
+                {/* half pie */}
+
                 <div className="main-pie bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col items-center justify-between">
                     <div className="w-full text-left">
                         <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Role Distribution</h3>
@@ -295,10 +297,11 @@ export default function Users() {
             </div>
 
             {/* --- ACTIVITY & TOP USERS GRID --- */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+
                 <div className="bg-white p-4 sm:p-5 rounded-2xl border border-(--DDDDDB) h-91.5 flex flex-col justify-between">
                     <div className="flex items-center justify-between mb-5">
-                        <h3 className="font-creato text-xl font-medium leading-6 text-[#1B1B21] tracking-(--tracking-body)">User Activity Trend</h3>
+                        <h3 className="font-creato text-xl font-medium leading-6 text-[#1B1B21] tracking-(--tracking-body)">Recent User Activity</h3>
                         <div className="relative inline-block">
                             <select className="w-20 appearance-none bg-transparent font-creato font-medium px-2 text-sm leading-4 text-gray-500 cursor-pointer focus:outline-none" defaultValue="6months">
                                 <option value="6months">View all</option>
@@ -345,7 +348,7 @@ export default function Users() {
                             <div key={user.id} className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <div className="w-9 h-9 rounded-full overflow-hidden shrink-0 border border-(--DDDDDB) relative bg-amber-100 flex items-center justify-center">
-                                        <Image src={pm} alt={user.name} fill className="object-cover" />
+                                        <Image src={pm}  alt={user.name} fill className="object-cover" />
                                     </div>
                                     <div className="flex flex-col">
                                         <h4 className="font-creato tracking-(--tracking-body) text-base leading-5 font-medium text-(--b1)">{user.name}</h4>
@@ -412,7 +415,11 @@ export default function Users() {
                                 <NewUserIcon/>
                                 <h4 className="font-creato text-base font-medium tracking-same text-(--b1) leading-5">Add New User</h4>
                             </div>
-                            <button className="w-full font-creato font-normal text-base leading-5 py-2 px-4 rounded bg-[#204439] hover:bg-[#163028] text-white transition-colors cursor-pointer text-center">
+                            {/* 3. Also added onClick handling here if you'd like this trigger to pop up the modal too */}
+                            <button 
+                                onClick={() => setIsAddUserOpen(true)}
+                                className="w-full font-creato font-normal text-base leading-5 py-2 px-4 rounded bg-[#204439] hover:bg-[#163028] text-white transition-colors cursor-pointer text-center"
+                            >
                                 Add User
                             </button>
                         </div>
@@ -445,7 +452,9 @@ export default function Users() {
                                  <SendIcon/>
                                 <h4 className="font-creato text-base font-medium tracking-same text-(--b1) leading-5">Send Invitation</h4>
                             </div>
-                            <button className="w-full font-creato font-normal  text-base leading-5 py-2 px-4 rounded bg-[#3549E5] hover:bg-[#2737C2] text-white transition-colors cursor-pointer text-center">
+                            <button
+                            onClick={() => setIsAddUserOpen(true)}
+                             className="w-full font-creato font-normal  text-base leading-5 py-2 px-4 rounded bg-[#3549E5] hover:bg-[#2737C2] text-white transition-colors cursor-pointer text-center">
                                 Add User
                             </button>
                         </div>
@@ -456,7 +465,9 @@ export default function Users() {
                                 <BulkRoleIcon/>
                                 <h4 className="font-creato text-base font-medium tracking-same text-(--b1) leading-5">Bulk Role Update</h4>
                             </div>
-                            <button className="w-full font-creato font-normal text-base leading-5 py-2 px-4 rounded bg-[#E5A90F] hover:bg-[#C28E0D] text-white transition-colors cursor-pointer text-center">
+                            <button
+                            onClick={() => setIsAddUserOpen(true)}
+                            className="w-full font-creato font-normal text-base leading-5 py-2 px-4 rounded bg-[#E5A90F] hover:bg-[#C28E0D] text-white transition-colors cursor-pointer text-center">
                                 Add User
                             </button>
                         </div>
@@ -576,7 +587,14 @@ export default function Users() {
                     </div>
                 </div>
             </div>
+
+            {/* 4. Render the modal conditionally based on the state */}
+            {isAddUserOpen && (
+                <AddNewUserForm 
+                    isOpen={isAddUserOpen} 
+                    onClose={() => setIsAddUserOpen(false)} 
+                />
+            )}
         </div>
     );
 }
-
