@@ -344,6 +344,7 @@ export default function DocumentOverview() {
       {/* --- CHARTS GRID --- */}
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
 
+        {/* Half Pie — Document Types */}
         <div className="main-pie bg-white p-5 sm:p-6 rounded-2xl border border-(--DDDDDB) xl:col-span-2 flex flex-col items-center justify-between">
           <div className="w-full text-left">
             <h3 className="font-creato text-xl font-medium leading-5 text-(--b1)">Document Types</h3>
@@ -353,7 +354,6 @@ export default function DocumentOverview() {
 
         </div>
 
-        {/* Half Pie — Document Types */}
 
 
         {/* Upload Trend Line Chart */}

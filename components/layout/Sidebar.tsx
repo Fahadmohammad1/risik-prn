@@ -214,13 +214,13 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
 
       {/* ── Sidebar ── */}
       <aside
-        className={`h-screen border-r border-[#E4E4E2] bg-(--f2) flex flex-col justify-between font-sans text-[#4A4A4A] shrink-0 transition-all duration-200 ease-in-out
+        className={` h-screen border-r border-[#E4E4E2] bg-(--f2) flex flex-col justify-between font-sans text-[#4A4A4A] shrink-0 transition-all duration-200 ease-in-out
           fixed inset-y-0 left-0 z-50 transform
           ${isMobileOpen ? "translate-x-0 w-64 shadow-2xl" : "-translate-x-full md:translate-x-0"}
           md:relative md:z-auto ${isCollapsed ? "md:w-15" : "md:w-56.75"}
         `}
       >
-        <div className="overflow-hidden flex flex-col h-full">
+        <div className="z-50 overflow-hidden flex flex-col h-full">
           {/* ── Header ── */}
           <div
             className={`h-20 flex items-center border-b border-DDDDB px-6 transition-all duration-150 ${
@@ -481,7 +481,7 @@ export default function Sidebar({ isMobileOpen, setIsMobileOpen }: SidebarProps)
         </div>
 
         {/* ── Sidebar Footer (Live Data & Profile Menu Dropdown) ── */}
-        <div className={`p-6 pr-3 pb-8 flex flex-col gap-6 relative ${isCollapsed ? "md:px-1.5" : ""}`}>
+        <div className={`z-50 p-6 pr-3 pb-8 flex flex-col gap-6 relative ${isCollapsed ? "md:px-1.5" : ""}`}>
           
           {/* Live Data Sync Widget */}
           {(!isCollapsed || (typeof window !== "undefined" && window.innerWidth < 768)) ? (

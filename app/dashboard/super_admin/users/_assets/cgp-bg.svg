@@ -1,0 +1,25 @@
+<svg width="1214" height="444" viewBox="0 0 1214 444" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<mask id="mask0_188_18571" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1214" height="444">
+<rect width="1214" height="444" fill="#1B1B21"/>
+</mask>
+<g mask="url(#mask0_188_18571)">
+<rect opacity="0.08" width="1214" height="444" fill="url(#pattern0_188_18571)"/>
+<g filter="url(#filter0_f_188_18571)">
+<rect y="411" width="1214" height="51" fill="#F2F3F0"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_188_18571" x="-22" y="389" width="1258" height="95" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="11" result="effect1_foregroundBlur_188_18571"/>
+</filter>
+<pattern id="pattern0_188_18571" patternUnits="userSpaceOnUse" patternTransform="matrix(63 0 0 63 -0.5 -0.5)" preserveAspectRatio="none" viewBox="-0.5 -0.5 63 63" width="1" height="1">
+<use xlink:href="#pattern0_188_18571_inner" transform="translate(-63 -63)"/>
+<use xlink:href="#pattern0_188_18571_inner" transform="translate(0 -63)"/>
+<use xlink:href="#pattern0_188_18571_inner" transform="translate(-63 0)"/>
+<g id="pattern0_188_18571_inner">
+<path d="M63 0V47.9138L46.9175 63H0V16.1724L16.2035 0H63ZM0 16.1724H46.7965M46.9175 63V16.1724H46.7965M63 0L46.7965 16.1724" stroke="#17302A"/>
+</g>
+</pattern></defs>
+</svg>

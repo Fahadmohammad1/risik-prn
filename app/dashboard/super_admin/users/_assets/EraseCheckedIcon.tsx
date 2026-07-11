@@ -1,0 +1,7 @@
+export default function EraseCheckedIcon() {
+    return (
+        <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="17" height="17" rx="4" fill="white" stroke="#D1D5DB" strokeWidth="1.5" />
+        </svg>
+    )
+}
