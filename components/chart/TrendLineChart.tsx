@@ -15,7 +15,7 @@ interface DocumentUploadTrendChartProps {
 
 export default function TrendChart({ trendData }: DocumentUploadTrendChartProps) {
     return (
-        <div className="w-full h-full min-h-65">
+        <div className="w-full h-[260px] sm:h-[320px]">
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={trendData} margin={{ top: 10, right: 10, left: 10, bottom: -2 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="none" />

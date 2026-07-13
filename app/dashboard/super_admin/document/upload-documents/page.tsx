@@ -1,7 +1,16 @@
 "use client"
 
 import { useState, useRef, useCallback } from "react";
-import { ChevronDown, CloudUpload, Trash2, FileText, TriangleAlert } from "lucide-react";
+import { ChevronDown, TriangleAlert } from "lucide-react";
+import DateIcon from "../_assets/dateIcon";
+import BrowseIcon from "../_assets/BrowseIcon";
+import Image from "next/image";
+import pdf from "../_assets/pdf.svg"
+import DeleteIcon from "../_assets/deleteIcon";
+import UploadIcon from "../_assets/uploadIcon";
+
+// ── Isolated Popup Component Import ──
+import FileSubmitPopup, { FileMetadata } from "../upload-documents/_dialog/fileSubmitPopup";
 
 // ── Types ─
 
@@ -9,7 +18,7 @@ interface UploadedFile {
     id: string;
     name: string;
     size: string;
-    file?: File; // actual File object — present for browser-picked files, absent for pre-seeded entries
+    file?: File; 
 }
 
 interface HistoryRow {
@@ -49,7 +58,6 @@ function CustomCheckbox({
             className="shrink-0 w-5 h-5 flex items-center justify-center focus:outline-none"
         >
             {checked ? (
-                // Checked — provided green SVG (20×20 viewBox 0 0 20 20)
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id={`cbm-${uid()}`} maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20" fill="black">
                         <rect fill="white" width="20" height="20" />
@@ -60,7 +68,6 @@ function CustomCheckbox({
                     <path d="M5.9165 11.458C5.9165 11.458 6.7915 11.458 7.95817 13.4997C7.95817 13.4997 11.2008 8.15245 14.0832 7.08301" stroke="#397968" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             ) : (
-                // Unchecked — plain border, no checkmark
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="1" y="1" width="18" height="18" rx="4" fill="white" stroke="#D1D5DB" strokeWidth="1.5" />
                 </svg>
@@ -106,16 +113,12 @@ function SelectField({
     );
 }
 
-// ── Static history data ──────
-
 const HISTORY_DATA: HistoryRow[] = Array.from({ length: 6 }, (_, i) => ({
     id: String(i),
     name: "Johor South Field Assessment",
     date: "May 20, 2026",
     status: "Complete",
 }));
-
-// ── AI settings keys ─────
 
 type AiKey =
     | "sentimentAnalysis"
@@ -134,22 +137,19 @@ const AI_ITEMS: { key: AiKey; label: string }[] = [
     { key: "historicalComparison", label: "Historical Comparison" },
 ];
 
-// ── Main Component ──────
-
 export default function UploadDocument() {
-    // ── Form state
+    // ── Form State ──
     const [title, setTitle] = useState("Johor Field Assessment");
     const [docDate, setDocDate] = useState("2026-05-20");
     const [state, setState] = useState("Johor Bahru");
     const [district, setDistrict] = useState("Johor South");
+    const [subDistrict, setsubDistrict] = useState("Johor South");
     const [category, setCategory] = useState("Field Intelligence");
     const [docType, setDocType] = useState("PDF");
-    const [notes, setNotes] = useState(
-        "Observation from ground visit, voter sentiment and campaign feedback."
-    );
+    const [notes, setNotes] = useState("Observation from ground visit, voter sentiment and campaign feedback.");
     const dateInputRef = useRef<HTMLInputElement>(null);
 
-    // ── AI settings — fully controlled
+    // ── AI Analysis Settings State ──
     const [aiSettings, setAiSettings] = useState<Record<AiKey, boolean>>({
         sentimentAnalysis: false,
         riskDetection: false,
@@ -159,10 +159,9 @@ export default function UploadDocument() {
         historicalComparison: false,
     });
 
-    const toggleAi = (key: AiKey) =>
-        setAiSettings((prev) => ({ ...prev, [key]: !prev[key] }));
+    const toggleAi = (key: AiKey) => setAiSettings((prev) => ({ ...prev, [key]: !prev[key] }));
 
-    // ── Upload state
+    // ── File Upload State ──
     const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([
         { id: uid(), name: "Johor South Field Assessment.pdf", size: "4.25 MB" },
         { id: uid(), name: "Johor South Field Assessment.pdf", size: "4.25 MB" },
@@ -171,97 +170,75 @@ export default function UploadDocument() {
     const [dragging, setDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    // ── Popup Visibility & Live Metadata State ──
+    const [popupOpen, setPopupOpen] = useState(false);
+    const [popupStatus, setPopupStatus] = useState<"success" | "error">("success");
+    const [popupMetadata, setPopupMetadata] = useState<FileMetadata>({
+        title: "",
+        fileName: "",
+        fileSize: "",
+        uploadedBy: "",
+        uploadDate: "",
+        supportId: ""
+    });
+
     const addFiles = useCallback((files: FileList | null) => {
         if (!files) return;
         const next: UploadedFile[] = Array.from(files).map((f) => ({
             id: uid(),
             name: f.name,
             size: formatBytes(f.size),
-            file: f, // keep the real File object
+            file: f,
         }));
         setUploadedFiles((prev) => [...prev, ...next]);
     }, []);
 
-    const handleDrop = useCallback(
-        (e: React.DragEvent) => {
-            e.preventDefault();
-            setDragging(false);
-            addFiles(e.dataTransfer.files);
-        },
-        [addFiles]
-    );
+    const handleDrop = useCallback((e: React.DragEvent) => {
+        e.preventDefault();
+        setDragging(false);
+        addFiles(e.dataTransfer.files);
+    }, [addFiles]);
 
     const handleDragOver = (e: React.DragEvent) => { e.preventDefault(); setDragging(true); };
     const handleDragLeave = () => setDragging(false);
     const removeFile = (id: string) => setUploadedFiles((prev) => prev.filter((f) => f.id !== id));
 
-    // ── Submit handler ──────
+    // ── Form Submission Handler ──
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
         const formData = {
-            documentInformation: {
-                title,
-                documentDate: docDate,
-                state,
-                district,
-                category,
-                documentType: docType,
-                notes,
-            },
-            aiAnalysisSettings: {
-                sentimentAnalysis: aiSettings.sentimentAnalysis,
-                riskDetection: aiSettings.riskDetection,
-                keywordExtraction: aiSettings.keywordExtraction,
-                topicClassification: aiSettings.topicClassification,
-                executiveSummary: aiSettings.executiveSummary,
-                historicalComparison: aiSettings.historicalComparison,
-            },
-            uploadedFiles: uploadedFiles.map(({ name, size, file }) => ({
-                name,
-                size,
-                file: file ?? null, // actual File object (null for pre-seeded demo entries)
-            })),
+            documentInformation: { title, documentDate: docDate, state, district, subDistrict, category, documentType: docType, notes },
+            aiAnalysisSettings: aiSettings,
+            uploadedFiles: uploadedFiles.map(({ name, size, file }) => ({ name, size, file: file ?? null })),
         };
 
         console.log("Form Submitted Data:", formData);
+
+        // Fetch properties from the last added array node
+        const latestFile = uploadedFiles[uploadedFiles.length - 1];
+        
+        // Dynamically initialize the properties for our separate modal file
+        setPopupMetadata({
+            title: title || "Untitled Submission",
+            fileName: latestFile ? latestFile.name : "None",
+            fileSize: latestFile ? latestFile.size : "0 B",
+            uploadedBy: "Authorized User",
+            uploadDate: docDate ? new Date(docDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—",
+            supportId: `SUP-${uid().toUpperCase().slice(0, 6)}`
+        });
+
+        // Set layout condition (Success structure if files are present, Error structure if upload area is blank)
+        setPopupStatus(uploadedFiles.length > 0 ? "success" : "error");
+        setPopupOpen(true);
     };
 
-    // ── Save Draft handler ──────
     const handleSaveDraft = () => {
-        const draftData = {
-            documentInformation: {
-                title,
-                documentDate: docDate,
-                state,
-                district,
-                category,
-                documentType: docType,
-                notes,
-            },
-            aiAnalysisSettings: {
-                sentimentAnalysis: aiSettings.sentimentAnalysis,
-                riskDetection: aiSettings.riskDetection,
-                keywordExtraction: aiSettings.keywordExtraction,
-                topicClassification: aiSettings.topicClassification,
-                executiveSummary: aiSettings.executiveSummary,
-                historicalComparison: aiSettings.historicalComparison,
-            },
-            uploadedFiles: uploadedFiles.map(({ name, size, file }) => ({
-                name,
-                size,
-                file: file ?? null,
-            })),
-        };
-
-        console.log("Draft Saved Data:", draftData);
+        console.log("Draft Saved Data:", { title, docDate, state, district, subDistrict, category, docType, notes, aiSettings });
     };
-
-    // ── Render ──────
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-8 p-6 bg-(--f2) min-h-screen">
-
             {/* Heading */}
             <div className="flex flex-col gap-5">
                 <h1 className="font-creato font-medium text-4xl text-(--b1) leading-9 tracking-(--tracking-body)">
@@ -273,18 +250,15 @@ export default function UploadDocument() {
             </div>
 
             {/* Main grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-
-                {/* ── LEFT ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* ── LEFT PANEL ── */}
                 <div className="flex flex-col gap-5">
-
-                    {/* Document Information */}
+                    {/* Document Information Card */}
                     <div className="bg-white rounded-xl border border-(--DDDDDB) p-5 flex flex-col gap-4">
                         <p className="font-creato mb-2 font-medium text-xl leading-6.5 text-(--b1) tracking-(--tracking-body)">
                             Document Information
                         </p>
 
-                        {/* Title + Date */}
                         <div className="grid grid-cols-1 sm:grid-cols-[3fr_2fr] gap-3">
                             <div className="flex flex-col gap-2">
                                 <label className="font-creato text-sm font-normal leading-4.5 text-(--b1) tracking-(--tracking-body)">
@@ -295,7 +269,7 @@ export default function UploadDocument() {
                                     value={title}
                                     placeholder="Johor South Field Assessment"
                                     onChange={(e) => setTitle(e.target.value)}
-                                    className="border border-(--DDDDDB)  rounded px-3 py-2.25 text-sm font-creato leading-4.5 tracking-(--tracking-body) text-(--c5) focus:outline-none "
+                                    className="border border-(--DDDDDB) rounded px-3 py-2.25 text-sm font-creato leading-4.5 tracking-(--tracking-body) text-(--c5) focus:outline-none"
                                 />
                             </div>
 
@@ -303,107 +277,71 @@ export default function UploadDocument() {
                                 <label className="font-creato text-sm font-normal leading-4.5 text-(--b1)">
                                     Document Date <span className="text-[#FF7D60]">*</span>
                                 </label>
-
                                 <div className="relative">
                                     <input
                                         ref={dateInputRef}
                                         type="date"
                                         value={docDate}
                                         onChange={(e) => setDocDate(e.target.value)}
-                                        className="w-full text-(--c5) border border-(--DDDDDB) rounded px-3 py-2 pr-10 text-sm font-creato focus:outline-none
-                 [&::-webkit-calendar-picker-indicator]:opacity-0
-                 [&::-webkit-calendar-picker-indicator]:absolute
-                 [&::-webkit-calendar-picker-indicator]:w-full
-                 [&::-webkit-calendar-picker-indicator]:h-full
-                 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                        className="w-full text-(--c5) border border-(--DDDDDB) rounded px-3 py-2 pr-10 text-sm font-creato focus:outline-none [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                                     />
-
                                     <button
                                         type="button"
                                         onClick={() => dateInputRef.current?.showPicker?.()}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-auto"
+                                        className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 pointer-events-auto"
                                     >
-                                        <svg
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 20 20"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path d="M15 1.66602V3.33268M5 1.66602V3.33268" stroke="#1B1B21" strokeLinecap="round" strokeLinejoin="round" />
-                                            <path d="M2.08301 10.2027C2.08301 6.57161 2.08301 4.75607 3.12644 3.62803C4.16987 2.5 5.84925 2.5 9.20801 2.5H10.7913C14.1501 2.5 15.8295 2.5 16.8729 3.62803C17.9163 4.75607 17.9163 6.57161 17.9163 10.2027V10.6306C17.9163 14.2617 17.9163 16.0773 16.8729 17.2053C15.8295 18.3333 14.1501 18.3333 10.7913 18.3333H9.20801C5.84925 18.3333 4.16987 18.3333 3.12644 17.2053C2.08301 16.0773 2.08301 14.2617 2.08301 10.6306V10.2027Z" stroke="#5C5C5F" strokeLinecap="round" strokeLinejoin="round" />
-                                            <path d="M2.5 6.66602H17.5" stroke="#5C5C5F" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
+                                        <DateIcon />
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        {/* State + District */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <SelectField
-                                label="State" required
-                                options={["Johor Bahru", "Kuala Lumpur", "Penang", "Selangor"]}
-                                value={state} onChange={setState}
-
-                            />
-                            <SelectField
-                                label="District" required
-                                options={["Johor South", "Johor North", "Batu Pahat", "Kluang"]}
-                                value={district} onChange={setDistrict}
-                            />
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <SelectField label="State" required options={["Johor Bahru", "Kuala Lumpur", "Penang", "Selangor"]} value={state} onChange={setState} />
+                            <SelectField label="District" required options={["Johor South", "Johor North", "Batu Pahat", "Kluang"]} value={district} onChange={setDistrict} />
+                            <SelectField label="Sub District" required options={["Johor South", "Johor North", "Batu Pahat", "Kluang"]} value={subDistrict} onChange={setsubDistrict} />
                         </div>
 
-                        {/* Category + Type */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <SelectField
-                                label="Document Category" required
-                                options={["Field Intelligence", "Survey Report", "Campaign Data", "Voter Analysis"]}
-                                value={category} onChange={setCategory}
-                            />
-                            <SelectField
-                                label="Document Type" required
-                                options={["PDF", "DOCX", "XLSX", "CSV"]}
-                                value={docType} onChange={setDocType}
-                            />
+                            <SelectField label="Document Category" required options={["Field Intelligence", "Survey Report", "Campaign Data", "Voter Analysis"]} value={category} onChange={setCategory} />
+                            <SelectField label="Document Type" required options={["PDF", "DOCX", "XLSX", "CSV"]} value={docType} onChange={setDocType} />
                         </div>
 
-                        {/* Notes */}
                         <div className="flex flex-col gap-1">
                             <label className="font-creato text-sm font-normal leading-4.5 text-(--b1) tracking-(--tracking-body)">
-                                Notes <span className="font-creato text-sm font-normal leading-4.5 text-[#888B92] tracking-(--tracking-body)">(optional)</span>
+                                Notes <span className="text-sm font-normal text-[#888B92]">(optional)</span>
                             </label>
                             <textarea
                                 value={notes}
-                                placeholder="Observation from ground visit, voter sentiment and campaign feedback."
+                                placeholder="Observations..."
                                 onChange={(e) => setNotes(e.target.value)}
                                 rows={3}
-                                className="border border-(--DDDDDB) rounded px-3 py-2 text-sm font-creato tracking-(--tracking-body) text-(--c5) resize-none focus:outline-none "
+                                className="border border-(--DDDDDB) rounded px-3 py-2 text-sm font-creato tracking-(--tracking-body) text-(--c5) resize-none focus:outline-none"
                             />
                         </div>
                     </div>
 
-                    {/* Recent Upload History — y-scrollable when many rows */}
+                    {/* History Table */}
                     <div className="bg-white rounded-2xl border border-(--DDDDDB) p-5 flex flex-col gap-3">
                         <p className="font-creato pb-2 font-medium text-xl leading-6.5 text-(--b1) tracking-(--tracking-body)">
                             Recent Upload History
                         </p>
-                        <div className="overflow-x-auto overflow-y-auto max-h-65">
+                        <div className="overflow-x-auto overflow-y-auto max-h-69">
                             <table className="w-full text-sm font-creato tracking-(--tracking-body) min-w-[380px]">
-                                <thead className="sticky top-0 bg-white ">
+                                <thead className="sticky top-0 bg-white">
                                     <tr className="border-b border-b-(--DDDDDB)">
                                         <th className="text-left text-xs text-(--5c) font-medium pb-2 pr-4">Report Name</th>
-                                        <th className="text-left text-xs  text-(--5c) font-medium pb-2 pr-4">Progress</th>
-                                        <th className=" text-xs  text-(--5c) text-center font-medium pb-2">Status</th>
+                                        <th className="text-left text-xs text-(--5c) font-medium pb-2 pr-4">Progress</th>
+                                        <th className="text-xs text-(--5c) text-center font-medium pb-2">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody className="">
+                                <tbody>
                                     {HISTORY_DATA.map((row) => (
                                         <tr key={row.id}>
                                             <td className="py-2 pr-4 text-sm text-(--b1) font-normal">{row.name}</td>
                                             <td className="py-2.5 pr-4 text-sm text-(--b1)">{row.date}</td>
                                             <td className="py-2.5 text-center">
-                                                <span className="text-center inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold bg-(--eb) text-(--green) border border-green-100">
+                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-bold bg-(--eb) text-(--green) border border-green-100">
                                                     {row.status}
                                                 </span>
                                             </td>
@@ -415,25 +353,18 @@ export default function UploadDocument() {
                     </div>
                 </div>
 
-                {/* ── RIGHT ── */}
-                <div className="flex flex-col gap-5">
-
-                    {/* AI Analysis Settings */}
+                {/* ── RIGHT PANEL ── */}
+                <div className="flex flex-col gap-4">
+                    {/* Category Settings Card */}
                     <div className="bg-white rounded-xl border border-(--DDDDDB) p-5 flex flex-col gap-4">
                         <p className="font-creato mb-2 font-medium text-xl leading-6.5 text-(--b1) tracking-(--tracking-body)">
-                            AI Analysis Settings
+                            Category Settings
                         </p>
                         <div className="grid grid-cols-2 gap-x-5 gap-y-5">
                             {AI_ITEMS.map(({ key, label }) => (
                                 <div key={key} className="flex items-center gap-2">
-                                    <CustomCheckbox
-                                        checked={aiSettings[key]}
-                                        onChange={() => toggleAi(key)}
-                                    />
-                                    <span
-                                        className="font-creato text-sm leading-4.5 tracking-(--tracking-body) text-(--b1) cursor-pointer select-none"
-                                        onClick={() => toggleAi(key)}
-                                    >
+                                    <CustomCheckbox checked={aiSettings[key]} onChange={() => toggleAi(key)} />
+                                    <span className="font-creato text-sm text-(--b1) cursor-pointer select-none" onClick={() => toggleAi(key)}>
                                         {label}
                                     </span>
                                 </div>
@@ -441,94 +372,60 @@ export default function UploadDocument() {
                         </div>
                     </div>
 
-                    {/* Upload Document */}
+                    {/* Drag and Drop Container Card */}
                     <div className="bg-white rounded-xl border border-(--DDDDDB) p-5 flex flex-col gap-4">
                         <p className="font-creato mb-2 font-medium text-xl leading-6.5 text-(--b1) tracking-(--tracking-body)">
                             Upload Document
                         </p>
 
-                        {/* Drag & Drop zone */}
                         <div
                             onDrop={handleDrop}
                             onDragOver={handleDragOver}
                             onDragLeave={handleDragLeave}
-                            className={`flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed py-8 px-4 transition-colors ${dragging ? "border-[#397968] bg-green-50" : "border-(--DDDDDB)"
-                                }`}
+                            className={`flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed py-8 px-4 transition-colors ${dragging ? "border-[#397968] bg-green-50" : "border-(--DDDDDB)"}`}
                         >
-                            <CloudUpload className="w-10 h-10 text-slate-300" strokeWidth={1.2} />
-
+                            <UploadIcon />
                             <div className="flex flex-col items-center gap-3 text-center">
                                 <p className="font-creato text-base font-medium text-(--b1) leading-5 tracking-(--tracking-body)">
                                     Drag & Drop your file here
                                 </p>
-                                <p className="font-creato text-xs text-slate-400 tracking-(--tracking-body)">Or</p>
+                                <p className="font-creato text-xs text-slate-400">Or</p>
                             </div>
 
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="flex cursor-pointer items-center gap-1.5 bg-(--cc) hover:bg-[#b9d97a] text-(--b1) font-creato text-base leading-5 tracking-(--tracking-body) px-4.75 py-2 rounded transition-colors"
+                                className="flex cursor-pointer items-center gap-1.5 bg-(--cc) hover:bg-[#b9d97a] text-(--b1) font-creato text-base leading-5 px-4.75 py-2 rounded transition-colors"
                             >
-                                <FileText className="w-4 h-4" />
+                                <BrowseIcon />
                                 Browse Files
                             </button>
 
-                            <p className="font-creato text-xs text-(--c5) leading-4 tracking-(--tracking-body) text-center">
+                            <p className="font-creato text-xs text-(--c5) text-center">
                                 Supported formats: PDF, DOCX<br />Maximum file size: 50MB
                             </p>
 
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept=".pdf,.doc,.docx"
-                                multiple
-                                className="hidden"
-                                onChange={(e) => {
-                                    addFiles(e.target.files);
-                                    // reset so same file can be re-added
-                                    e.target.value = "";
-                                }}
-                            />
+                            <input ref={fileInputRef} type="file" accept=".pdf,.doc,.docx" multiple className="hidden" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
                         </div>
 
-                        {/* Uploaded files list — y-scrollable when many files */}
+                        {/* Files List mapping layer */}
                         {uploadedFiles.length > 0 && (
                             <div className="flex flex-col mt-2 gap-3">
-                                <p className="font-creato text-base font-medium text-(--b1) leading-5 tracking-(--tracking-body)">
+                                <p className="font-creato text-base font-medium text-(--b1) leading-5">
                                     Upload File ({uploadedFiles.length})
                                 </p>
-                                <div className="flex flex-col gap-2 overflow-y-auto max-h-52 pr-0.5">
+                                <div className="flex flex-col gap-2 overflow-y-auto max-h-44.25 pr-0.5">
                                     {uploadedFiles.map((f) => (
-                                        <div
-                                            key={f.id}
-                                            className="flex items-center gap-3 rounded-md border border-(--DDDDDB px-3 py-2 shrink-0"
-                                        >
-                                            {/* PDF icon */}
-                                            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-50 shrink-0">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" fill="#FEE2E2" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    <path d="M14 2V8H20" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                    <path d="M8 13H16" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" />
-                                                    <path d="M8 17H16" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" />
-                                                </svg>
+                                        <div key={f.id} className="flex items-center gap-3 rounded-md border border-(--DDDDDB) px-3 py-2 shrink-0">
+                                            <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                                                <Image src={pdf} alt="pdf file identifier icon" />
                                             </div>
-
                                             <div className="flex-1 min-w-0 gap-1 flex-col">
-                                                <p className="font-creato text-sm leading-4.5 font-medium text-(--b1) tracking-(--tracking-body) truncate">
-                                                    {f.name}
-                                                </p>
-                                                <p className="font-creato text-xs text-(--c5) leading-4 tracking-(--tracking-body)">
-                                                    {f.size}
-                                                </p>
+                                                <p className="font-creato text-sm font-medium text-(--b1) truncate">{f.name}</p>
+                                                <p className="font-creato text-xs text-(--c5)">{f.size}</p>
                                             </div>
-
-                                            <button
-                                                type="button"
-                                                onClick={() => removeFile(f.id)}
-                                                className="shrink-0 p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors"
-                                                aria-label="Remove file"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
+                                            <button type="button" onClick={() => removeFile(f.id)} className="cursor-pointer shrink-0 p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors">
+                                                <DeleteIcon />
                                             </button>
                                         </div>
                                     ))}
@@ -539,30 +436,33 @@ export default function UploadDocument() {
                 </div>
             </div>
 
-            {/* Footer */}
-            <div className="-mt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ">
+            {/* Sticky Actions Footer */}
+            <div className="-mt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-start sm:items-center gap-2">
-                    <TriangleAlert className="w-4 h-4 text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
+                    <TriangleAlert className="w-4 h-4 text-(--c5) shrink-0 mt-0.5 sm:mt-0" />
                     <p className="font-creato text-sm text-(--c5) leading-4.5 tracking-(--tracking-body)">
                         By uploading this report you confirm that the submission is accurate and authorized for analysis.
                     </p>
                 </div>
                 <div className="flex items-center gap-2.5 self-end sm:self-auto shrink-0">
-                    <button
-                        type="button"
-                        onClick={handleSaveDraft}
-                        className="font-creato  text-base bg-background leading-5 tracking-(--tracking-body) text-(--b1) border border-(--DDDDDB) bg-whit px-5 py-3.25 rounded transition-colors"
-                    >
+                    <button type="button" onClick={handleSaveDraft} className="font-creato cursor-pointer text-base leading-5 text-(--b1) border border-(--DDDDDB) bg-white px-5 py-3.25 rounded transition-colors hover:bg-neutral-100">
                         Save Draft
                     </button>
-                    <button
-                        type="submit"
-                        className="font-creato  text-base leading-5 tracking-(--tracking-body) text-(--b1) bg-(--cc) hover:bg-[#2f6457] px-6.75 py-3.5 rounded transition-colors"
-                    >
+                    <button type="submit" className="cursor-pointer font-creato hover:bg-(--surf-green) text-base leading-5 text-(--b1) bg-(--cc) px-6.75 py-3.5 rounded transition-colors">
                         Submit File
                     </button>
                 </div>
             </div>
+
+            {/* ── Extracted Component Execution Instance ── */}
+            <FileSubmitPopup
+                open={popupOpen}
+                onOpenChange={setPopupOpen}
+                status={popupStatus}
+                metadata={popupMetadata}
+                onGoBack={() => setPopupOpen(false)}
+                onActionAnother={() => setPopupOpen(false)}
+            />
         </form>
     );
 }

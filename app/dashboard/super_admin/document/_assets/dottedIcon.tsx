@@ -1,0 +1,11 @@
+export default function DottedIcon() {
+    return (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 16C0 8.45753 0 4.68629 2.34315 2.34315C4.68629 0 8.45753 0 16 0C23.5425 0 27.3137 0 29.6569 2.34315C32 4.68629 32 8.45753 32 16C32 23.5425 32 27.3137 29.6569 29.6569C27.3137 32 23.5425 32 16 32C8.45753 32 4.68629 32 2.34315 29.6569C0 27.3137 0 23.5425 0 16Z" fill="white" />
+            <path d="M15.9973 16H16.0033" stroke="#1B1B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M19.9999 16H20.0059" stroke="#1B1B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M11.9999 16H12.0059" stroke="#1B1B21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+    )
+}

@@ -7,6 +7,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import CrossRejectIcon from "../../_assets/crossRejectIcon";
 
 // ── Custom Checkbox ──────
 
@@ -305,11 +306,9 @@ export default function RejectForm({ open, onOpenChange, reportData }: RejectFor
             </Button>
             <Button
               type="submit"
-              className="w-full sm:w-auto px-4 bg-[#FF7D60] hover:bg-[#e25c42] font-creato rounded text-base leading-5 text-background tracking-(--tracking-body)"
+              className="cursor-pointer w-full sm:w-auto px-4 bg-[#FF7D60] hover:bg-[#e25c42] font-creato rounded text-base leading-5 text-background tracking-(--tracking-body)"
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12.6668 3.33301L3.3335 12.6663M3.3335 3.33301L12.6668 12.6663" stroke="white" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <CrossRejectIcon/>
               Reject Report
             </Button>
           </div>
